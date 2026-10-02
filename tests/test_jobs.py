@@ -131,7 +131,10 @@ echo "$(cat {st}/$2)|00:30:00"
         (bin_ / name).write_text("#!/bin/bash\ntrue\n")
     for f in bin_.iterdir():
         f.chmod(0o755)
-    env = {**os.environ, "PATH": f"{bin_}:{os.environ['PATH']}", "PYTHONPATH": str(laptop / "src"), "SU2QC_DEVICE": "cpu",
+    # keep the host's shell set-up out of the stand-in job: on Perlmutter, exported shell functions (BASH_FUNC_module%%,
+    # BASH_FUNC_conda%%) and BASH_ENV re-define the real `module`/`conda`, which then shadow the stand-ins in bin_
+    host = {k: v for k, v in os.environ.items() if not k.startswith("BASH_FUNC_") and k not in ("BASH_ENV", "ENV")}
+    env = {**host, "PATH": f"{bin_}:{os.environ['PATH']}", "PYTHONPATH": str(laptop / "src"), "SU2QC_DEVICE": "cpu",
            "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t", "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
     r = subprocess.run([sys.executable, "scripts/jobs/enqueue.py", "dataset", "tiny", "--time", "01:00:00",
                         "--step", "python scripts/make_dataset.py --name tiny --n-traj 4 --steps 2 2 --families onfam --out data/tiny",
