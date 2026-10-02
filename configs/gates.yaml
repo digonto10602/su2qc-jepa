@@ -1,0 +1,39 @@
+# Gate thresholds (preregistered on 16 Oct 2026 at the latest; frozen afterwards - a change needs an ADR).
+# Status vocabulary used in the ledger: PASS, FAIL, PARTIAL, NOT RUN, VOID.
+J0_data:
+  two_route_agreement_max: 1.0e-12        # |H_A - H_B| on the 82-state basis
+  gauss_commutator_max: 1.0e-12           # ||[G^a_n, H]|| on the full space
+  estimator_bias_sigma: 4.0               # |mean estimate - exact| <= this many standard errors, all observables
+  estimator_trials: 200
+  estimator_shots: 1024
+  twin_distinct_repeats: 5                # all repeated twin runs must give distinct count dictionaries
+  krylov_obs_error_max: 1.0e-3            # K = chain_K reproduces the P-A window to this accuracy
+  split_leakage_allowed: 0                # trajectories of a held-out mass found in train
+J1_training:
+  effective_rank_min: 8.0                 # of latent_dim 16
+  grounding_r2_min: {energy: 0.99, C_string: 0.99, P_meson: 0.95, P_baryonic: 0.98}
+  semigroup_residual_max: 1.0e-3          # relative latent residual of P(2dt) vs P(dt)oP(dt)
+  nan_allowed: false
+  seeds: 5
+J2_forecast:
+  context_step: 4                         # context = noisy observation at step 4 (t = 1/g_E for dt = 0.25)
+  context_shots: 512
+  targets: [P_baryonic, P_meson, C_string]
+  eval_steps: [4, 8]                      # score 4 and 8 steps after the context (t = 2, 3 for dt = 0.25)
+  mae_max: 0.05                           # on the held-out split of each family
+  must_beat_baselines: [ridge, autoregressive]
+  beat_on_at_least: 2                     # of 3 targets (per time)
+  beat_margin: 1.1                        # JEPA MAE <= 1.1 x baseline MAE counts as "not worse" (non-inferiority)
+  masked_mass_task: true                  # also evaluate with the couplings hidden from the model (system identification)
+J3_hardware:
+  residual_spearman_min: 0.7              # Spearman(jepa_twin, exact error) at the low-shot level (512)
+  noninferiority_margin: 0.05             # jepa_twin Spearman >= raw_twin Spearman - margin at the low-shot level
+  auroc_min: 0.8                          # jepa_twin separates the degraded arm/day from the nominal one (full shots)
+  min_points: 24
+  low_shot_level: 512
+  must_report_baselines: [raw_twin, flag_rate, jepa_self, jepa_t0]
+  calibration_days: 3
+J4_quantum_encoder:
+  optional: true
+  trains_at_qubits: 12
+  matched_shot_test: preregistered

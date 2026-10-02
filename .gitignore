@@ -1,0 +1,32 @@
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+/data/
+/runs/
+evidence/twin/*/records.json
+evidence/hardware/**/isa_circuits.qpy
+*.qpy
+.env
+.venv/
+*.log
+.DS_Store
+evidence/**/*.npz
+# Graphify: commit only graph.json and GRAPH_REPORT.md (decisions/001)
+graphify-out/cache/
+graphify-out/graph.html
+graphify-out/manifest.json
+graphify-out/memory/
+graphify-out/reflections/
+graphify-out/wiki/
+graphify-out/.graphify_*
+graphify-out/20[0-9][0-9]-*/
+# written by `graphify claude install`; contains the absolute path of the local graphify binary
+.claude/settings.json
+
+# laptop runner ledger and logs (decisions/004)
+/.local_runs/

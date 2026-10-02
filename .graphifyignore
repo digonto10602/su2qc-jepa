@@ -1,0 +1,12 @@
+# Graphify ignore rules (same syntax as .gitignore; .gitignore is also respected). Anchored to the repository root:
+# a bare `data/` would also hide the package folder src/su2qc_jepa/data/.
+/data/
+/runs/
+/evidence/
+/figures/
+/graphify-out/
+/.claude/
+*.qpy
+*.npz
+*.pt
+/.local_runs/

@@ -1,0 +1,30 @@
+# Compute policy (decisions/004, supersedes decisions/003).  Two machines only: the laptop and NERSC Perlmutter.
+#
+# Every computation goes through `python scripts/run.py -- <command>`:
+#   heavy (estimate > heavy_minutes on the laptop) or needs a GPU  -> always queued for Perlmutter (jobs/NNN on main,
+#                                                                     run by the scrontab worker, results on `results`)
+#   light -> runs on the laptop only if there is room now (memory reserve, free cores, one su2qc job at a time),
+#            capped (nice 19, idle I/O, threads, memory ceiling, time limit, oom_score_adj 1000), self-healing
+#            (one retry with more memory after a memory kill, otherwise queued for Perlmutter).
+laptop:
+  name: Dell G7 7588 - 64 GB RAM, i7-8750H (6 cores / 12 threads), GTX 1060 Max-Q (not used, see below)
+  gpu_used: false                 # current PyTorch CUDA builds have no kernels for the Pascal GTX 1060; GPU work -> Perlmutter
+  reserve_mem_gb: 16              # always leave >= 16 GB MemAvailable for other programs and other Claude sessions
+  reserve_fraction: 0.25          # (scaled down automatically on smaller machines, e.g. CI)
+  default_mem_gb: 4               # per job unless the script has its own default (measured peaks <= 1.2 GB)
+  max_mem_gb: 16                  # hard ceiling for any one su2qc job on the laptop
+  default_threads: 2
+  max_threads: 4                  # of 12 logical CPUs
+  free_cpus: 2                    # 1-minute load + job threads must leave 2 logical CPUs free
+  heavy_minutes: 20               # estimated laptop minutes above this -> Perlmutter
+  max_wait_minutes: 20            # wait this long for room, then queue for Perlmutter (if queueable)
+  poll_seconds: 30
+  default_timeout_minutes: 40     # wall-clock limit for light jobs; a timeout means "heavier than estimated" -> Perlmutter
+  lock_path: ~/.cache/su2qc-jepa/compute.lock   # one su2qc computation at a time across all sessions
+  env: su2qc-jepa                 # its own conda env (prompts/009); never `coding`
+
+perlmutter:                       # scripts/worker/install_perlmutter.sh; scrontab tick every 15 min (UTC)
+  account: "mXXXX"                # NERSC project - Digonto fills this in; Claude Code never guesses it
+  qos: shared                     # 1 A100 = 1/4 node-hour per hour; up to 2 GPUs; 48 h max
+  budget_node_hours: 50           # enforced by the worker; whole-plan estimate 15-40
+  max_attempts: 3                 # automatic resubmission after TIMEOUT / OUT_OF_MEMORY / NODE_FAIL / PREEMPTED / LOST

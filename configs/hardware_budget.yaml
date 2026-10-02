@@ -1,0 +1,15 @@
+# Hardware budget file - the only thing that lets `su2qc_jepa.hardware.ibm.submit` run.
+# Claude Code never edits `approved`, `approved_by` or `manifest_hash`; the human does, after
+# reading evidence/hardware/<run>/dry_run_manifest.json.
+approved: false
+approved_by: ""
+approved_utc: ""
+manifest_hash: ""          # must equal the dry-run manifest hash being submitted
+backend: "ibm_torino"      # Open-plan Heron device; change after `scripts/hw_list_backends.py`
+max_jobs: 1
+max_qpu_seconds: 120       # per approval; the Open plan gives 600 s per 28-day window
+max_cz_per_circuit: 200
+shots: 4000
+notes: >
+  Pilot approval covers one job: 3 couplings x 2 depths x 2 settings x 1 arm = 12 circuits.
+  Re-approve (new hash) for every subsequent job.

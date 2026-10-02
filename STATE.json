@@ -1,0 +1,108 @@
+{
+  "plan": "plans/001 Gauge-JEPA-P v2 (active), start 2026-10-05, end 2026-11-29",
+  "repo": "https://github.com/digonto10602/su2qc-jepa",
+  "milestones": {
+    "M-env": {
+      "status": "PARTIAL",
+      "prompt": "prompts/009_laptop-environment-repair-and-setup.md",
+      "report": "reports/006",
+      "note": "su2qc-jepa env created and tests pass (prompts/009 phases A+C, ~/env-repair-20261002-1507); phase B (repair of the coding env) and phase D (report) NOT RUN. laptop_env_ready set true on Digonto's instruction 2026-10-02 (see M0 report)."
+    },
+    "M0": {
+      "status": "NOT RUN",
+      "prompt": "prompts/000_bootstrap.md",
+      "report": null
+    },
+    "M1": {
+      "status": "NOT RUN",
+      "prompt": "prompts/001_physics-and-data.md",
+      "gate": "J0",
+      "report": null
+    },
+    "M2": {
+      "status": "NOT RUN",
+      "prompt": "prompts/002_model-and-prereg.md",
+      "gate": "J1",
+      "report": null
+    },
+    "M3": {
+      "status": "NOT RUN",
+      "prompt": "prompts/003_forecast-twin-dryrun.md",
+      "report": null
+    },
+    "M4": {
+      "status": "NOT RUN",
+      "prompt": "prompts/004_j2-and-pilot.md",
+      "gate": "J2",
+      "report": null
+    },
+    "M5": {
+      "status": "NOT RUN",
+      "prompt": "prompts/005_hardware-days.md",
+      "report": null
+    },
+    "M6": {
+      "status": "NOT RUN",
+      "prompt": "prompts/006_day3-and-j3.md",
+      "gate": "J3",
+      "report": null
+    },
+    "M7": {
+      "status": "NOT RUN",
+      "prompt": "prompts/007_stretch.md",
+      "report": null
+    },
+    "M8": {
+      "status": "NOT RUN",
+      "prompt": "prompts/008_release.md",
+      "report": null
+    }
+  },
+  "hardware": {
+    "backend": null,
+    "qpu_seconds_spent": 0,
+    "jobs": [],
+    "shots_per_second_prior": 2000
+  },
+  "compute": {
+    "laptop": {
+      "spec": "Dell G7 7588, 64 GB RAM, i7-8750H 6c/12t, GTX 1060 Max-Q (not used)",
+      "env": "su2qc-jepa",
+      "laptop_env_ready": true,
+      "runner": "scripts/run.py (decisions/004)",
+      "ledger": ".local_runs/ledger.jsonl"
+    },
+    "perlmutter": {
+      "worker_installed": false,
+      "account": null,
+      "budget_node_hours": 50,
+      "node_hours_used": 0,
+      "queue": "jobs/ on main -> results branch"
+    },
+    "policy": "decisions/004"
+  },
+  "notes": "No hardware job has ever been submitted from this repository. All noisy numbers are EMULATED.",
+  "artifacts": {
+    "conventions": "decisions/001",
+    "series": [
+      "plans",
+      "prompts",
+      "reports",
+      "decisions",
+      "figures",
+      "jobs"
+    ],
+    "tool": "scripts/new_artifact.py",
+    "check": "scripts/check_artifacts.py"
+  },
+  "code_graph": {
+    "tool": "graphifyy==0.9.74 (command: graphify), code-only, PYTHONHASHSEED=0",
+    "update": "bash scripts/graph_update.sh",
+    "committed": [
+      "graphify-out/graph.json",
+      "graphify-out/GRAPH_REPORT.md"
+    ],
+    "last_stats": "evidence/graph/stats.json"
+  },
+  "last_planner_report": "reports/004"
+}

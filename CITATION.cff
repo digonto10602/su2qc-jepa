@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "su2qc-jepa: Gauge-JEPA-P v2 starter package"
+message: "If you use this software, please cite it."
+authors:
+  - family-names: "Digonto"
+    given-names: ""
+version: 0.1.0
+date-released: 2026-10-01
+repository-code: "https://github.com/digonto10602/su2qc-jepa"
+license: MIT

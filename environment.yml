@@ -1,0 +1,21 @@
+# Laptop: mamba env create -f environment.yml && mamba activate su2qc-jepa
+#         pip install torch --index-url https://download.pytorch.org/whl/cpu   (CPU build; the GTX 1060 is not supported)
+#         pip install -e ".[ml,ibm,dev]"
+# Perlmutter: scripts/worker/setup_env_perlmutter.sh (CUDA torch + qiskit-aer-gpu); see docs/PERLMUTTER.md
+name: su2qc-jepa
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - numpy>=1.26
+  - scipy>=1.11
+  - pyyaml
+  - pip
+  - pip:
+      - qiskit>=2.0
+      - qiskit-aer>=0.15          # CPU on the laptop; qiskit-aer-gpu on Perlmutter (setup_env.sh)
+      - qiskit-ibm-runtime>=0.30
+      - scikit-learn
+      - mthree
+      - pytest
+      - graphifyy==0.9.74        # code graph (command: graphify); decisions/001
+      - ruff
