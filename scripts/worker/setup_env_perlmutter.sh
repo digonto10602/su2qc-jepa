@@ -6,7 +6,8 @@
 # installs CUDA PyTorch + qiskit-aer-gpu + this package, and runs the fast tests.
 set -euo pipefail
 ACCOUNT="${1:?usage: setup_env_perlmutter.sh <NERSC project, e.g. m1234>}"
-ENV_PREFIX="/global/common/software/${ACCOUNT}/su2qc-jepa-env"
+# GPU jobs may need the project's GPU account (e.g. m1234_g); the software folder is always the bare project (m1234)
+ENV_PREFIX="${SU2QC_ENV_PREFIX:-/global/common/software/${ACCOUNT%_g}/su2qc-jepa-env}"
 REPO="$(cd "$(dirname "$0")/../.." && pwd)"
 module load conda
 [ -d "$ENV_PREFIX" ] || conda create -y --prefix "$ENV_PREFIX" python=3.12

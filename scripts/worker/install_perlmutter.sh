@@ -4,7 +4,8 @@
 #   bash install_perlmutter.sh m1234
 set -euo pipefail
 ACCOUNT="${1:?usage: install_perlmutter.sh <NERSC project, e.g. m1234>}"
-ENV_PREFIX="/global/common/software/${ACCOUNT}/su2qc-jepa-env"
+# GPU jobs may need the project's GPU account (e.g. m1234_g); the software folder is always the bare project (m1234)
+ENV_PREFIX="${SU2QC_ENV_PREFIX:-/global/common/software/${ACCOUNT%_g}/su2qc-jepa-env}"
 BASE="$SCRATCH/su2qc-worker"
 KEY="$HOME/.ssh/su2qc_deploy"
 mkdir -p "$BASE" "$HOME/.ssh"
