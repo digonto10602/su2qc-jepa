@@ -24,7 +24,7 @@ laptop:
   env: su2qc-jepa                 # its own conda env (prompts/009); never `coding`
 
 perlmutter:                       # scripts/worker/install_perlmutter.sh; scrontab tick every 15 min (UTC)
-  account: "mXXXX"                # NERSC project - Digonto fills this in; Claude Code never guesses it
+  account: "m4135_g"              # NERSC GPU account, chosen by Digonto 2026-10-02 (env in /global/common/software/m4135)
   qos: shared                     # 1 A100 = 1/4 node-hour per hour; up to 2 GPUs; 48 h max
   budget_node_hours: 50           # enforced by the worker; whole-plan estimate 15-40
   max_attempts: 3                 # automatic resubmission after TIMEOUT / OUT_OF_MEMORY / NODE_FAIL / PREEMPTED / LOST

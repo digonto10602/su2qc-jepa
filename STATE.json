@@ -83,11 +83,14 @@
       "ledger": ".local_runs/ledger.jsonl"
     },
     "perlmutter": {
-      "worker_installed": false,
-      "account": null,
+      "worker_installed": true,
+      "account": "m4135_g",
       "budget_node_hours": 50,
       "node_hours_used": 0,
-      "queue": "jobs/ on main -> results branch"
+      "queue": "jobs/ on main -> results branch",
+      "env_prefix": "/global/common/software/m4135/su2qc-jepa-env",
+      "worker_base": "/pscratch/sd/d/digonto/su2qc-worker",
+      "installed_utc": "2026-10-02T23:11:46Z"
     },
     "policy": "decisions/004"
   },
