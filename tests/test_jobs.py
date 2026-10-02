@@ -54,6 +54,8 @@ def test_worker_end_to_end_local(tmp_path):
         skip = {"__pycache__", ".pytest_cache", ".ruff_cache", ".git"} | {n for n in names if n.endswith(".egg-info")}
         if Path(directory).resolve() == ROOT:
             skip |= {"data", "runs", "graphify-out", "evidence"}
+        if Path(directory).resolve() == ROOT / "jobs":  # start from an empty queue: real job requests are not test input
+            skip |= {n for n in names if n[:3].isdigit() and n.endswith(".yaml")}
         return [n for n in names if n in skip]
 
     shutil.copytree(ROOT, laptop, ignore=ignore)
@@ -108,6 +110,8 @@ def test_worker_slurm_mode_resubmits_after_timeout(tmp_path):
         skip = {"__pycache__", ".pytest_cache", ".ruff_cache", ".git"} | {n for n in names if n.endswith(".egg-info")}
         if Path(directory).resolve() == ROOT:
             skip |= {"data", "runs", "graphify-out", "evidence", ".local_runs"}
+        if Path(directory).resolve() == ROOT / "jobs":  # start from an empty queue: real job requests are not test input
+            skip |= {n for n in names if n[:3].isdigit() and n.endswith(".yaml")}
         return [n for n in names if n in skip]
 
     shutil.copytree(ROOT, laptop, ignore=ignore)
