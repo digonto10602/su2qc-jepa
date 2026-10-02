@@ -1,0 +1,17 @@
+id: jobs/000
+title: worker smoke test
+author: claude-code
+created_utc: '2026-10-02T23:14:28Z'
+kind: check
+where: perlmutter
+commit: 80efb3d5b168fddec77149cda98f685745312222
+prompt: null
+milestone: null
+steps:
+- python scripts/env_check.py
+outputs:
+- evidence/ENV.json
+resources:
+  gpus: 1
+  time: 00:10:00
+  qos: shared
