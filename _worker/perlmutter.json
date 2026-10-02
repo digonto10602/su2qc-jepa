@@ -1,0 +1,9 @@
+{
+  "worker": "perlmutter",
+  "host": "login34",
+  "utc": "2026-10-02T23:11:26Z",
+  "epoch": 1790982686.6653163,
+  "in_flight": [],
+  "pending_seen": 0,
+  "node_hours_used": 0.0
+}
