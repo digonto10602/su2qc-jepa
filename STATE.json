@@ -3,15 +3,25 @@
   "repo": "https://github.com/digonto10602/su2qc-jepa",
   "milestones": {
     "M-env": {
-      "status": "PARTIAL",
+      "status": "DONE",
       "prompt": "prompts/009_laptop-environment-repair-and-setup.md",
       "report": "reports/006",
-      "note": "su2qc-jepa env created and tests pass (prompts/009 phases A+C, ~/env-repair-20261002-1507); phase B (repair of the coding env) and phase D (report) NOT RUN. laptop_env_ready set true on Digonto's instruction 2026-10-02 (see M0 report)."
+      "note": "coding repaired, su2qc-jepa created (reports/006; backup ~/env-repair-20261002-1507)"
     },
     "M0": {
-      "status": "NOT RUN",
+      "status": "PASS",
       "prompt": "prompts/000_bootstrap.md",
-      "report": null
+      "report": "reports/007",
+      "repo_url": "https://github.com/digonto10602/su2qc-jepa",
+      "bootstrap_commit": "88dc52db92071ec1418305b94b4b5b7ec690c86e",
+      "ci_run": "37069894565 (success)",
+      "graph": {
+        "nodes": 842,
+        "edges": 1615,
+        "communities": 64,
+        "files": 104,
+        "graphifyy": "0.9.74"
+      }
     },
     "M1": {
       "status": "NOT RUN",
