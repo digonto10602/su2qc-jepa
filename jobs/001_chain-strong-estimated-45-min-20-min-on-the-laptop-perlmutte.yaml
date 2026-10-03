@@ -1,0 +1,17 @@
+id: jobs/001
+title: 'chain_strong: estimated 45 min > 20 min on the laptop -> Perlmutter'
+author: claude-code
+created_utc: '2026-10-03T20:09:51Z'
+kind: dataset
+where: perlmutter
+commit: 9affe3a193f555eb8b1bf59a84a5023828e0c1e4
+prompt: prompts/001
+milestone: null
+steps:
+- python scripts/make_dataset.py --name chain_strong --n-traj 3000 --families strong --carrier chain --starts S3 --quench-fraction 0 --out data/chain_strong
+outputs:
+- data/chain_strong/manifest.json
+resources:
+  gpus: 1
+  time: 02:00:00
+  qos: shared
