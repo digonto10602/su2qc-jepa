@@ -1,0 +1,12 @@
+job jobs/001 commit 9affe3a1 on nid008701 at Sat Oct  3 08:47:49 PM UTC 2026
+  300/3000 trajectories  (80.6 s)
+  600/3000 trajectories  (163.6 s)
+  900/3000 trajectories  (244.4 s)
+  1200/3000 trajectories  (321.6 s)
+  1500/3000 trajectories  (402.4 s)
+  1800/3000 trajectories  (483.9 s)
+  2100/3000 trajectories  (562.8 s)
+  2400/3000 trajectories  (637.7 s)
+  2700/3000 trajectories  (712.8 s)
+  3000/3000 trajectories  (789.4 s)
+wrote data/chain_strong/dataset.npz  checksum 935692f343d8  splits {'train': 1897, 'val': 276, 'test_heldout_mass': 827, 'test_heldout_strong': 827}
