@@ -33,20 +33,26 @@ def git(*args):
 rows, ok = {}, True
 for d in map(Path, a.datasets):
     man = json.loads((d / "manifest.json").read_text())
-    with np.load(d / "dataset.npz") as z:
-        arrays = {k: z[k] for k in z.files}
-    recomputed = _checksum(arrays)
-    match = recomputed == man["checksum_sha256"]
-    ok &= match
+    npz = d / "dataset.npz"
+    if npz.exists():
+        with np.load(npz) as z:
+            arrays = {k: z[k] for k in z.files if not k.startswith("split_")}  # the generator hashes the data arrays only
+            splits = {k: z[k] for k in z.files if k.startswith("split_")}
+        match = _checksum(arrays) == man["checksum_sha256"]
+        ok &= match
+    else:  # built on Perlmutter: the worker publishes the manifest, never the .npz (docs/PERLMUTTER.md)
+        match, splits = None, None
     cfg = man["config"]
     rows[man["name"]] = {
         "path": str(d), "n_traj": man["n_traj"], "T": man["T"], "obs_dim": man["obs_dim"], "carrier": cfg.get("carrier"),
         "families": [f["name"] for f in cfg["families"]], "seed": cfg.get("seed"), "splits": man["splits"],
         "split_rule": man.get("split_rule"), "checksum_sha256": man["checksum_sha256"], "checksum_recomputed_match": match,
-        "npz_file_sha256": hashlib.sha256((d / "dataset.npz").read_bytes()).hexdigest(),
+        "split_indices_sha256": _checksum(splits) if splits is not None else None,
+        "npz_file_sha256": hashlib.sha256(npz.read_bytes()).hexdigest() if npz.exists() else None,
+        "built_on": "laptop" if npz.exists() else "perlmutter (manifest only; checksum not recomputable here)",
         "generated_utc": man.get("generated_utc"), "wall_seconds": man.get("wall_seconds"),
     }
-    print(f"{man['name']:14s} n={man['n_traj']:6d} checksum {man['checksum_sha256'][:12]} {'match' if match else 'MISMATCH'} "
+    print(f"{man['name']:14s} n={man['n_traj']:6d} checksum {man['checksum_sha256'][:12]} { {True: 'match', False: 'MISMATCH', None: 'manifest only'}[match]} "
           f"splits {man['splits']}")
 
 out = Path(a.out)
