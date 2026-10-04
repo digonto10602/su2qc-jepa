@@ -1,0 +1,60 @@
+{
+ "status": "PASS",
+ "utc": "2026-10-03T20:10:42Z",
+ "commit": "2915f11db64eeb902868029cccce1326f693ec13",
+ "dirty": true,
+ "machine": "pichkaCommander",
+ "command": "record_datasets.py data/main data/chain_onfam",
+ "datasets": {
+  "main": {
+   "path": "data/main",
+   "n_traj": 20000,
+   "T": 12,
+   "obs_dim": 24,
+   "carrier": "diagonal",
+   "families": [
+    "onfam",
+    "strong"
+   ],
+   "seed": 20261005,
+   "splits": {
+    "train": 11539,
+    "val": 2392,
+    "test_heldout_mass": 6069,
+    "test_heldout_onfam": 2935,
+    "test_heldout_strong": 3134
+   },
+   "split_rule": "onfam: held out by g_E label; strong: held out by mu (incl. quench target); never by row",
+   "checksum_sha256": "73fff8e5a7b7f670b26056a000b4d50d13db79499a7467f36b15c69f66539828",
+   "checksum_recomputed_match": true,
+   "split_indices_sha256": "2520cd2c68ef6e61286f829383ddc61ffca842c8918f07df5e0b5150a0b957e4",
+   "npz_file_sha256": "ef25db89812d62790dad33199d9146893b2ab5be1a131f10d84273002c081b2c",
+   "generated_utc": "2026-10-03T00:27:18Z",
+   "wall_seconds": 157.7
+  },
+  "chain_onfam": {
+   "path": "data/chain_onfam",
+   "n_traj": 5000,
+   "T": 12,
+   "obs_dim": 24,
+   "carrier": "chain",
+   "families": [
+    "onfam"
+   ],
+   "seed": 20261005,
+   "splits": {
+    "train": 2859,
+    "val": 741,
+    "test_heldout_mass": 1400,
+    "test_heldout_onfam": 1400
+   },
+   "split_rule": "onfam: held out by g_E label; strong: held out by mu (incl. quench target); never by row",
+   "checksum_sha256": "bdcd6e895a06ca28ea107bfe374be1b44bbfabe3398780b9f903b788d352e1ac",
+   "checksum_recomputed_match": true,
+   "split_indices_sha256": "2aa8652a9747a2ef3e9e77ada2ac789a2d63f7552c09125155eb551840100a8a",
+   "npz_file_sha256": "b581445df601079460784782c506b1ca304a1663ac1cf5fbc93d8bdd84474c02",
+   "generated_utc": "2026-10-03T00:56:17Z",
+   "wall_seconds": 1669.6
+  }
+ }
+}

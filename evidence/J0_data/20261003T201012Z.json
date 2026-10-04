@@ -1,0 +1,111 @@
+{
+  "gate": "J0_data",
+  "status": "PASS",
+  "started_utc": "2026-10-03T20:09:58Z",
+  "rows": [
+    {
+      "name": "D1 state counts",
+      "status": "PASS",
+      "measured": {
+        "dim": 82,
+        "sectors": [
+          2,
+          20,
+          38,
+          20,
+          2
+        ],
+        "electric": [
+          16,
+          16,
+          18,
+          16,
+          16
+        ]
+      },
+      "threshold": {
+        "dim": 82,
+        "sectors": [
+          2,
+          20,
+          38,
+          20,
+          2
+        ],
+        "electric": [
+          16,
+          16,
+          18,
+          16,
+          16
+        ]
+      },
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "D2 two-route agreement",
+      "status": "PASS",
+      "measured": 4.440892098500626e-16,
+      "threshold": 1e-12,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "D2 Gauss-law commutator",
+      "status": "PASS",
+      "measured": 0.0,
+      "threshold": 1e-12,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "D3 estimator bias (diagonal carrier)",
+      "status": "PASS",
+      "measured": 2.355410529465638,
+      "threshold": 4.0,
+      "evidence": "",
+      "note": "max |bias|/SE over 18 observables, S=1024, M=200"
+    },
+    {
+      "name": "D3 estimator bias (chain carrier, Z+X)",
+      "status": "PASS",
+      "measured": 1.4390393109738704,
+      "threshold": 4.0,
+      "evidence": "",
+      "note": "against the K-truncated state"
+    },
+    {
+      "name": "D4 Krylov K=12 reproduces P-A window t<=3",
+      "status": "PASS",
+      "measured": 0.00010539220604921518,
+      "threshold": 0.001,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "D5 twin repeats independent",
+      "status": "PASS",
+      "measured": 5,
+      "threshold": 5,
+      "evidence": "",
+      "note": "sigma(p1)=0.0147"
+    },
+    {
+      "name": "D6 split leakage",
+      "status": "PASS",
+      "measured": 0,
+      "threshold": 0,
+      "evidence": "data/main/manifest.json",
+      "note": ""
+    },
+    {
+      "name": "D6 checksum recorded",
+      "status": "PASS",
+      "measured": "73fff8e5a7b7",
+      "threshold": "present",
+      "evidence": "",
+      "note": ""
+    }
+  ]
+}
