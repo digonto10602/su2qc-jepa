@@ -1,11 +1,9 @@
 {
   "worker": "perlmutter",
-  "host": "login33",
-  "utc": "2026-10-03T20:15:20Z",
-  "epoch": 1791058520.930273,
-  "in_flight": [
-    "001"
-  ],
-  "pending_seen": 1,
-  "node_hours_used": 0.003
+  "host": "login30",
+  "utc": "2026-10-04T08:30:18Z",
+  "epoch": 1791102618.8025756,
+  "in_flight": [],
+  "pending_seen": 0,
+  "node_hours_used": 0.059
 }
