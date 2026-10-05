@@ -38,7 +38,7 @@
       }
     },
     "M2": {
-      "status": "IN PROGRESS (M2a stopped: J1 energy row unreachable, decision needed)",
+      "status": "IN PROGRESS (M2a: waiting for the Perlmutter ladder runs)",
       "prompt": "prompts/002_model-and-prereg.md",
       "gate": "J1",
       "report": "reports/010",
@@ -55,7 +55,7 @@
       },
       "ladder_commit": "0a76800",
       "energy_ceiling": "evidence/J1_training/ceiling_main.json (best R2 from one clean observation 0.914; with couplings 0.994)",
-      "open_decision": "J1 energy grounding row (threshold 0.99) unreachable for the specified encoder; options A-D in reports/010"
+      "decision": "decisions/005: J1 energy grounding threshold 0.887 = 0.97 x measured ceiling 0.9145 (Digonto, option C of reports/010)"
     },
     "M3": {
       "status": "NOT RUN",

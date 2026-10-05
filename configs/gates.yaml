@@ -11,7 +11,7 @@ J0_data:
   split_leakage_allowed: 0                # trajectories of a held-out mass found in train
 J1_training:
   effective_rank_min: 8.0                 # of latent_dim 16
-  grounding_r2_min: {energy: 0.99, C_string: 0.99, P_meson: 0.95, P_baryonic: 0.98}
+  grounding_r2_min: {energy: 0.887, C_string: 0.99, P_meson: 0.95, P_baryonic: 0.98}  # energy = 0.97 x measured ceiling 0.9145 (decisions/005)
   semigroup_residual_max: 1.0e-3          # relative latent residual of P(2dt) vs P(dt)oP(dt)
   nan_allowed: false
   seeds: 5
