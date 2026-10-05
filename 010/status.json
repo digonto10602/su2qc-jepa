@@ -1,7 +1,32 @@
 {
   "id": "jobs/010",
-  "state": "SUBMITTED",
-  "slurm_id": "59396170",
+  "state": "COMPLETED",
   "worker": "perlmutter",
-  "submitted_utc": "2026-10-05T23:00:37Z"
+  "host": "login08",
+  "commit": "36f42248832e32acec8787733f7aedca16e714e7",
+  "finished_utc": "2026-10-05T23:45:15Z",
+  "elapsed_hours": 0.02,
+  "node_hours": 0.005,
+  "outputs": [
+    "data/main/fingerprint.json",
+    "data/main/manifest.json",
+    "data/gpu_smoke/fingerprint.json",
+    "data/gpu_smoke/manifest.json"
+  ],
+  "outputs_mb": 1.84,
+  "skipped": [],
+  "slurm_id": "59396170",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59396170",
+      "state": "COMPLETED",
+      "hours": 0.02,
+      "resources": {
+        "gpus": 1,
+        "time": "00:40:00",
+        "qos": "shared"
+      }
+    }
+  ]
 }
