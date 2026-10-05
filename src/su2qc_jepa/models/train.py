@@ -198,8 +198,9 @@ def baseline_autoregressive(train: dict[str, torch.Tensor], test: dict[str, torc
     n_obs = train["tgt"].shape[-1]
     obs_dim = train["ctx"].shape[-1]
     act_dim = train["act"].shape[-1]
+    dev = train["ctx"].device  # the network lives where the data live (CPU on the laptop, CUDA on Perlmutter)
     net = torch.nn.Sequential(torch.nn.Linear(obs_dim + act_dim, hidden), torch.nn.GELU(), torch.nn.Linear(hidden, hidden),
-                              torch.nn.GELU(), torch.nn.Linear(hidden, n_obs))
+                              torch.nn.GELU(), torch.nn.Linear(hidden, n_obs)).to(dev)
     opt = torch.optim.Adam(net.parameters(), lr=2e-3)
     ctx, act, tgt, valid = train["ctx"], train["act"], train["tgt"], train["valid"]
     # training pairs from both noisy and clean inputs
@@ -237,13 +238,14 @@ def baseline_supervised_mlp(train: dict[str, torch.Tensor], test: dict[str, torc
                             hidden: int = 256, seed: int = 0):
     """Direct regression from (o_0..o_c, all actions) to all later clean observables."""
     torch.manual_seed(seed)
-    Xtr = torch.tensor(_flat_inputs(train, c), dtype=torch.float32)
-    Xte = torch.tensor(_flat_inputs(test, c), dtype=torch.float32)
+    dev = train["tgt"].device  # inputs, targets and network on the data's device (CPU on the laptop, CUDA on Perlmutter)
+    Xtr = torch.tensor(_flat_inputs(train, c), dtype=torch.float32, device=dev)
+    Xte = torch.tensor(_flat_inputs(test, c), dtype=torch.float32, device=dev)
     mu, sd = Xtr.mean(0), Xtr.std(0) + 1e-8
     Xtr, Xte = (Xtr - mu) / sd, (Xte - mu) / sd
     Ytr = torch.nan_to_num(train["tgt"][:, c + 1 :]).reshape(len(Xtr), -1)
     net = torch.nn.Sequential(torch.nn.Linear(Xtr.shape[1], hidden), torch.nn.GELU(), torch.nn.Linear(hidden, hidden),
-                              torch.nn.GELU(), torch.nn.Linear(hidden, Ytr.shape[1]))
+                              torch.nn.GELU(), torch.nn.Linear(hidden, Ytr.shape[1])).to(dev)
     opt = torch.optim.Adam(net.parameters(), lr=1e-3, weight_decay=1e-5)
     for _ in range(epochs):
         perm = torch.randperm(len(Xtr))

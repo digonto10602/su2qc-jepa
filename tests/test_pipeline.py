@@ -103,6 +103,35 @@ def test_jepa_trains_one_epoch(tmp_path):
     assert pred.shape == truth.shape == (len(d["split_train"]), 4, d["manifest"]["n_obs"])
 
 
+@pytest.mark.parametrize("device", ["cpu", "cuda"])
+def test_training_and_baselines_run_on_device(tmp_path, device):
+    """The whole train_jepa.py path (JEPA, probe, forecast, all three baselines) on one device.
+
+    The CUDA case runs only where a usable GPU exists (Perlmutter); it is the regression test for jobs/002 and 003,
+    which trained on the GPU and then crashed in baseline_autoregressive with tensors on two devices."""
+    torch = pytest.importorskip("torch")
+    if device == "cuda" and not torch.cuda.is_available():
+        pytest.skip("no CUDA device")
+    from su2qc_jepa.models.jepa import JEPAConfig
+    from su2qc_jepa.models.train import (TrainConfig, baseline_autoregressive, baseline_ridge, baseline_supervised_mlp,
+                                         fit_probe, forecast_jepa, prepare_tensors, train_jepa)
+
+    cfg = DatasetConfig(n_traj=40, n_steps_min=6, n_steps_max=6, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
+    generate_dataset(cfg, tmp_path, verbose=False)
+    d = load_dataset(tmp_path)
+    model, _ = train_jepa(d, JEPAConfig(obs_dim=d["manifest"]["obs_dim"]), TrainConfig(epochs=1, log_every=100, device=device))
+    tr = prepare_tensors(d, "train", device)
+    assert tr["ctx"].device.type == device
+    c = 2
+    shape = (len(d["split_train"]), 6 - c, d["manifest"]["n_obs"])
+    outs = {"jepa": forecast_jepa(model, fit_probe(model, tr), tr, c), "ridge": baseline_ridge(tr, tr, c),
+            "autoregressive": baseline_autoregressive(tr, tr, c, epochs=1),
+            "supervised_mlp": baseline_supervised_mlp(tr, tr, c, epochs=1)}
+    for name, (pred, truth) in outs.items():
+        assert isinstance(pred, np.ndarray) and pred.shape == truth.shape == shape, name
+        assert np.isfinite(pred).all() and np.isfinite(truth).all(), name
+
+
 def test_jepa_ema_target_and_curriculum(tmp_path):
     torch = pytest.importorskip("torch")
     from su2qc_jepa.models.jepa import GaugeJEPA, JEPAConfig
