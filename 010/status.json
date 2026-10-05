@@ -1,0 +1,7 @@
+{
+  "id": "jobs/010",
+  "state": "SUBMITTED",
+  "slurm_id": "59396170",
+  "worker": "perlmutter",
+  "submitted_utc": "2026-10-05T23:00:37Z"
+}
