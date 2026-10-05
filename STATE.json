@@ -38,10 +38,24 @@
       }
     },
     "M2": {
-      "status": "NOT RUN",
+      "status": "IN PROGRESS (M2a stopped: J1 energy row unreachable, decision needed)",
       "prompt": "prompts/002_model-and-prereg.md",
       "gate": "J1",
-      "report": null
+      "report": "reports/010",
+      "gate_status": "J1 NOT RUN (5-seed runs on Perlmutter: jobs/002-008)",
+      "followup_prompt": "prompts/010",
+      "ladder_jobs": {
+        "002": "v1_base",
+        "003": "v1_wsigreg2",
+        "004": "v1_wsigreg5",
+        "005": "v1_latent32",
+        "006": "v1_ema",
+        "007": "v1_wground3",
+        "008": "v1_curriculum"
+      },
+      "ladder_commit": "0a76800",
+      "energy_ceiling": "evidence/J1_training/ceiling_main.json (best R2 from one clean observation 0.914; with couplings 0.994)",
+      "open_decision": "J1 energy grounding row (threshold 0.99) unreachable for the specified encoder; options A-D in reports/010"
     },
     "M3": {
       "status": "NOT RUN",
