@@ -1,0 +1,28 @@
+{
+ "data": "data/main",
+ "name": "v1_wsigreg5",
+ "epochs": 200,
+ "seeds": 5,
+ "latent": 16,
+ "w_sigreg": 5.0,
+ "w_ground": 1.0,
+ "ema_target": null,
+ "curriculum_epochs": 0,
+ "master_seed": 20261005,
+ "context_steps": 4,
+ "eval_steps": [
+  4,
+  8
+ ],
+ "device": "cuda",
+ "threads": null,
+ "baseline_epochs": 100,
+ "masked": false,
+ "train_seeds": [
+  462709266,
+  3658436304,
+  2224198422,
+  672449321,
+  2231613345
+ ]
+}
