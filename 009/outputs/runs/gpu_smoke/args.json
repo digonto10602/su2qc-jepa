@@ -1,0 +1,24 @@
+{
+ "data": "data/gpu_smoke",
+ "name": "gpu_smoke",
+ "epochs": 2,
+ "seeds": 1,
+ "latent": 16,
+ "w_sigreg": 0.5,
+ "w_ground": 1.0,
+ "ema_target": null,
+ "curriculum_epochs": 0,
+ "master_seed": 20261005,
+ "context_steps": 4,
+ "eval_steps": [
+  4,
+  8
+ ],
+ "device": "cuda",
+ "threads": null,
+ "baseline_epochs": 2,
+ "masked": true,
+ "train_seeds": [
+  462709266
+ ]
+}

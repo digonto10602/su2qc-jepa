@@ -1,7 +1,35 @@
 {
   "id": "jobs/009",
-  "state": "SUBMITTED",
-  "slurm_id": "59393121",
+  "state": "COMPLETED",
   "worker": "perlmutter",
-  "submitted_utc": "2026-10-05T22:00:30Z"
+  "host": "login02",
+  "commit": "5000bc93a182f4ab8e2476b1660c2d4b7c40198b",
+  "finished_utc": "2026-10-05T22:30:22Z",
+  "elapsed_hours": 0.011,
+  "node_hours": 0.003,
+  "outputs": [
+    "runs/gpu_smoke/args.json",
+    "runs/gpu_smoke/forecast_eval.json",
+    "runs/gpu_smoke/seed0/history.json",
+    "runs/gpu_smoke/seed0/model.pt",
+    "runs/gpu_smoke/seed0_masked/history.json",
+    "runs/gpu_smoke/seed0_masked/model.pt",
+    "data/gpu_smoke/manifest.json"
+  ],
+  "outputs_mb": 0.75,
+  "skipped": [],
+  "slurm_id": "59393121",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59393121",
+      "state": "COMPLETED",
+      "hours": 0.011,
+      "resources": {
+        "gpus": 1,
+        "time": "00:30:00",
+        "qos": "shared"
+      }
+    }
+  ]
 }
