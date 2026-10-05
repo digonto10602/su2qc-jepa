@@ -1,0 +1,40 @@
+{
+  "id": "jobs/004",
+  "state": "FAILED",
+  "worker": "perlmutter",
+  "host": "login08",
+  "commit": "a3ab4caa5878c606fcf25c68be3de2bf0fb4dcad",
+  "finished_utc": "2026-10-05T23:45:13Z",
+  "elapsed_hours": 1.031,
+  "node_hours": 0.258,
+  "outputs": [
+    "runs/v1_wsigreg5/args.json",
+    "runs/v1_wsigreg5/seed0/history.json",
+    "runs/v1_wsigreg5/seed0/model.pt",
+    "runs/v1_wsigreg5/seed1/history.json",
+    "runs/v1_wsigreg5/seed1/model.pt",
+    "runs/v1_wsigreg5/seed2/history.json",
+    "runs/v1_wsigreg5/seed2/model.pt",
+    "runs/v1_wsigreg5/seed3/history.json",
+    "runs/v1_wsigreg5/seed3/model.pt",
+    "runs/v1_wsigreg5/seed4/history.json",
+    "runs/v1_wsigreg5/seed4/model.pt",
+    "data/main/manifest.json"
+  ],
+  "outputs_mb": 2.28,
+  "skipped": [],
+  "slurm_id": "59382099",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59382099",
+      "state": "FAILED",
+      "hours": 1.031,
+      "resources": {
+        "gpus": 1,
+        "time": "04:14:00",
+        "qos": "shared"
+      }
+    }
+  ]
+}

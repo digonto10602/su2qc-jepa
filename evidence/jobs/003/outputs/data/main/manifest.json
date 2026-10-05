@@ -1,0 +1,171 @@
+{
+  "name": "main",
+  "config": {
+    "n_traj": 20000,
+    "n_steps_min": 8,
+    "n_steps_max": 12,
+    "families": [
+      {
+        "name": "onfam",
+        "ratios": [
+          [
+            1.0,
+            0.5,
+            -0.25
+          ],
+          [
+            1.15,
+            0.4347826086956522,
+            -0.18903591682419663
+          ],
+          [
+            1.3,
+            0.3846153846153846,
+            -0.14792899408284022
+          ],
+          [
+            1.45,
+            0.3448275862068966,
+            -0.11890606420927467
+          ],
+          [
+            1.6,
+            0.3125,
+            -0.09765624999999999
+          ],
+          [
+            1.75,
+            0.2857142857142857,
+            -0.08163265306122448
+          ],
+          [
+            2.0,
+            0.25,
+            -0.0625
+          ]
+        ],
+        "masses": [
+          0.15,
+          0.25,
+          0.375,
+          0.5,
+          0.65
+        ],
+        "dts": [
+          0.125,
+          0.25,
+          0.5
+        ],
+        "heldout_by": "label",
+        "heldout": [
+          1.3,
+          1.75
+        ],
+        "val": [
+          1.45
+        ],
+        "chain_K": 12,
+        "weight": 1.0
+      },
+      {
+        "name": "strong",
+        "ratios": [
+          [
+            0.0,
+            0.02,
+            -0.02
+          ]
+        ],
+        "masses": [
+          0.15,
+          0.2,
+          0.25,
+          0.3,
+          0.33,
+          0.375,
+          0.42,
+          0.45,
+          0.5,
+          0.575,
+          0.65
+        ],
+        "dts": [
+          2.0,
+          4.0,
+          8.0
+        ],
+        "heldout_by": "mu",
+        "heldout": [
+          0.3,
+          0.42,
+          0.5
+        ],
+        "val": [
+          0.45
+        ],
+        "chain_K": 24,
+        "weight": 1.0
+      }
+    ],
+    "starts": [
+      "S3",
+      "S3",
+      "S3",
+      "S1",
+      "random"
+    ],
+    "quench_fraction": 0.2,
+    "shots_choices": [
+      256,
+      512,
+      1024,
+      4096
+    ],
+    "carrier": "diagonal",
+    "chain_settings": [
+      "Z",
+      "X"
+    ],
+    "seed": 20261005,
+    "jmax": 0.5,
+    "sector_N": 4,
+    "name": "main",
+    "extra": {}
+  },
+  "obs_names": [
+    "N0",
+    "N1",
+    "N2",
+    "N3",
+    "Cla",
+    "Cl1",
+    "Cl2",
+    "Cl3",
+    "P_pair",
+    "P_meson",
+    "P_baryonic",
+    "P_vacmatter",
+    "P_S3",
+    "P_S1",
+    "P_hopped",
+    "P_BBbar",
+    "P_antivac",
+    "C_string"
+  ],
+  "obs_dim": 24,
+  "n_obs": 18,
+  "action_dim": 4,
+  "n_traj": 20000,
+  "T": 12,
+  "splits": {
+    "train": 11539,
+    "val": 2392,
+    "test_heldout_mass": 6069,
+    "test_heldout_onfam": 2935,
+    "test_heldout_strong": 3134
+  },
+  "split_rule": "onfam: held out by g_E label; strong: held out by mu (incl. quench target); never by row",
+  "checksum_sha256": "76f4c90555918e7e75f89562de7b6383fda49998818fe6da3a626e48aa828b8a",
+  "generated_utc": "2026-10-05T18:58:16Z",
+  "wall_seconds": 55.3
+}

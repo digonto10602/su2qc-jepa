@@ -1,0 +1,166 @@
+job jobs/009 commit 5000bc93 on nid003112 at Mon Oct  5 10:22:32 PM UTC 2026
+  40/400 trajectories  (2.5 s)
+  80/400 trajectories  (2.6 s)
+  120/400 trajectories  (2.7 s)
+  160/400 trajectories  (2.8 s)
+  200/400 trajectories  (2.9 s)
+  240/400 trajectories  (3.0 s)
+  280/400 trajectories  (3.1 s)
+  320/400 trajectories  (3.2 s)
+  360/400 trajectories  (3.3 s)
+  400/400 trajectories  (3.4 s)
+wrote data/gpu_smoke/dataset.npz  checksum eb294d7db29f  splits {'train': 220, 'val': 57, 'test_heldout_mass': 123, 'test_heldout_onfam': 49, 'test_heldout_strong': 74}
+device: cuda, torch threads: 32
+epoch   2 total 0.4359 pred 0.1342 sigreg 0.1797 ground 0.2078 eff_rank 5.86 R2(energy) 0.767 semigroup 1.21e-01  (2s)
+epoch   2 total 0.4367 pred 0.1350 sigreg 0.1795 ground 0.2078 eff_rank 5.86 R2(energy) 0.766 semigroup 1.25e-01  (0s)
+{
+ "onfam": {
+  "jepa": {
+   "+4": {
+    "P_baryonic": 0.3961482547102092,
+    "P_meson": 0.10681636423276214,
+    "C_string": 0.139851258933876
+   },
+   "+8": {
+    "P_baryonic": 0.5218891819764603,
+    "P_meson": 0.09836872562579907,
+    "C_string": 0.0919930473589867
+   }
+  },
+  "ridge": {
+   "+4": {
+    "P_baryonic": 0.11511464031141204,
+    "P_meson": 0.036829673902063806,
+    "C_string": 0.06362998859834193
+   },
+   "+8": {
+    "P_baryonic": 0.2127811633803971,
+    "P_meson": 0.03579308679973513,
+    "C_string": 0.13294894588789877
+   }
+  },
+  "autoregressive": {
+   "+4": {
+    "P_baryonic": 0.19018179178237915,
+    "P_meson": 0.0318232998251915,
+    "C_string": 0.14844638109207153
+   },
+   "+8": {
+    "P_baryonic": 0.3954845368862152,
+    "P_meson": 0.03345368802547455,
+    "C_string": 0.2143397331237793
+   }
+  },
+  "supervised_mlp": {
+   "+4": {
+    "P_baryonic": 0.1611160784959793,
+    "P_meson": 0.0665953978896141,
+    "C_string": 0.3079758882522583
+   },
+   "+8": {
+    "P_baryonic": 0.36669138073921204,
+    "P_meson": 0.09454187750816345,
+    "C_string": 0.2510783076286316
+   }
+  },
+  "jepa_masked": {
+   "+4": {
+    "P_baryonic": 0.3919608633418387,
+    "P_meson": 0.10273027179387816,
+    "C_string": 0.13900891156602954
+   },
+   "+8": {
+    "P_baryonic": 0.5169642585010522,
+    "P_meson": 0.09978796335905026,
+    "C_string": 0.09348269517028612
+   }
+  },
+  "ridge_masked": {
+   "+4": {
+    "P_baryonic": 0.10587442013483207,
+    "P_meson": 0.035200477257509855,
+    "C_string": 0.062407515166868176
+   },
+   "+8": {
+    "P_baryonic": 0.4895273509405228,
+    "P_meson": 0.04866365954154421,
+    "C_string": 0.27218190775577283
+   }
+  }
+ },
+ "strong": {
+  "jepa": {
+   "+4": {
+    "P_baryonic": 0.3352633072161636,
+    "P_meson": 0.23012860164912513,
+    "C_string": 0.11246989081182032
+   },
+   "+8": {
+    "P_baryonic": 0.46846070217242747,
+    "P_meson": 0.3169811252324764,
+    "C_string": 0.12284085288798502
+   }
+  },
+  "ridge": {
+   "+4": {
+    "P_baryonic": 0.12439272851243528,
+    "P_meson": 0.020407679125497225,
+    "C_string": 0.04389638011387111
+   },
+   "+8": {
+    "P_baryonic": 0.2649000209079223,
+    "P_meson": 0.01919234934505472,
+    "C_string": 0.2847491172835139
+   }
+  },
+  "autoregressive": {
+   "+4": {
+    "P_baryonic": 0.21830198168754578,
+    "P_meson": 0.04394054785370827,
+    "C_string": 0.16008247435092926
+   },
+   "+8": {
+    "P_baryonic": 0.5310579538345337,
+    "P_meson": 0.056586120277643204,
+    "C_string": 0.23321756720542908
+   }
+  },
+  "supervised_mlp": {
+   "+4": {
+    "P_baryonic": 0.33144330978393555,
+    "P_meson": 0.07894489914178848,
+    "C_string": 0.2627198100090027
+   },
+   "+8": {
+    "P_baryonic": 0.2216901183128357,
+    "P_meson": 0.10157836973667145,
+    "C_string": 0.392027348279953
+   }
+  },
+  "jepa_masked": {
+   "+4": {
+    "P_baryonic": 0.3274489392554819,
+    "P_meson": 0.22225365419777854,
+    "C_string": 0.11468769525197535
+   },
+   "+8": {
+    "P_baryonic": 0.45413795864497936,
+    "P_meson": 0.3041733890312159,
+    "C_string": 0.12723535358159824
+   }
+  },
+  "ridge_masked": {
+   "+4": {
+    "P_baryonic": 0.11436201770852139,
+    "P_meson": 0.022334183632822073,
+    "C_string": 0.043096955920962896
+   },
+   "+8": {
+    "P_baryonic": 0.30653150019629344,
+    "P_meson": 0.021689392085307926,
+    "C_string": 0.2901080478201967
+   }
+  }
+ }
+}
+wrote runs/gpu_smoke/forecast_eval.json

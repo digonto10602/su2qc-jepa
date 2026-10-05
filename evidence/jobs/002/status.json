@@ -1,0 +1,50 @@
+{
+  "id": "jobs/002",
+  "state": "FAILED",
+  "worker": "perlmutter",
+  "host": "login04",
+  "commit": "0a76800f58e51a3e59532d57d2595d2fb192e7ec",
+  "finished_utc": "2026-10-05T21:30:20Z",
+  "elapsed_hours": 2.164,
+  "node_hours": 0.541,
+  "outputs": [
+    "runs/v1_base/args.json",
+    "runs/v1_base/seed0/history.json",
+    "runs/v1_base/seed0/model.pt",
+    "runs/v1_base/seed0_masked/history.json",
+    "runs/v1_base/seed0_masked/model.pt",
+    "runs/v1_base/seed1/history.json",
+    "runs/v1_base/seed1/model.pt",
+    "runs/v1_base/seed1_masked/history.json",
+    "runs/v1_base/seed1_masked/model.pt",
+    "runs/v1_base/seed2/history.json",
+    "runs/v1_base/seed2/model.pt",
+    "runs/v1_base/seed2_masked/history.json",
+    "runs/v1_base/seed2_masked/model.pt",
+    "runs/v1_base/seed3/history.json",
+    "runs/v1_base/seed3/model.pt",
+    "runs/v1_base/seed3_masked/history.json",
+    "runs/v1_base/seed3_masked/model.pt",
+    "runs/v1_base/seed4/history.json",
+    "runs/v1_base/seed4/model.pt",
+    "runs/v1_base/seed4_masked/history.json",
+    "runs/v1_base/seed4_masked/model.pt",
+    "data/main/manifest.json"
+  ],
+  "outputs_mb": 4.55,
+  "skipped": [],
+  "slurm_id": "59381539",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59381539",
+      "state": "FAILED",
+      "hours": 2.164,
+      "resources": {
+        "gpus": 1,
+        "time": "08:28:00",
+        "qos": "shared"
+      }
+    }
+  ]
+}
