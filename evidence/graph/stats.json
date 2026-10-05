@@ -1,9 +1,9 @@
 {
-  "nodes": 967,
-  "edges": 1815,
-  "communities": 89,
+  "nodes": 970,
+  "edges": 1832,
+  "communities": 83,
   "files": 116,
-  "built_at_commit": "5a934f75e526800981724ce4b210ecf9b0df38a0",
+  "built_at_commit": "3fd0a658fa9a694065e0cedec33766307a472c7b",
   "god_nodes": [
     {
       "id": "src_su2qc_jepa_physics_plaquette_plaquettemodel",
