@@ -1,0 +1,19 @@
+id: jobs/002
+title: 'v1_base: estimated 1017 min > 20 min on the laptop -> Perlmutter'
+author: claude-code
+created_utc: '2026-10-05T16:53:12Z'
+kind: train
+where: perlmutter
+commit: 0a76800f58e51a3e59532d57d2595d2fb192e7ec
+prompt: prompts/002
+milestone: null
+steps:
+- python scripts/make_dataset.py --name main --n-traj 20000 --steps 8 12 --families onfam strong --carrier diagonal --starts S3 S3 S3 S1 random --quench-fraction 0.2 --seed 20261005 --out data/main
+- python scripts/train_jepa.py --data data/main --name v1_base --epochs 200 --seeds 5 --masked
+outputs:
+- runs/v1_base
+- data/main/manifest.json
+resources:
+  gpus: 1
+  time: 08:28:00
+  qos: shared
