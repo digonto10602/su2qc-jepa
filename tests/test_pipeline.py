@@ -103,6 +103,42 @@ def test_jepa_trains_one_epoch(tmp_path):
     assert pred.shape == truth.shape == (len(d["split_train"]), 4, d["manifest"]["n_obs"])
 
 
+def test_jepa_ema_target_and_curriculum(tmp_path):
+    torch = pytest.importorskip("torch")
+    from su2qc_jepa.models.jepa import GaugeJEPA, JEPAConfig
+    from su2qc_jepa.models.train import TrainConfig, prepare_tensors, train_jepa
+
+    cfg = DatasetConfig(n_traj=40, n_steps_min=6, n_steps_max=6, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
+    generate_dataset(cfg, tmp_path, verbose=False)
+    d = load_dataset(tmp_path)
+    jcfg = JEPAConfig(obs_dim=d["manifest"]["obs_dim"], ema_target=0.9)
+    # the target encoder starts as an exact copy, takes no gradient, and the prediction target carries no graph
+    m = GaugeJEPA(jcfg)
+    assert all(not p.requires_grad for p in m.target_encoder.parameters())
+    assert all(torch.equal(a, b) for a, b in zip(m.target_encoder.parameters(), m.encoder.parameters()))
+    tr = prepare_tensors(d, "train")
+    assert not m.encode_target(tr["clean"]).requires_grad
+    model, info = train_jepa(d, jcfg, TrainConfig(epochs=2, log_every=100, seed=12345, curriculum_epochs=1), tmp_path / "run")
+    assert np.isfinite(info["final"]["total"])
+    # after training the EMA copy lags the online encoder: different, but it moved away from its initial value
+    torch.manual_seed(12345)  # same init as in train_jepa, which seeds torch with tcfg.seed before building the model
+    m0 = GaugeJEPA(jcfg)
+    tgt = list(model.target_encoder.parameters())
+    assert any(not torch.equal(a, b) for a, b in zip(tgt, model.encoder.parameters()))
+    assert any(not torch.equal(a, b) for a, b in zip(tgt, m0.target_encoder.parameters()))
+    # one EMA step is the convex combination tau * target + (1 - tau) * online
+    before = [p.clone() for p in tgt]
+    model.update_target()
+    for b, a, o in zip(before, model.target_encoder.parameters(), model.encoder.parameters()):
+        assert torch.allclose(a, 0.9 * b + 0.1 * o, atol=1e-7)
+    # the curriculum restricts the prediction loss to the requested horizons
+    with torch.no_grad():
+        l12 = model.loss(tr["ctx"], tr["clean"], tr["act"], tr["ground"], tr["valid"], horizons=(1, 2))["pred"]
+        l1 = model.loss(tr["ctx"], tr["clean"], tr["act"], tr["ground"], tr["valid"], horizons=(1,))["pred"]
+        lall = model.loss(tr["ctx"], tr["clean"], tr["act"], tr["ground"], tr["valid"])["pred"]
+    assert float(l12) != float(lall) and float(l1) != float(l12)
+
+
 def test_twin_runner_seed_independence(setup):
     pytest.importorskip("qiskit_aer")
     from su2qc_jepa.twin.noise import heron_like_noise_model

@@ -36,6 +36,10 @@ p.add_argument("--epochs", type=int, default=40)
 p.add_argument("--seeds", type=int, default=1)
 p.add_argument("--latent", type=int, default=16)
 p.add_argument("--w-sigreg", type=float, default=0.5)
+p.add_argument("--w-ground", type=float, default=1.0)
+p.add_argument("--ema-target", type=float, default=None, help="EMA target encoder with stop-gradient, decay tau (e.g. 0.996)")
+p.add_argument("--curriculum-epochs", type=int, default=0, help="train this many epochs on horizons (1, 2) first, then all")
+p.add_argument("--master-seed", type=int, default=20261005, help="per-seed training seeds are spawned from this (SeedSequence)")
 p.add_argument("--context-steps", type=int, default=4, help="context step index c")
 p.add_argument("--eval-steps", type=int, nargs="+", default=(4, 8), help="steps after the context at which to score")
 p.add_argument("--device", default=None, help="cpu | cuda; default: su2qc_jepa.compute.pick_device() (CPU unless a usable GPU exists)")
@@ -57,6 +61,9 @@ out = Path("runs") / a.name
 out.mkdir(parents=True, exist_ok=True)
 families = [k.replace("split_test_heldout_", "") for k in d if k.startswith("split_test_heldout_") and k != "split_test_heldout_mass"]
 c = a.context_steps
+# independent per-seed integers from one recorded master seed (CLAUDE.md section 5: no adjacent integer seeds)
+train_seeds = [int(ss.generate_state(1)[0]) for ss in np.random.SeedSequence(a.master_seed).spawn(a.seeds)]
+(out / "args.json").write_text(json.dumps({**vars(a), "train_seeds": train_seeds}, indent=1))
 
 
 def mae_table(pred, truth):
@@ -80,8 +87,10 @@ mae: dict = {}
 jepa_tabs = {fam: [] for fam in tests}
 masked_tabs = {fam: [] for fam in tests}
 for s in range(a.seeds):
-    jcfg = JEPAConfig(obs_dim=d["manifest"]["obs_dim"], latent_dim=a.latent, w_sigreg=a.w_sigreg)
-    model, info = train_jepa(d, jcfg, TrainConfig(epochs=a.epochs, seed=s, device=a.device), out / f"seed{s}")
+    jcfg = JEPAConfig(obs_dim=d["manifest"]["obs_dim"], latent_dim=a.latent, w_sigreg=a.w_sigreg, w_ground=a.w_ground,
+                      ema_target=a.ema_target)
+    tcfg = TrainConfig(epochs=a.epochs, seed=train_seeds[s], device=a.device, curriculum_epochs=a.curriculum_epochs)
+    model, info = train_jepa(d, jcfg, tcfg, out / f"seed{s}")
     W = fit_probe(model, tr)
     for fam, te in tests.items():
         jepa_tabs[fam].append(mae_table(*forecast_jepa(model, W, te, c)))
@@ -89,7 +98,7 @@ for s in range(a.seeds):
         dm = dict(d)
         dm["act"] = d["act"].copy()
         dm["act"][..., 1:] = 0.0
-        model_m, _ = train_jepa(dm, jcfg, TrainConfig(epochs=a.epochs, seed=s, device=a.device), out / f"seed{s}_masked")
+        model_m, _ = train_jepa(dm, jcfg, tcfg, out / f"seed{s}_masked")
         Wm = fit_probe(model_m, mask_couplings(tr))
         for fam, te in tests.items():
             masked_tabs[fam].append(mae_table(*forecast_jepa(model_m, Wm, mask_couplings(te), c)))
@@ -107,7 +116,8 @@ for fam, te in tests.items():
         mae[fam]["jepa_masked"] = avg(masked_tabs[fam])
         mae[fam]["ridge_masked"] = mae_table(*baseline_ridge(mask_couplings(tr), mask_couplings(te), c))
 ev = {"mae": mae, "n_test": {fam: int(len(d[f"split_test_heldout_{fam}"])) for fam in tests}, "context_step": c, "eval_steps": list(a.eval_steps),
-      "dataset": d["manifest"]["name"], "checksum": d["manifest"]["checksum_sha256"], "seeds": a.seeds, "targets": list(targets)}
+      "dataset": d["manifest"]["name"], "checksum": d["manifest"]["checksum_sha256"], "seeds": a.seeds, "targets": list(targets),
+      "master_seed": a.master_seed, "train_seeds": train_seeds}
 (out / "forecast_eval.json").write_text(json.dumps(ev, indent=2))
 print(json.dumps(mae, indent=1))
 print("wrote", out / "forecast_eval.json")

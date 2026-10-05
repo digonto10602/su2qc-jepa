@@ -5,7 +5,10 @@ Definitions (plain words):
 * predictor P_phi  : (s_t, a_t, ..., a_{t+k-1})             -> predicted latent for time t+k
 * JEPA loss        : || P_phi(s_t, a) - E_theta(o^clean_{t+k}) ||^2 ; the target is the encoder
                      of the *clean* future observation (exact expectation values), never the
-                     observation itself.  No moving-average target: collapse is prevented by SIGReg.
+                     observation itself.  By default there is no moving-average target: collapse is
+                     prevented by SIGReg.  With JEPAConfig.ema_target = tau the target latent comes from an
+                     exponential-moving-average copy of the encoder under stop-gradient (I-JEPA style);
+                     SIGReg then acts on the context latent only.
 * SIGReg           : LeJEPA's sketched isotropic Gaussian regulariser - random 1-D projections of
                      the latent batch are pushed toward N(0,1) with an Epps-Pulley characteristic-
                      function statistic.  (arXiv:2511.08544)
@@ -16,6 +19,7 @@ Definitions (plain words):
 """
 from __future__ import annotations
 
+import copy
 from dataclasses import dataclass
 
 import torch
@@ -40,6 +44,7 @@ class JEPAConfig:
     w_semigroup: float = 0.1
     sigreg_projections: int = 64
     dropout: float = 0.0
+    ema_target: float | None = None  # tau of the EMA target encoder; None = shared encoder, no stop-gradient
 
 
 class MLP(nn.Module):
@@ -107,24 +112,51 @@ class GaugeJEPA(nn.Module):
         self.predictor = ActionPredictor(cfg.latent_dim, cfg.action_dim, cfg.action_embed, cfg.hidden)
         self.ground = nn.Linear(cfg.latent_dim, cfg.n_ground)
         self.obs_norm = nn.BatchNorm1d(cfg.obs_dim, affine=False)
+        self.target_encoder = None
+        if cfg.ema_target is not None:
+            self.target_encoder = copy.deepcopy(self.encoder)
+            self.target_encoder.requires_grad_(False)
 
     def encode(self, o: torch.Tensor) -> torch.Tensor:
         shape = o.shape
         z = self.encoder(self.obs_norm(o.reshape(-1, shape[-1])))
         return z.reshape(*shape[:-1], self.cfg.latent_dim)
 
+    @torch.no_grad()
+    def encode_target(self, o: torch.Tensor) -> torch.Tensor:
+        """Target latent from the EMA encoder (stop-gradient); obs_norm statistics are shared."""
+        shape = o.shape
+        z = self.target_encoder(self.obs_norm(o.reshape(-1, shape[-1])))
+        return z.reshape(*shape[:-1], self.cfg.latent_dim)
+
+    @torch.no_grad()
+    def update_target(self) -> None:
+        """EMA step theta_tgt <- tau theta_tgt + (1 - tau) theta; call after every optimiser step."""
+        if self.target_encoder is None:
+            return
+        tau = self.cfg.ema_target
+        for pt, p in zip(self.target_encoder.parameters(), self.encoder.parameters()):
+            pt.mul_(tau).add_(p.detach(), alpha=1.0 - tau)
+
     def predict(self, s: torch.Tensor, actions: torch.Tensor) -> torch.Tensor:
         return self.predictor(s, actions)
 
     def loss(self, ctx: torch.Tensor, clean: torch.Tensor, act: torch.Tensor, ground: torch.Tensor,
-             valid: torch.Tensor, generator: torch.Generator | None = None) -> dict[str, torch.Tensor]:
-        """ctx/clean: (B, T+1, obs_dim); act: (B, T, action_dim); ground: (B, T+1, n_ground); valid: (B, T+1)."""
+             valid: torch.Tensor, generator: torch.Generator | None = None,
+             horizons: tuple[int, ...] | None = None) -> dict[str, torch.Tensor]:
+        """ctx/clean: (B, T+1, obs_dim); act: (B, T, action_dim); ground: (B, T+1, n_ground); valid: (B, T+1).
+
+        horizons overrides cfg.horizons (used by the horizon curriculum)."""
         B, T1, _ = ctx.shape
         s_ctx = self.encode(ctx)  # noisy context latents
-        s_tgt = self.encode(clean)  # clean target latents (same encoder, no stop-gradient; SIGReg guards collapse)
+        s_clean = self.encode(clean)  # clean latents from the online encoder
+        if self.target_encoder is None:
+            s_tgt = s_clean  # same encoder, no stop-gradient; SIGReg guards collapse
+        else:
+            s_tgt = self.encode_target(clean)  # EMA encoder, stop-gradient
         losses = {}
         pred_terms, n_terms = 0.0, 0
-        for k in self.cfg.horizons:
+        for k in (horizons or self.cfg.horizons):
             if k >= T1:
                 continue
             s0 = s_ctx[:, : T1 - k].reshape(-1, self.cfg.latent_dim)
@@ -137,9 +169,9 @@ class GaugeJEPA(nn.Module):
             pred_terms = pred_terms + F.mse_loss(p, tgt[m])
             n_terms += 1
         losses["pred"] = pred_terms / max(n_terms, 1)
-        zall = torch.cat([s_ctx[valid], s_tgt[valid]], 0)
+        zall = torch.cat([s_ctx[valid], s_clean[valid]], 0) if self.target_encoder is None else s_ctx[valid]
         losses["sigreg"] = sigreg_loss(zall, self.cfg.sigreg_projections, generator=generator)
-        losses["ground"] = F.mse_loss(self.ground(s_tgt[valid]), ground[valid]) + F.mse_loss(self.ground(s_ctx[valid]), ground[valid])
+        losses["ground"] = F.mse_loss(self.ground(s_clean[valid]), ground[valid]) + F.mse_loss(self.ground(s_ctx[valid]), ground[valid])
         # semigroup consistency on random pairs of consecutive actions
         if T1 > 2:
             s0 = s_ctx[:, : T1 - 2].reshape(-1, self.cfg.latent_dim)

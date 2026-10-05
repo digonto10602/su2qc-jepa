@@ -33,6 +33,8 @@ class TrainConfig:
     seed: int = 0
     device: str = "cpu"
     log_every: int = 5
+    curriculum_epochs: int = 0  # horizon curriculum: first this many epochs use curriculum_horizons only
+    curriculum_horizons: tuple[int, ...] = (1, 2)
 
 
 def _ground_targets(d: dict) -> np.ndarray:
@@ -62,23 +64,27 @@ def train_jepa(d: dict, jcfg: JEPAConfig, tcfg: TrainConfig, out_dir: str | Path
     tr = prepare_tensors(d, "train", tcfg.device)
     va = prepare_tensors(d, "val", tcfg.device) if len(d["split_val"]) else None
     model = GaugeJEPA(jcfg).to(tcfg.device)
-    opt = torch.optim.AdamW(model.parameters(), lr=tcfg.lr, weight_decay=tcfg.weight_decay)
+    params = [p for p in model.parameters() if p.requires_grad]  # the EMA target encoder is not optimised
+    opt = torch.optim.AdamW(params, lr=tcfg.lr, weight_decay=tcfg.weight_decay)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=tcfg.epochs)
     n = tr["ctx"].shape[0]
     history = []
     t0 = time.time()
+    perm_gen = torch.Generator().manual_seed(tcfg.seed)  # one stream per run: no seed+epoch overlap between runs
     for ep in range(tcfg.epochs):
         model.train()
-        perm = torch.randperm(n, generator=torch.Generator().manual_seed(tcfg.seed + ep))
+        horizons = tcfg.curriculum_horizons if ep < tcfg.curriculum_epochs else None
+        perm = torch.randperm(n, generator=perm_gen)
         agg: dict[str, float] = {}
         nb = 0
         for i in range(0, n, tcfg.batch_size):
             b = perm[i : i + tcfg.batch_size]
-            losses = model.loss(tr["ctx"][b], tr["clean"][b], tr["act"][b], tr["ground"][b], tr["valid"][b], gen)
+            losses = model.loss(tr["ctx"][b], tr["clean"][b], tr["act"][b], tr["ground"][b], tr["valid"][b], gen, horizons)
             opt.zero_grad()
             losses["total"].backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            torch.nn.utils.clip_grad_norm_(params, 1.0)
             opt.step()
+            model.update_target()
             for k, v in losses.items():
                 agg[k] = agg.get(k, 0.0) + float(v.detach())
             nb += 1
