@@ -1,0 +1,19 @@
+id: jobs/003
+title: 'v1_wsigreg2: estimated 510 min > 20 min on the laptop -> Perlmutter'
+author: claude-code
+created_utc: '2026-10-05T16:53:21Z'
+kind: train
+where: perlmutter
+commit: 1d9c4d085cbd918b770a739efeef1976704af722
+prompt: prompts/002
+milestone: null
+steps:
+- python scripts/make_dataset.py --name main --n-traj 20000 --steps 8 12 --families onfam strong --carrier diagonal --starts S3 S3 S3 S1 random --quench-fraction 0.2 --seed 20261005 --out data/main
+- python scripts/train_jepa.py --data data/main --epochs 200 --seeds 5 --name v1_wsigreg2 --w-sigreg 2
+outputs:
+- runs/v1_wsigreg2
+- data/main/manifest.json
+resources:
+  gpus: 1
+  time: 04:14:00
+  qos: shared
