@@ -1,0 +1,23 @@
+job jobs/010 commit 36f42248 on nid001596 at Mon Oct  5 11:36:28 PM UTC 2026
+  2000/20000 trajectories  (7.4 s)
+  4000/20000 trajectories  (12.3 s)
+  6000/20000 trajectories  (17.1 s)
+  8000/20000 trajectories  (21.9 s)
+  10000/20000 trajectories  (26.7 s)
+  12000/20000 trajectories  (31.6 s)
+  14000/20000 trajectories  (36.4 s)
+  16000/20000 trajectories  (41.3 s)
+  18000/20000 trajectories  (46.2 s)
+  20000/20000 trajectories  (51.0 s)
+wrote data/main/dataset.npz  checksum 76f4c9055591  splits {'train': 11539, 'val': 2392, 'test_heldout_mass': 6069, 'test_heldout_onfam': 2935, 'test_heldout_strong': 3134}
+  40/400 trajectories  (2.6 s)
+  80/400 trajectories  (2.7 s)
+  120/400 trajectories  (2.8 s)
+  160/400 trajectories  (2.9 s)
+  200/400 trajectories  (3.0 s)
+  240/400 trajectories  (3.1 s)
+  280/400 trajectories  (3.2 s)
+  320/400 trajectories  (3.3 s)
+  360/400 trajectories  (3.4 s)
+  400/400 trajectories  (3.5 s)
+wrote data/gpu_smoke/dataset.npz  checksum eb294d7db29f  splits {'train': 220, 'val': 57, 'test_heldout_mass': 123, 'test_heldout_onfam': 49, 'test_heldout_strong': 74}

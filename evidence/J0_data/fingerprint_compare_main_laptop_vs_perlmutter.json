@@ -1,0 +1,141 @@
+{
+ "a": "data/main/fingerprint.json",
+ "b": "evidence/jobs/010/outputs/data/main/fingerprint.json",
+ "tol": 1e-12,
+ "arrays": {
+  "act": {
+   "comparable": true,
+   "checksum_equal": true,
+   "max_abs_diff_row_sum": 0.0,
+   "rows_differing": 0,
+   "n_rows": 20000,
+   "first_rows_differing": [],
+   "largest_row_diffs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_abs_diff_sample": 0.0,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "ctx": {
+   "comparable": true,
+   "checksum_equal": true,
+   "max_abs_diff_row_sum": 0.0,
+   "rows_differing": 0,
+   "n_rows": 20000,
+   "first_rows_differing": [],
+   "largest_row_diffs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_abs_diff_sample": 0.0,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "energy": {
+   "comparable": true,
+   "checksum_equal": false,
+   "max_abs_diff_row_sum": 2.4797941478027496e-12,
+   "rows_differing": 37,
+   "n_rows": 20000,
+   "first_rows_differing": [
+    396,
+    516,
+    1289,
+    1386,
+    2454,
+    3620,
+    4155,
+    4706,
+    6161,
+    6167,
+    6713,
+    7694,
+    8048,
+    8449,
+    8685,
+    9361,
+    9654,
+    9687,
+    10553,
+    13066
+   ],
+   "largest_row_diffs": [
+    2.4797941478027496e-12,
+    2.1032064978498966e-12,
+    2.0250467969162855e-12,
+    1.7550405573274475e-12,
+    1.6910917111090384e-12
+   ],
+   "max_abs_diff_sample": 1.9406698470447736e-13,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "tgt": {
+   "comparable": true,
+   "checksum_equal": false,
+   "max_abs_diff_row_sum": 5.7269744502264075e-12,
+   "rows_differing": 2513,
+   "n_rows": 20000,
+   "first_rows_differing": [
+    6,
+    24,
+    36,
+    50,
+    65,
+    81,
+    84,
+    85,
+    94,
+    101,
+    102,
+    107,
+    115,
+    118,
+    135,
+    138,
+    149,
+    159,
+    177,
+    179
+   ],
+   "largest_row_diffs": [
+    5.7269744502264075e-12,
+    4.831690603168681e-12,
+    4.689582056016661e-12,
+    4.689582056016661e-12,
+    4.447997525858227e-12
+   ],
+   "max_abs_diff_sample": 5.6621374255882984e-14,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "valid": {
+   "comparable": true,
+   "checksum_equal": true,
+   "max_abs_diff_row_sum": 0.0,
+   "rows_differing": 0,
+   "n_rows": 20000,
+   "first_rows_differing": [],
+   "largest_row_diffs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_abs_diff_sample": 0.0,
+   "samples_differing": 0,
+   "n_samples": 2000
+  }
+ },
+ "utc": "2026-10-05T23:47:22Z",
+ "commit": "3010090f94184090836dcfdcadc4d7a6de277f98"
+}

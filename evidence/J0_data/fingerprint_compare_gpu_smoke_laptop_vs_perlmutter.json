@@ -1,0 +1,122 @@
+{
+ "a": "data/gpu_smoke/fingerprint.json",
+ "b": "evidence/jobs/010/outputs/data/gpu_smoke/fingerprint.json",
+ "tol": 1e-12,
+ "arrays": {
+  "act": {
+   "comparable": true,
+   "checksum_equal": true,
+   "max_abs_diff_row_sum": 0.0,
+   "rows_differing": 0,
+   "n_rows": 400,
+   "first_rows_differing": [],
+   "largest_row_diffs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_abs_diff_sample": 0.0,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "ctx": {
+   "comparable": true,
+   "checksum_equal": true,
+   "max_abs_diff_row_sum": 0.0,
+   "rows_differing": 0,
+   "n_rows": 400,
+   "first_rows_differing": [],
+   "largest_row_diffs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_abs_diff_sample": 0.0,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "energy": {
+   "comparable": true,
+   "checksum_equal": false,
+   "max_abs_diff_row_sum": 1.6342482922482304e-12,
+   "rows_differing": 1,
+   "n_rows": 400,
+   "first_rows_differing": [
+    396
+   ],
+   "largest_row_diffs": [
+    1.6342482922482304e-12,
+    7.425171588693047e-13,
+    5.115907697472721e-13,
+    4.298783551348606e-13,
+    4.263256414560601e-13
+   ],
+   "max_abs_diff_sample": 2.0250467969162855e-13,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "tgt": {
+   "comparable": true,
+   "checksum_equal": false,
+   "max_abs_diff_row_sum": 2.7284841053187847e-12,
+   "rows_differing": 49,
+   "n_rows": 400,
+   "first_rows_differing": [
+    6,
+    24,
+    36,
+    50,
+    65,
+    81,
+    84,
+    85,
+    94,
+    101,
+    102,
+    107,
+    115,
+    118,
+    135,
+    138,
+    149,
+    159,
+    177,
+    179
+   ],
+   "largest_row_diffs": [
+    2.7284841053187847e-12,
+    2.1742607714259066e-12,
+    1.9753088054130785e-12,
+    1.9468870959826745e-12,
+    1.9468870959826745e-12
+   ],
+   "max_abs_diff_sample": 5.0182080713057076e-14,
+   "samples_differing": 0,
+   "n_samples": 2000
+  },
+  "valid": {
+   "comparable": true,
+   "checksum_equal": true,
+   "max_abs_diff_row_sum": 0.0,
+   "rows_differing": 0,
+   "n_rows": 400,
+   "first_rows_differing": [],
+   "largest_row_diffs": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "max_abs_diff_sample": 0.0,
+   "samples_differing": 0,
+   "n_samples": 2000
+  }
+ },
+ "utc": "2026-10-05T23:47:23Z",
+ "commit": "3010090f94184090836dcfdcadc4d7a6de277f98"
+}
