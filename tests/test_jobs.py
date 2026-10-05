@@ -82,6 +82,13 @@ def test_worker_end_to_end_local(tmp_path):
     man = json.loads((laptop / "data/tiny/manifest.json").read_text())
     assert man["n_traj"] == 4 and len(man["checksum_sha256"]) == 64
     assert json.loads((laptop / "evidence/jobs/000/status.json").read_text())["state"] == "COMPLETED"
+    # a second fetch must not replace a local file that differs (e.g. the laptop's own dataset manifest)
+    local = laptop / "data/tiny/manifest.json"
+    local.write_text('{"local": true}')
+    r = subprocess.run([sys.executable, "scripts/jobs/fetch.py", "000"], cwd=laptop, env=env, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr + r.stdout
+    assert local.read_text() == '{"local": true}' and "differs from the local file" in r.stdout
+    assert json.loads((laptop / "evidence/jobs/000/outputs/data/tiny/manifest.json").read_text())["n_traj"] == 4
     authors = subprocess.run(["git", "log", "--format=%an", "main"], cwd=origin, capture_output=True, text=True).stdout.split()
     assert all(a == "t" for a in authors), "workers must never commit to main"
     results_authors = set(subprocess.run(["git", "log", "--format=%an", "results"], cwd=origin, capture_output=True, text=True).stdout.split())

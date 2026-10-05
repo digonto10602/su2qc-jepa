@@ -22,15 +22,26 @@ log = subprocess.run(["git", "show", f"origin/results:{num}/log.txt"], capture_o
 (ev / "log.txt").write_text(log)
 tar = subprocess.run(["git", "archive", "--format=tar", "origin/results", f"{num}/outputs"], capture_output=True)
 n = 0
+kept = []
 if tar.returncode == 0:
     with tarfile.open(fileobj=io.BytesIO(tar.stdout)) as tf:
         for m in tf.getmembers():
             if not m.isfile():
                 continue
             rel = Path(*Path(m.name).parts[2:])
+            data = tf.extractfile(m).read()
+            if rel.exists() and rel.read_bytes() != data:
+                # never replace a different local file (e.g. the laptop's data/main/manifest.json): keep both
+                alt = ev / "outputs" / rel
+                alt.parent.mkdir(parents=True, exist_ok=True)
+                alt.write_bytes(data)
+                kept.append(f"{rel} (local file kept; job copy in {alt})")
+                continue
             rel.parent.mkdir(parents=True, exist_ok=True)
-            rel.write_bytes(tf.extractfile(m).read())
+            rel.write_bytes(data)
             n += 1
 print(f"copied {n} output files into the working tree; status and log in {ev}/")
+for k in kept:
+    print("  differs from the local file:", k)
 for s in st.get("skipped", []):
     print("  not published:", s)
