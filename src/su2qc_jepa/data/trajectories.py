@@ -35,7 +35,7 @@ from ..physics.observables import ObservableSet, named_states
 from ..physics.plaquette import PlaquetteModel
 from .records import ObservationSpec, estimate_chain, estimate_diagonal, sample_exact_chain, sample_exact_diagonal
 
-__all__ = ["DatasetConfig", "FamilyConfig", "generate_dataset", "load_dataset", "ACTION_DIM", "ONFAM", "STRONG"]
+__all__ = ["DatasetConfig", "FamilyConfig", "generate_dataset", "load_dataset", "dataset_fingerprint", "ACTION_DIM", "ONFAM", "STRONG"]
 
 ACTION_DIM = 4  # (dt, cM, cH, cB)
 
@@ -97,6 +97,27 @@ def _checksum(arrays: dict[str, np.ndarray]) -> str:
         h.update(k.encode())
         h.update(np.ascontiguousarray(arrays[k]).tobytes())
     return h.hexdigest()
+
+
+FINGERPRINT_SEED = 20261006  # fixed: the sampled positions must be the same on every machine
+
+
+def dataset_fingerprint(arrays: dict[str, np.ndarray], n_sample: int = 2000) -> dict:
+    """Small, exact summary of the data arrays, for comparing two builds without moving the arrays.
+
+    Per array: the per-trajectory sum over all other axes (float64, written with full precision) and the raw
+    values at n_sample fixed random positions.  Two builds that differ only in the last floating-point bits
+    differ here by ~1e-16; a flipped shot sample shows up as an O(1/shots) jump in the affected trajectory."""
+    rng = np.random.default_rng(np.random.SeedSequence(FINGERPRINT_SEED))
+    out = {"n_sample": n_sample, "seed": FINGERPRINT_SEED, "arrays": {}}
+    for k in sorted(arrays):
+        x = np.asarray(arrays[k], dtype=np.float64)
+        flat = x.reshape(-1)
+        pos = np.sort(rng.choice(flat.size, size=min(n_sample, flat.size), replace=False))
+        out["arrays"][k] = {"shape": list(x.shape), "checksum_sha256": _checksum({k: arrays[k]}),
+                            "row_sums": x.reshape(x.shape[0], -1).sum(1).tolist(),
+                            "sample_positions": pos.tolist(), "sample_values": flat[pos].tolist()}
+    return out
 
 
 class _Cache:
@@ -227,6 +248,7 @@ def generate_dataset(cfg: DatasetConfig, out_dir: str | Path, verbose: bool = Tr
     }
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2))
     (out_dir / "meta.json").write_text(json.dumps(meta))
+    (out_dir / "fingerprint.json").write_text(json.dumps(dataset_fingerprint(arrays)))
     if verbose:
         print(f"wrote {out_dir / 'dataset.npz'}  checksum {manifest['checksum_sha256'][:12]}  splits {manifest['splits']}")
     return out_dir

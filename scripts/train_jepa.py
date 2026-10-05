@@ -37,6 +37,7 @@ p.add_argument("--seeds", type=int, default=1)
 p.add_argument("--latent", type=int, default=16)
 p.add_argument("--w-sigreg", type=float, default=0.5)
 p.add_argument("--w-ground", type=float, default=1.0)
+p.add_argument("--w-semigroup", type=float, default=0.1)
 p.add_argument("--ema-target", type=float, default=None, help="EMA target encoder with stop-gradient, decay tau (e.g. 0.996)")
 p.add_argument("--curriculum-epochs", type=int, default=0, help="train this many epochs on horizons (1, 2) first, then all")
 p.add_argument("--master-seed", type=int, default=20261005, help="per-seed training seeds are spawned from this (SeedSequence)")
@@ -88,7 +89,7 @@ jepa_tabs = {fam: [] for fam in tests}
 masked_tabs = {fam: [] for fam in tests}
 for s in range(a.seeds):
     jcfg = JEPAConfig(obs_dim=d["manifest"]["obs_dim"], latent_dim=a.latent, w_sigreg=a.w_sigreg, w_ground=a.w_ground,
-                      ema_target=a.ema_target)
+                      w_semigroup=a.w_semigroup, ema_target=a.ema_target)
     tcfg = TrainConfig(epochs=a.epochs, seed=train_seeds[s], device=a.device, curriculum_epochs=a.curriculum_epochs)
     model, info = train_jepa(d, jcfg, tcfg, out / f"seed{s}")
     W = fit_probe(model, tr)

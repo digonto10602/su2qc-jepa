@@ -71,9 +71,10 @@ def guess_outputs(argv):
         return argv[argv.index(flag) + 1] if flag in argv and argv.index(flag) + 1 < len(argv) else None
 
     if "train_jepa.py" in s and val("--name"):
-        return [f"runs/{val('--name')}"] + ([f"{val('--data')}/manifest.json"] if val("--data") else [])
+        return [f"runs/{val('--name')}"] + ([f"{val('--data')}/manifest.json", f"{val('--data')}/fingerprint.json"]
+                                           if val("--data") else [])
     if "make_dataset.py" in s and val("--out"):
-        return [f"{val('--out')}/manifest.json", f"{val('--out')}/meta.json"]
+        return [f"{val('--out')}/manifest.json", f"{val('--out')}/meta.json", f"{val('--out')}/fingerprint.json"]
     if "run_twin.py" in s and val("--name"):
         return [f"evidence/twin/{val('--name')}"]
     if "residual_eval.py" in s and val("--out"):

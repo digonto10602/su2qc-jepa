@@ -78,6 +78,23 @@ def test_dataset_generation_and_splits(tmp_path):
     assert err.mean() < 0.05
 
 
+def test_dataset_fingerprint_is_exact_and_locates_differences(tmp_path):
+    from su2qc_jepa.data.trajectories import dataset_fingerprint
+
+    cfg = DatasetConfig(n_traj=30, n_steps_min=4, n_steps_max=5, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
+    generate_dataset(cfg, tmp_path, verbose=False)
+    written = json.loads((tmp_path / "fingerprint.json").read_text())
+    z = np.load(tmp_path / "dataset.npz")
+    arrays = {k: z[k] for k in ("ctx", "tgt", "act", "valid", "energy")}
+    assert json.loads(json.dumps(dataset_fingerprint(arrays))) == written  # recomputed from the saved arrays, bit for bit
+    arrays["energy"] = arrays["energy"].copy()
+    arrays["energy"][7, 1] += 1e-10
+    moved = dataset_fingerprint(arrays)["arrays"]["energy"]
+    d = np.abs(np.array(moved["row_sums"]) - np.array(written["arrays"]["energy"]["row_sums"]))
+    assert np.argmax(d) == 7 and abs(d[7] - 1e-10) < 1e-12 and np.delete(d, 7).max() == 0.0
+    assert moved["checksum_sha256"] != written["arrays"]["energy"]["checksum_sha256"]
+
+
 def test_chain_dataset_uses_chain_carrier(tmp_path):
     cfg = DatasetConfig(n_traj=6, n_steps_min=4, n_steps_max=4, families=(FamilyConfig.onfamily(gEs=(2.0,), dts=(0.25,)),),
                         starts=("S3",), quench_fraction=0.0, carrier="chain", name="c")
