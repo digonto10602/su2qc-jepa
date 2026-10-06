@@ -1,7 +1,40 @@
 {
   "id": "jobs/005",
-  "state": "SUBMITTED",
-  "slurm_id": "59382104",
+  "state": "FAILED",
   "worker": "perlmutter",
-  "submitted_utc": "2026-10-05T17:15:30Z"
+  "host": "login01",
+  "commit": "1c60d57dc39145a070e4c12c789a9130b99d51cf",
+  "finished_utc": "2026-10-06T00:00:43Z",
+  "elapsed_hours": 1.039,
+  "node_hours": 0.26,
+  "outputs": [
+    "runs/v1_latent32/args.json",
+    "runs/v1_latent32/seed0/history.json",
+    "runs/v1_latent32/seed0/model.pt",
+    "runs/v1_latent32/seed1/history.json",
+    "runs/v1_latent32/seed1/model.pt",
+    "runs/v1_latent32/seed2/history.json",
+    "runs/v1_latent32/seed2/model.pt",
+    "runs/v1_latent32/seed3/history.json",
+    "runs/v1_latent32/seed3/model.pt",
+    "runs/v1_latent32/seed4/history.json",
+    "runs/v1_latent32/seed4/model.pt",
+    "data/main/manifest.json"
+  ],
+  "outputs_mb": 2.42,
+  "skipped": [],
+  "slurm_id": "59382104",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59382104",
+      "state": "FAILED",
+      "hours": 1.039,
+      "resources": {
+        "gpus": 1,
+        "time": "04:14:00",
+        "qos": "shared"
+      }
+    }
+  ]
 }
