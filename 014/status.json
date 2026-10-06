@@ -1,7 +1,42 @@
 {
   "id": "jobs/014",
-  "state": "SUBMITTED",
-  "slurm_id": "59431546",
+  "state": "COMPLETED",
   "worker": "perlmutter",
-  "submitted_utc": "2026-10-06T15:30:26Z"
+  "host": "login29",
+  "commit": "80596414313b9bf84c6a2db29451497ad9d1732a",
+  "finished_utc": "2026-10-06T18:00:35Z",
+  "elapsed_hours": 1.147,
+  "node_hours": 0.287,
+  "outputs": [
+    "runs/v1_wsig2_wsg10/args.json",
+    "runs/v1_wsig2_wsg10/forecast_eval.json",
+    "runs/v1_wsig2_wsg10/seed0/history.json",
+    "runs/v1_wsig2_wsg10/seed0/model.pt",
+    "runs/v1_wsig2_wsg10/seed1/history.json",
+    "runs/v1_wsig2_wsg10/seed1/model.pt",
+    "runs/v1_wsig2_wsg10/seed2/history.json",
+    "runs/v1_wsig2_wsg10/seed2/model.pt",
+    "runs/v1_wsig2_wsg10/seed3/history.json",
+    "runs/v1_wsig2_wsg10/seed3/model.pt",
+    "runs/v1_wsig2_wsg10/seed4/history.json",
+    "runs/v1_wsig2_wsg10/seed4/model.pt",
+    "data/main/manifest.json",
+    "data/main/fingerprint.json"
+  ],
+  "outputs_mb": 3.91,
+  "skipped": [],
+  "slurm_id": "59431546",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59431546",
+      "state": "COMPLETED",
+      "hours": 1.147,
+      "resources": {
+        "gpus": 1,
+        "time": "04:14:00",
+        "qos": "shared"
+      }
+    }
+  ]
 }
