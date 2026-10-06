@@ -1,14 +1,14 @@
 {
-  "nodes": 976,
-  "edges": 1853,
-  "communities": 93,
-  "files": 117,
-  "built_at_commit": "ade81b0994a02fc178779bb719c6f81283944ce7",
+  "nodes": 1078,
+  "edges": 1970,
+  "communities": 96,
+  "files": 118,
+  "built_at_commit": "6a4c4d6b14e7fcca2e2c81913c8770baadbbaf02",
   "god_nodes": [
     {
       "id": "src_su2qc_jepa_physics_plaquette_plaquettemodel",
       "label": "PlaquetteModel",
-      "degree": 42
+      "degree": 43
     },
     {
       "id": "src_su2qc_jepa_data_trajectories",
