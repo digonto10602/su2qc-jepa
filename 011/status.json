@@ -1,7 +1,42 @@
 {
   "id": "jobs/011",
-  "state": "SUBMITTED",
-  "slurm_id": "59396171",
+  "state": "COMPLETED",
   "worker": "perlmutter",
-  "submitted_utc": "2026-10-05T23:00:43Z"
+  "host": "login02",
+  "commit": "25567ea20042945f3c911dcfd2c77777cffa68f6",
+  "finished_utc": "2026-10-06T08:45:25Z",
+  "elapsed_hours": 1.07,
+  "node_hours": 0.268,
+  "outputs": [
+    "runs/v1_wsemigroup1/args.json",
+    "runs/v1_wsemigroup1/forecast_eval.json",
+    "runs/v1_wsemigroup1/seed0/history.json",
+    "runs/v1_wsemigroup1/seed0/model.pt",
+    "runs/v1_wsemigroup1/seed1/history.json",
+    "runs/v1_wsemigroup1/seed1/model.pt",
+    "runs/v1_wsemigroup1/seed2/history.json",
+    "runs/v1_wsemigroup1/seed2/model.pt",
+    "runs/v1_wsemigroup1/seed3/history.json",
+    "runs/v1_wsemigroup1/seed3/model.pt",
+    "runs/v1_wsemigroup1/seed4/history.json",
+    "runs/v1_wsemigroup1/seed4/model.pt",
+    "data/main/manifest.json",
+    "data/main/fingerprint.json"
+  ],
+  "outputs_mb": 3.91,
+  "skipped": [],
+  "slurm_id": "59396171",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59396171",
+      "state": "COMPLETED",
+      "hours": 1.07,
+      "resources": {
+        "gpus": 1,
+        "time": "04:14:00",
+        "qos": "shared"
+      }
+    }
+  ]
 }
