@@ -199,3 +199,37 @@
 | grounding R2 P_baryonic (min over seeds) | PASS | 0.996 | 0.98 |  |  |
 | semigroup residual (max over seeds) | PASS | 0.000922 | 0.001 |  |  |
 | number of seeds | PASS | 5 | 5 |  |  |
+
+## J1_training — FAIL — 20261007T032632Z
+
+| row | status | measured | threshold | evidence | note |
+|---|---|---|---|---|---|
+| no NaN (seed0) | PASS | False | False |  |  |
+| no NaN (seed1) | PASS | False | False |  |  |
+| no NaN (seed2) | PASS | False | False |  |  |
+| no NaN (seed3) | PASS | False | False |  |  |
+| no NaN (seed4) | PASS | False | False |  |  |
+| effective rank (min over seeds) | FAIL | 7.8 | 8 |  | per seed: [8.52, 7.84, 8.23, 8.0, 7.8] |
+| grounding R2 energy (min over seeds) | PASS | 0.9 | 0.887 |  |  |
+| grounding R2 C_string (min over seeds) | PASS | 0.998 | 0.99 |  |  |
+| grounding R2 P_meson (min over seeds) | PASS | 0.977 | 0.95 |  |  |
+| grounding R2 P_baryonic (min over seeds) | PASS | 0.997 | 0.98 |  |  |
+| semigroup residual (max over seeds) | FAIL | 0.00101 | 0.001 |  |  |
+| number of seeds | PASS | 5 | 5 |  |  |
+
+## J1_training — PASS — 20261007T032634Z
+
+| row | status | measured | threshold | evidence | note |
+|---|---|---|---|---|---|
+| no NaN (seed0) | PASS | False | False |  |  |
+| no NaN (seed1) | PASS | False | False |  |  |
+| no NaN (seed2) | PASS | False | False |  |  |
+| no NaN (seed3) | PASS | False | False |  |  |
+| no NaN (seed4) | PASS | False | False |  |  |
+| effective rank (min over seeds) | PASS | 8.26 | 8 |  | per seed: [9.1, 8.4, 8.37, 8.26, 8.35] |
+| grounding R2 energy (min over seeds) | PASS | 0.899 | 0.887 |  |  |
+| grounding R2 C_string (min over seeds) | PASS | 0.997 | 0.99 |  |  |
+| grounding R2 P_meson (min over seeds) | PASS | 0.971 | 0.95 |  |  |
+| grounding R2 P_baryonic (min over seeds) | PASS | 0.996 | 0.98 |  |  |
+| semigroup residual (max over seeds) | PASS | 0.000784 | 0.001 |  |  |
+| number of seeds | PASS | 5 | 5 |  |  |
