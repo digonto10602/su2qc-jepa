@@ -1,0 +1,29 @@
+{
+ "data": "data/main",
+ "name": "v1_confirm",
+ "epochs": 200,
+ "seeds": 5,
+ "latent": 16,
+ "w_sigreg": 3.0,
+ "w_ground": 1.0,
+ "w_semigroup": 10.0,
+ "ema_target": null,
+ "curriculum_epochs": 0,
+ "master_seed": 31415926,
+ "context_steps": 4,
+ "eval_steps": [
+  4,
+  8
+ ],
+ "device": "cuda",
+ "threads": null,
+ "baseline_epochs": 100,
+ "masked": true,
+ "train_seeds": [
+  788512632,
+  3846163361,
+  669117117,
+  1958259924,
+  352388378
+ ]
+}
