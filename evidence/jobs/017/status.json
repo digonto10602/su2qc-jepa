@@ -1,0 +1,52 @@
+{
+  "id": "jobs/017",
+  "state": "COMPLETED",
+  "worker": "perlmutter",
+  "host": "login09",
+  "commit": "600197ba04475edafd88043a74b52b178b3ef662",
+  "finished_utc": "2026-10-07T18:45:15Z",
+  "elapsed_hours": 2.092,
+  "node_hours": 0.523,
+  "outputs": [
+    "runs/v1_confirm/args.json",
+    "runs/v1_confirm/forecast_eval.json",
+    "runs/v1_confirm/seed0/history.json",
+    "runs/v1_confirm/seed0/model.pt",
+    "runs/v1_confirm/seed0_masked/history.json",
+    "runs/v1_confirm/seed0_masked/model.pt",
+    "runs/v1_confirm/seed1/history.json",
+    "runs/v1_confirm/seed1/model.pt",
+    "runs/v1_confirm/seed1_masked/history.json",
+    "runs/v1_confirm/seed1_masked/model.pt",
+    "runs/v1_confirm/seed2/history.json",
+    "runs/v1_confirm/seed2/model.pt",
+    "runs/v1_confirm/seed2_masked/history.json",
+    "runs/v1_confirm/seed2_masked/model.pt",
+    "runs/v1_confirm/seed3/history.json",
+    "runs/v1_confirm/seed3/model.pt",
+    "runs/v1_confirm/seed3_masked/history.json",
+    "runs/v1_confirm/seed3_masked/model.pt",
+    "runs/v1_confirm/seed4/history.json",
+    "runs/v1_confirm/seed4/model.pt",
+    "runs/v1_confirm/seed4_masked/history.json",
+    "runs/v1_confirm/seed4_masked/model.pt",
+    "data/main/manifest.json",
+    "data/main/fingerprint.json"
+  ],
+  "outputs_mb": 6.18,
+  "skipped": [],
+  "slurm_id": "59490427",
+  "attempts": 1,
+  "history": [
+    {
+      "slurm_id": "59490427",
+      "state": "COMPLETED",
+      "hours": 2.092,
+      "resources": {
+        "gpus": 1,
+        "time": "08:28:00",
+        "qos": "shared"
+      }
+    }
+  ]
+}
