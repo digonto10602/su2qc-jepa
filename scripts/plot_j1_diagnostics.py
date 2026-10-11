@@ -3,7 +3,7 @@
 
 Reads runs/<rung>/seed<k>/history.json (unmasked seeds only); one line per rung = mean over seeds, band = min..max.
 Dashed grey lines are the J1 thresholds from configs/gates.yaml.  Writes the PNG and a JSON of the plotted
-final-epoch values next to it (same stem) so every number in the figure is traceable.
+final-epoch values to evidence/figures/<stem>.json (figures/ holds images only) so every number is traceable.
   python scripts/plot_j1_diagnostics.py --out figures/NNN_x.png --rungs v1_base v1_wsigreg2 ...
 """
 import argparse
@@ -76,5 +76,7 @@ axes.flat[0].legend(fontsize=8, frameon=False)
 fig.suptitle("J1 training diagnostics (validation split; mean over seeds, band = min..max; dashed = J1 threshold)", fontsize=11)
 out = Path(a.out)
 fig.savefig(out, dpi=150)
-out.with_suffix(".json").write_text(json.dumps(summary, indent=1))
-print("wrote", out, "and", out.with_suffix(".json"))
+side = Path("evidence/figures") / (out.stem + ".json")
+side.parent.mkdir(parents=True, exist_ok=True)
+side.write_text(json.dumps(summary, indent=1))
+print("wrote", out, "and", side)
