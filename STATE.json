@@ -38,11 +38,11 @@
       }
     },
     "M2": {
-      "status": "IN PROGRESS (M2a: ladder jobs 004-008 running; 002/003 FAILED after training, GPU device bug in baseline_autoregressive)",
+      "status": "M2a DONE (J1 FAIL); M2b NOT RUN (preregistration 16 Oct)",
       "prompt": "prompts/002_model-and-prereg.md",
       "gate": "J1",
-      "report": "reports/010",
-      "gate_status": "J1 NOT RUN (5-seed runs on Perlmutter: jobs/002-008)",
+      "report": "reports/013",
+      "gate_status": "J1 FAIL (14 configurations; last: v1_confirm, semigroup 1.48e-3 on seed 3)",
       "followup_prompt": "prompts/010",
       "ladder_jobs": {
         "002": "v1_base",
@@ -56,12 +56,17 @@
       "ladder_commit": "0a76800",
       "energy_ceiling": "evidence/J1_training/ceiling_main.json (best R2 from one clean observation 0.914; with couplings 0.994)",
       "decision": "decisions/005: J1 energy grounding threshold 0.887 = 0.97 x measured ceiling 0.9145 (Digonto, option C of reports/010)",
-      "findings_2026_10_05": {
-        "jobs_002_003": "training finished (history.json for all seeds); crash in baseline_autoregressive (net on CPU, data on cuda) -> no forecast_eval.json",
-        "perlmutter_data_main_checksum": "76f4c9055591 (laptop 73fff8e5a7b7); splits identical; difference not yet measured",
-        "preliminary_J1": "v1_base rank 5.16-6.15, semigroup max 3.29e-3 (FAIL); v1_wsigreg2 rank 8.26-9.10 (PASS), semigroup max 5.34e-3 (FAIL); all grounding rows pass; not gate-run",
-        "overview": "reports/011"
-      }
+      "gate_evidence": "evidence/GATE_LEDGER.md; evidence/J1_training/",
+      "working_model": {
+        "config": "w_sigreg 3, w_semigroup 10, latent 16, 200 epochs",
+        "runs": "runs/v1_confirm (jobs/017, commit 600197b, master seed 31415926)",
+        "model_card": "docs/MODEL_CARD.md"
+      },
+      "figures": [
+        "figures/000",
+        "figures/001"
+      ],
+      "notes": "Perlmutter data/main checksum 76f4c9055591 vs laptop 73fff8e5a7b7: inputs bit-identical, targets differ by <=5.7e-14 (evidence/J0_data/fingerprint_compare_main_laptop_vs_perlmutter.json). Preliminary strong-family forecast MAE above J2 bound (docs/MODEL_CARD.md \u00a75)."
     },
     "M3": {
       "status": "NOT RUN",
@@ -114,7 +119,7 @@
       "worker_installed": true,
       "account": "m4135_g",
       "budget_node_hours": 50,
-      "node_hours_used": 0.859,
+      "node_hours_used": 4.318,
       "queue": "jobs/ on main -> results branch",
       "env_prefix": "/global/common/software/m4135/su2qc-jepa-env",
       "worker_base": "/pscratch/sd/d/digonto/su2qc-worker",
