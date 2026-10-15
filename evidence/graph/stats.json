@@ -1,9 +1,9 @@
 {
-  "nodes": 1100,
-  "edges": 1999,
-  "communities": 92,
-  "files": 120,
-  "built_at_commit": "c9ddfe6cb4c7c5f1a0f6d5eae484b96cbaff40ac",
+  "nodes": 1108,
+  "edges": 2014,
+  "communities": 102,
+  "files": 121,
+  "built_at_commit": "5119b7af1a5cdeb151a78b01f7168580ea48d5eb",
   "god_nodes": [
     {
       "id": "src_su2qc_jepa_physics_plaquette_plaquettemodel",
@@ -18,12 +18,12 @@
     {
       "id": "pathlib",
       "label": "pathlib",
-      "degree": 35
+      "degree": 36
     },
     {
       "id": "json",
       "label": "json",
-      "degree": 33
+      "degree": 34
     },
     {
       "id": "src_su2qc_jepa_gates_j0_data",
