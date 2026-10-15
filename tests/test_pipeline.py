@@ -130,8 +130,16 @@ def test_training_and_baselines_run_on_device(tmp_path, device):
     if device == "cuda" and not torch.cuda.is_available():
         pytest.skip("no CUDA device")
     from su2qc_jepa.models.jepa import JEPAConfig
-    from su2qc_jepa.models.train import (TrainConfig, baseline_autoregressive, baseline_ridge, baseline_supervised_mlp,
-                                         fit_probe, forecast_jepa, prepare_tensors, train_jepa)
+    from su2qc_jepa.models.train import (
+        TrainConfig,
+        baseline_autoregressive,
+        baseline_ridge,
+        baseline_supervised_mlp,
+        fit_probe,
+        forecast_jepa,
+        prepare_tensors,
+        train_jepa,
+    )
 
     cfg = DatasetConfig(n_traj=40, n_steps_min=6, n_steps_max=6, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
     generate_dataset(cfg, tmp_path, verbose=False)
