@@ -1,0 +1,89 @@
+{
+ "utc": "2026-10-15T21:50:18Z",
+ "commit": "a2086ad7c70818aa2e8d5c76bd85c7a6a8052a8c",
+ "gates_yaml_sha256": "dbb297336a329b723326fd736b93ce7b6e06b473128c1c2aa4e4f4144b0aa078",
+ "model_config": {
+  "JEPAConfig": {
+   "action_dim": 4,
+   "action_embed": 32,
+   "dropout": 0.0,
+   "ema_target": null,
+   "hidden": 128,
+   "horizons": [
+    1,
+    2,
+    4,
+    8
+   ],
+   "latent_dim": 16,
+   "n_ground": 5,
+   "obs_dim": 24,
+   "sigreg_projections": 64,
+   "w_ground": 1.0,
+   "w_pred": 1.0,
+   "w_semigroup": 10.0,
+   "w_sigreg": 3.0
+  },
+  "TrainConfig": {
+   "batch_size": 64,
+   "curriculum_epochs": 0,
+   "curriculum_horizons": [
+    1,
+    2
+   ],
+   "epochs": 200,
+   "log_every": 5,
+   "lr": 0.002,
+   "weight_decay": 1e-05
+  }
+ },
+ "model_config_canonical_json": "{\"JEPAConfig\":{\"action_dim\":4,\"action_embed\":32,\"dropout\":0.0,\"ema_target\":null,\"hidden\":128,\"horizons\":[1,2,4,8],\"latent_dim\":16,\"n_ground\":5,\"obs_dim\":24,\"sigreg_projections\":64,\"w_ground\":1.0,\"w_pred\":1.0,\"w_semigroup\":10.0,\"w_sigreg\":3.0},\"TrainConfig\":{\"batch_size\":64,\"curriculum_epochs\":0,\"curriculum_horizons\":[1,2],\"epochs\":200,\"log_every\":5,\"lr\":0.002,\"weight_decay\":1e-05}}",
+ "model_config_sha256": "cd4faece6fcb3dafd4f84e112e6028fb228c4fa8d809f6d0061cafc8a4ec968c",
+ "model_config_source": [
+  "runs/v1_confirm/seed0/model.pt",
+  "runs/v1_confirm/seed1/model.pt",
+  "runs/v1_confirm/seed2/model.pt",
+  "runs/v1_confirm/seed3/model.pt",
+  "runs/v1_confirm/seed4/model.pt",
+  "runs/v1_wsig3_wsg10/seed0/model.pt"
+ ],
+ "datasets": {
+  "main": {
+   "checksum_sha256": "73fff8e5a7b7f670b26056a000b4d50d13db79499a7467f36b15c69f66539828",
+   "n_traj": 20000,
+   "splits": {
+    "train": 11539,
+    "val": 2392,
+    "test_heldout_mass": 6069,
+    "test_heldout_onfam": 2935,
+    "test_heldout_strong": 3134
+   },
+   "seed": 20261005,
+   "fingerprint_sha256": "9e2172af17a5526e0652887a5207c9a0a9ca31b0cb46c21592271ecb99472d6b"
+  },
+  "chain_onfam": {
+   "checksum_sha256": "bdcd6e895a06ca28ea107bfe374be1b44bbfabe3398780b9f903b788d352e1ac",
+   "n_traj": 5000,
+   "splits": {
+    "train": 2859,
+    "val": 741,
+    "test_heldout_mass": 1400,
+    "test_heldout_onfam": 1400
+   },
+   "seed": 20261005,
+   "fingerprint_sha256": null
+  },
+  "chain_strong": {
+   "checksum_sha256": "935692f343d89895f5e93c232ec1b7bef470a1c3d638fcbb813364914e60cd59",
+   "n_traj": 3000,
+   "splits": {
+    "train": 1897,
+    "val": 276,
+    "test_heldout_mass": 827,
+    "test_heldout_strong": 827
+   },
+   "seed": 20261005,
+   "fingerprint_sha256": null
+  }
+ }
+}

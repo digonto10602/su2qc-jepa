@@ -103,3 +103,16 @@ def test_slugify_never_ends_with_dash():
     s = slugify("Conventions update: numbered artifacts and the Graphify code graph")
     assert not s.endswith("-") and len(s) <= 60
     assert slugify("  M2: J1 pass!! ") == "m2-j1-pass"
+
+
+def test_gates_yaml_matches_preregistration():
+    """configs/gates.yaml is frozen by the preregistration: its sha256 must equal the one recorded there.
+
+    Changing a threshold therefore also requires changing docs/PREREGISTRATION.md, which needs a decision record."""
+    import hashlib
+    import re
+
+    text = (ROOT / "docs" / "PREREGISTRATION.md").read_text()
+    m = re.search(r"`configs/gates\.yaml` sha256 \| `([0-9a-f]{64})`", text)
+    assert m, "docs/PREREGISTRATION.md does not record the sha256 of configs/gates.yaml"
+    assert hashlib.sha256((ROOT / "configs" / "gates.yaml").read_bytes()).hexdigest() == m.group(1)
