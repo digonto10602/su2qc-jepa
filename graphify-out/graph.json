@@ -860,7 +860,7 @@
       "file_type": "code",
       "norm_label": "test_jepa_ema_target_and_curriculum()",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L152"
+      "source_location": "L160"
     },
     {
       "id": "tests_test_pipeline_test_jepa_trains_one_epoch",
@@ -1184,7 +1184,7 @@
       "file_type": "code",
       "norm_label": "test_chain_cz_budget_pa()",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L215"
+      "source_location": "L223"
     },
     {
       "id": "tests_test_pipeline_test_twin_runner_seed_independence",
@@ -1196,7 +1196,7 @@
       "file_type": "code",
       "norm_label": "test_twin_runner_seed_independence()",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L188"
+      "source_location": "L196"
     },
     {
       "id": "src_su2qc_jepa_jobs_hms",
@@ -1364,7 +1364,7 @@
       "file_type": "code",
       "norm_label": "test_gate_ledger()",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L200"
+      "source_location": "L208"
     },
     {
       "id": "tests_test_pipeline_test_spearman_auroc",
@@ -1376,7 +1376,7 @@
       "file_type": "code",
       "norm_label": "test_spearman_auroc()",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L210"
+      "source_location": "L218"
     },
     {
       "id": "scripts_residual_eval_krylov",
@@ -4754,7 +4754,7 @@
       "source_location": "L71"
     },
     {
-      "id": "tests_test_pipeline_rationale_216",
+      "id": "tests_test_pipeline_rationale_224",
       "label": "The P-A window t <= 3/g_E at K = 12 with dt = 0.375 costs 188 CZ and has\u2026",
       "_origin": "ast",
       "community": 1,
@@ -4762,7 +4762,7 @@
       "file_type": "rationale",
       "norm_label": "the p-a window t <= 3/g_e at k = 12 with dt = 0.375 costs 188 cz and has...",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L216"
+      "source_location": "L224"
     },
     {
       "id": "reports_004_compute_update_3_laptop_and_perlmutter_only_environment_repa",
@@ -16844,7 +16844,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L220",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
@@ -16856,7 +16856,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L221",
+      "source_location": "L229",
       "weight": 1.0
     },
     {
@@ -16868,7 +16868,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L222",
+      "source_location": "L230",
       "weight": 1.0
     },
     {
@@ -16880,7 +16880,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L223",
+      "source_location": "L231",
       "weight": 1.0
     },
     {
@@ -16892,7 +16892,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L223",
+      "source_location": "L231",
       "weight": 1.0
     },
     {
@@ -17096,7 +17096,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L204",
+      "source_location": "L212",
       "weight": 1.0
     },
     {
@@ -17108,7 +17108,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L157",
+      "source_location": "L165",
       "weight": 1.0
     },
     {
@@ -17120,7 +17120,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L158",
+      "source_location": "L166",
       "weight": 1.0
     },
     {
@@ -17132,7 +17132,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L159",
+      "source_location": "L167",
       "weight": 1.0
     },
     {
@@ -17180,7 +17180,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L211",
+      "source_location": "L219",
       "weight": 1.0
     },
     {
@@ -17192,7 +17192,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L212",
+      "source_location": "L220",
       "weight": 1.0
     },
     {
@@ -17204,7 +17204,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L136",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -17216,7 +17216,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L137",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -17228,7 +17228,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L138",
+      "source_location": "L146",
       "weight": 1.0
     },
     {
@@ -17240,7 +17240,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L194",
+      "source_location": "L202",
       "weight": 1.0
     },
     {
@@ -17252,7 +17252,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L195",
+      "source_location": "L203",
       "weight": 1.0
     },
     {
@@ -31272,7 +31272,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L152",
+      "source_location": "L160",
       "weight": 1.0
     },
     {
@@ -31283,7 +31283,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L188",
+      "source_location": "L196",
       "weight": 1.0
     },
     {
@@ -31294,7 +31294,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L200",
+      "source_location": "L208",
       "weight": 1.0
     },
     {
@@ -31305,7 +31305,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L210",
+      "source_location": "L218",
       "weight": 1.0
     },
     {
@@ -31316,7 +31316,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L215",
+      "source_location": "L223",
       "weight": 1.0
     },
     {
@@ -34257,14 +34257,14 @@
       "weight": 1.0
     },
     {
-      "source": "tests_test_pipeline_rationale_216",
+      "source": "tests_test_pipeline_rationale_224",
       "target": "tests_test_pipeline_test_chain_cz_budget_pa",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L216",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -34792,7 +34792,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L165",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -34804,7 +34804,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L167",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -34864,7 +34864,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L139",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -34876,7 +34876,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L140",
+      "source_location": "L148",
       "weight": 1.0
     },
     {
@@ -34888,7 +34888,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L144",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -34900,7 +34900,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L144",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -34912,7 +34912,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L144",
+      "source_location": "L152",
       "weight": 1.0
     },
     {
@@ -34924,7 +34924,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L145",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -34936,7 +34936,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L146",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -34948,7 +34948,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L196",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -34960,7 +34960,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L196",
+      "source_location": "L204",
       "weight": 1.0
     },
     {
@@ -36127,7 +36127,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L223",
+      "source_location": "L231",
       "weight": 0.8
     },
     {
@@ -36204,7 +36204,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L201",
+      "source_location": "L209",
       "weight": 0.8
     },
     {
@@ -36215,7 +36215,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L157",
+      "source_location": "L165",
       "weight": 0.8
     },
     {
@@ -36226,7 +36226,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L157",
+      "source_location": "L165",
       "weight": 0.8
     },
     {
@@ -36237,7 +36237,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L160",
+      "source_location": "L168",
       "weight": 0.8
     },
     {
@@ -36248,7 +36248,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L162",
+      "source_location": "L170",
       "weight": 0.8
     },
     {
@@ -36259,7 +36259,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L167",
+      "source_location": "L175",
       "weight": 0.8
     },
     {
@@ -36325,7 +36325,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L136",
+      "source_location": "L144",
       "weight": 0.8
     },
     {
@@ -36336,7 +36336,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L136",
+      "source_location": "L144",
       "weight": 0.8
     },
     {
@@ -36347,7 +36347,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L139",
+      "source_location": "L147",
       "weight": 0.8
     },
     {
@@ -36358,7 +36358,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L139",
+      "source_location": "L147",
       "weight": 0.8
     },
     {
@@ -36369,7 +36369,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L195",
+      "source_location": "L203",
       "weight": 0.8
     },
     {
@@ -36380,10 +36380,10 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "tests/test_pipeline.py",
-      "source_location": "L196",
+      "source_location": "L204",
       "weight": 0.8
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "29a04ee9ebea35b85ed6a943af24f34a7c197b48"
+  "built_at_commit": "c9ddfe6cb4c7c5f1a0f6d5eae484b96cbaff40ac"
 }
