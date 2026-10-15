@@ -1,6 +1,6 @@
 # Preregistration — Gauge-JEPA-P v2 (signed by tag `prereg-2026-10-16`)
 
-Status: **DRAFT until the tag exists.** Written in session M2b (`prompts/002` items 6–8, 15 Oct 2026). After the tag, nothing below changes without a decision record in `decisions/`; `tests/test_repo_conventions.py::test_gates_yaml_matches_preregistration` fails if `configs/gates.yaml` changes without this file being updated.
+Status: **SIGNED** — approved by Digonto on 15 Oct 2026 (22:02 UTC) and signed by the annotated git tag `prereg-2026-10-16` on the commit that adds this line (the tag name is fixed by `CLAUDE.md` §3; the signature came one day before the planned date). Written in session M2b (`prompts/002` items 6–8). After the tag, nothing below changes without a decision record in `decisions/`; `tests/test_repo_conventions.py::test_gates_yaml_matches_preregistration` fails if `configs/gates.yaml` changes without this file being updated.
 
 *Preregistration* means fixing the hypotheses, the pass/fail thresholds and the exact analysis **before** the data that test them exist, so that the analysis cannot be tuned to the result.
 
@@ -64,4 +64,4 @@ the days are concatenated into `evidence/hardware/residual_eval_all.json` and
 - The plan states estimator bias $\le2.5$ standard errors (W1) while `configs/gates.yaml` uses 4.0; the gate file governs, and J0 met both (2.36 and 1.44).
 
 ## 6. Signatures
-Digonto (researcher) — date — commit — tag `prereg-2026-10-16`.
+Digonto (researcher) — approved 2026-10-15 22:02 UTC ("approve", in the M2b Claude Code session after reviewing this file) — commit: the one carrying the tag — tag `prereg-2026-10-16`.
