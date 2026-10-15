@@ -38,10 +38,10 @@
       }
     },
     "M2": {
-      "status": "M2a DONE (J1 FAIL); M2b NOT RUN (preregistration 16 Oct)",
+      "status": "DONE: M2a J1 FAIL; M2b preregistration signed",
       "prompt": "prompts/002_model-and-prereg.md",
       "gate": "J1",
-      "report": "reports/013",
+      "report": "reports/014",
       "gate_status": "J1 FAIL (14 configurations; last: v1_confirm, semigroup 1.48e-3 on seed 3)",
       "followup_prompt": "prompts/010",
       "ladder_jobs": {
@@ -66,7 +66,17 @@
         "figures/000",
         "figures/001"
       ],
-      "notes": "Perlmutter data/main checksum 76f4c9055591 vs laptop 73fff8e5a7b7: inputs bit-identical, targets differ by <=5.7e-14 (evidence/J0_data/fingerprint_compare_main_laptop_vs_perlmutter.json). Preliminary strong-family forecast MAE above J2 bound (docs/MODEL_CARD.md \u00a75)."
+      "notes": "Perlmutter data/main checksum 76f4c9055591 vs laptop 73fff8e5a7b7: inputs bit-identical, targets differ by <=5.7e-14 (evidence/J0_data/fingerprint_compare_main_laptop_vs_perlmutter.json). Preliminary strong-family forecast MAE above J2 bound (docs/MODEL_CARD.md \u00a75).",
+      "prereg": {
+        "tag": "prereg-2026-10-16",
+        "commit": "d7655e2",
+        "approved": "Digonto 2026-10-15 22:02 UTC",
+        "gates_yaml_sha256": "dbb297336a329b723326fd736b93ce7b6e06b473128c1c2aa4e4f4144b0aa078",
+        "model_config_sha256": "cd4faece6fcb3dafd4f84e112e6028fb228c4fa8d809f6d0061cafc8a4ec968c",
+        "v1_final_master_seed": 27182818,
+        "doc": "docs/PREREGISTRATION.md",
+        "hashes": "evidence/prereg/hashes.json"
+      }
     },
     "M3": {
       "status": "NOT RUN",
@@ -130,7 +140,8 @@
         "state": "COMPLETED",
         "gpu": "NVIDIA A100-SXM4-40GB",
         "report": "reports/008"
-      }
+      },
+      "worker_status": "stopped: last heartbeat 2026-10-08T18:45:15Z (checked 2026-10-15)"
     },
     "policy": "decisions/004"
   },
