@@ -1,0 +1,20 @@
+id: jobs/019
+title: 'train_jepa: estimated 1017 min > 20 min on the laptop -> queue worker'
+author: claude-code
+created_utc: '2026-10-21T17:18:51Z'
+kind: train
+where: desktop
+commit: f864bbabf7c651dc9d9814051aac797480ea1c26
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/make_dataset.py --name main --n-traj 20000 --steps 8 12 --families onfam strong --carrier diagonal --starts S3 S3 S3 S1 random --quench-fraction 0.2 --seed 20261005 --out data/main
+- python scripts/train_jepa.py --data data/main --name v1_final --epochs 200 --seeds 5 --masked --w-sigreg 3 --w-semigroup 10 --master-seed 27182818
+outputs:
+- runs/v1_final
+- data/main/manifest.json
+- data/main/fingerprint.json
+resources:
+  gpus: 1
+  time: 08:28:00
+  qos: shared
