@@ -65,3 +65,10 @@ the days are concatenated into `evidence/hardware/residual_eval_all.json` and
 
 ## 6. Signatures
 Digonto (researcher) — approved 2026-10-15 22:02 UTC ("approve", in the M2b Claude Code session after reviewing this file) — commit: the one carrying the tag — tag `prereg-2026-10-16`.
+
+## 7. Deviations after signing
+Changes made after the tag `prereg-2026-10-16`. Each has its own decision record, and each is reported in the paper as a deviation. The signed text above is left unchanged.
+
+| date | item | change | record |
+|---|---|---|---|
+| 2026-10-21 | §2 equivalence rule for rebuilds | the per-trajectory-sum bound of $10^{-12}$ contradicted the measured rebuild quoted in the same row ($5.7\times10^{-12}$, pure rounding); corrected to $\le10^{-12}$ per value and $\le10^{-10}$ per trajectory sum, with inputs still bit-identical. Made before `v1_final` was trained | `decisions/007` |
