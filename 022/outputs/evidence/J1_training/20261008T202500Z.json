@@ -1,0 +1,103 @@
+{
+  "gate": "J1_training",
+  "status": "FAIL",
+  "started_utc": "2026-10-08T20:25:00Z",
+  "rows": [
+    {
+      "name": "no NaN (seed0)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed1)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed2)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed3)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed4)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "effective rank (min over seeds)",
+      "status": "PASS",
+      "measured": 8.446744284110212,
+      "threshold": 8.0,
+      "evidence": "",
+      "note": "per seed: [8.45, 8.52, 8.65, 8.45, 8.68]"
+    },
+    {
+      "name": "grounding R2 energy (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9000576609599055,
+      "threshold": 0.887,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 C_string (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9973866532355872,
+      "threshold": 0.99,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 P_meson (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9683998933634437,
+      "threshold": 0.95,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 P_baryonic (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9970246810453816,
+      "threshold": 0.98,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "semigroup residual (max over seeds)",
+      "status": "FAIL",
+      "measured": 0.0014817591290920973,
+      "threshold": 0.001,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "number of seeds",
+      "status": "PASS",
+      "measured": 5,
+      "threshold": 5,
+      "evidence": "",
+      "note": ""
+    }
+  ]
+}

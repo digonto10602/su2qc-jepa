@@ -1,0 +1,103 @@
+{
+  "gate": "J1_training",
+  "status": "FAIL",
+  "started_utc": "2026-10-05T23:47:19Z",
+  "rows": [
+    {
+      "name": "no NaN (seed0)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed1)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed2)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed3)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed4)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "effective rank (min over seeds)",
+      "status": "PASS",
+      "measured": 10.525434240490277,
+      "threshold": 8.0,
+      "evidence": "",
+      "note": "per seed: [10.66, 10.84, 10.94, 10.83, 10.53]"
+    },
+    {
+      "name": "grounding R2 energy (min over seeds)",
+      "status": "PASS",
+      "measured": 0.8992855718700449,
+      "threshold": 0.887,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 C_string (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9968661854366776,
+      "threshold": 0.99,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 P_meson (min over seeds)",
+      "status": "PASS",
+      "measured": 0.967669250809734,
+      "threshold": 0.95,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 P_baryonic (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9957277545636516,
+      "threshold": 0.98,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "semigroup residual (max over seeds)",
+      "status": "FAIL",
+      "measured": 0.008469819091260433,
+      "threshold": 0.001,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "number of seeds",
+      "status": "PASS",
+      "measured": 5,
+      "threshold": 5,
+      "evidence": "",
+      "note": ""
+    }
+  ]
+}

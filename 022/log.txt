@@ -1,0 +1,14 @@
+job jobs/022 commit 0b73384e on SupremeCommander at Wed Oct 21 08:30:06 PM UTC 2026
+PASS     no NaN (seed0): measured=False threshold=False 
+PASS     no NaN (seed1): measured=False threshold=False 
+PASS     no NaN (seed2): measured=False threshold=False 
+PASS     no NaN (seed3): measured=False threshold=False 
+PASS     no NaN (seed4): measured=False threshold=False 
+FAIL     effective rank (min over seeds): measured=7.96724105502331 threshold=8.0 per seed: [8.67, 8.65, 8.9, 8.55, 7.97]
+PASS     grounding R2 energy (min over seeds): measured=0.8984729105667241 threshold=0.887 
+PASS     grounding R2 C_string (min over seeds): measured=0.9969401319068831 threshold=0.99 
+PASS     grounding R2 P_meson (min over seeds): measured=0.9756044595868508 threshold=0.95 
+PASS     grounding R2 P_baryonic (min over seeds): measured=0.9953481571291197 threshold=0.98 
+PASS     semigroup residual (max over seeds): measured=0.000862495566252619 threshold=0.001 
+PASS     number of seeds: measured=5 threshold=5 
+== J1_training: FAIL
