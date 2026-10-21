@@ -1,0 +1,125 @@
+{
+  "gate": "J2_forecast",
+  "status": "FAIL",
+  "started_utc": "2026-10-21T20:15:07Z",
+  "rows": [
+    {
+      "name": "[onfam] JEPA MAE <= 0.05 at +4",
+      "status": "PASS",
+      "measured": 0.03206648225563911,
+      "threshold": 0.05,
+      "evidence": "evidence/runs/v1_final/forecast_eval.json",
+      "note": "P_baryonic=0.032; P_meson=0.014; C_string=0.020"
+    },
+    {
+      "name": "[onfam] not worse than ridge on >= 2/3 targets at +4",
+      "status": "PASS",
+      "measured": 3,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.032 vs ridge 0.060; P_meson: jepa 0.014 vs ridge 0.019; C_string: jepa 0.020 vs ridge 0.030"
+    },
+    {
+      "name": "[onfam] not worse than autoregressive on >= 2/3 targets at +4",
+      "status": "FAIL",
+      "measured": 1,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.032 vs autoregressive 0.030; P_meson: jepa 0.014 vs autoregressive 0.011; C_string: jepa 0.020 vs autoregressive 0.014"
+    },
+    {
+      "name": "[onfam] JEPA MAE <= 0.05 at +8",
+      "status": "PASS",
+      "measured": 0.04931662723900913,
+      "threshold": 0.05,
+      "evidence": "evidence/runs/v1_final/forecast_eval.json",
+      "note": "P_baryonic=0.049; P_meson=0.020; C_string=0.027"
+    },
+    {
+      "name": "[onfam] not worse than ridge on >= 2/3 targets at +8",
+      "status": "PASS",
+      "measured": 3,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.049 vs ridge 0.144; P_meson: jepa 0.020 vs ridge 0.030; C_string: jepa 0.027 vs ridge 0.136"
+    },
+    {
+      "name": "[onfam] not worse than autoregressive on >= 2/3 targets at +8",
+      "status": "PASS",
+      "measured": 3,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.049 vs autoregressive 0.404; P_meson: jepa 0.020 vs autoregressive 0.188; C_string: jepa 0.027 vs autoregressive 1.135"
+    },
+    {
+      "name": "[onfam] masked-coupling task at +8 (report only)",
+      "status": "PASS",
+      "measured": {
+        "jepa_masked": 0.091,
+        "ridge_masked": 0.458
+      },
+      "threshold": "report",
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "[strong] JEPA MAE <= 0.05 at +4",
+      "status": "FAIL",
+      "measured": 0.1049596723779744,
+      "threshold": 0.05,
+      "evidence": "evidence/runs/v1_final/forecast_eval.json",
+      "note": "P_baryonic=0.105; P_meson=0.016; C_string=0.048"
+    },
+    {
+      "name": "[strong] not worse than ridge on >= 2/3 targets at +4",
+      "status": "FAIL",
+      "measured": 0,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.105 vs ridge 0.085; P_meson: jepa 0.016 vs ridge 0.014; C_string: jepa 0.048 vs ridge 0.038"
+    },
+    {
+      "name": "[strong] not worse than autoregressive on >= 2/3 targets at +4",
+      "status": "PASS",
+      "measured": 2,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.105 vs autoregressive 0.128; P_meson: jepa 0.016 vs autoregressive 0.015; C_string: jepa 0.048 vs autoregressive 0.054"
+    },
+    {
+      "name": "[strong] JEPA MAE <= 0.05 at +8",
+      "status": "FAIL",
+      "measured": 0.12293556586188,
+      "threshold": 0.05,
+      "evidence": "evidence/runs/v1_final/forecast_eval.json",
+      "note": "P_baryonic=0.123; P_meson=0.021; C_string=0.061"
+    },
+    {
+      "name": "[strong] not worse than ridge on >= 2/3 targets at +8",
+      "status": "PASS",
+      "measured": 3,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.123 vs ridge 0.185; P_meson: jepa 0.021 vs ridge 0.024; C_string: jepa 0.061 vs ridge 0.248"
+    },
+    {
+      "name": "[strong] not worse than autoregressive on >= 2/3 targets at +8",
+      "status": "PASS",
+      "measured": 3,
+      "threshold": 2,
+      "evidence": "",
+      "note": "P_baryonic: jepa 0.123 vs autoregressive 0.367; P_meson: jepa 0.021 vs autoregressive 0.077; C_string: jepa 0.061 vs autoregressive 0.237"
+    },
+    {
+      "name": "[strong] masked-coupling task at +8 (report only)",
+      "status": "PASS",
+      "measured": {
+        "jepa_masked": 0.137,
+        "ridge_masked": 0.275
+      },
+      "threshold": "report",
+      "evidence": "",
+      "note": ""
+    }
+  ]
+}
