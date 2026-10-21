@@ -1,10 +1,20 @@
 {
   "id": "jobs/025",
-  "state": "RUNNING",
+  "state": "FAILED",
   "worker": "desktop",
   "host": "SupremeCommander",
   "commit": "1cc101731e4561ce7b890b293aeca1a3a38b9cc8",
-  "started_utc": "2026-10-21T22:45:04Z",
+  "finished_utc": "2026-10-21T22:45:05Z",
+  "elapsed_hours": 0.0,
+  "node_hours": 0.0,
+  "outputs": [
+    "evidence/GATE_LEDGER.md"
+  ],
+  "outputs_mb": 0.02,
+  "skipped": [
+    "evidence/twin/day1_marrakesh/residual_eval.json (missing)",
+    "evidence/J3_twin_rehearsal (missing)"
+  ],
   "attempt": 1,
   "history": []
 }
