@@ -143,7 +143,15 @@
       },
       "worker_status": "stopped: last heartbeat 2026-10-08T18:45:15Z (checked 2026-10-15)"
     },
-    "policy": "decisions/004"
+    "policy": "decisions/004 amended by decisions/006",
+    "desktop": {
+      "spec": "Digonto's dedicated Linux desktop, NVIDIA RTX 3070 (8 GB, sm_86); sometimes switched off",
+      "role": "queue worker for heavy/GPU jobs (where: desktop), systemd user timer, deploy key",
+      "policy": "decisions/006",
+      "setup": "docs/DESKTOP.md",
+      "worker_installed": false,
+      "default_where": "desktop (configs/compute.yaml queue.default_where)"
+    }
   },
   "notes": "No hardware job has ever been submitted from this repository. All noisy numbers are EMULATED.",
   "artifacts": {
