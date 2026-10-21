@@ -4,16 +4,16 @@ The laptop (64 GB RAM, 6-core i7-8750H, GTX 1060 Max-Q not used) is shared with 
 every computation from this project goes through `scripts/run.py`, which uses this module to:
 
 1. **classify** the command: heavy (estimated above `heavy_minutes` at the granted threads, or asks for a GPU)
-   → always sent to Perlmutter through the job queue; light → may run here;
+   → always sent to a queue worker (Perlmutter or the desktop GPU, decisions/006); light → may run here;
 2. **admit** it only if the machine has room *now*: MemAvailable minus the request stays above a reserve kept
    for other programs, and the 1-minute load plus the requested threads leaves free cores; only one su2qc
    computation at a time across all sessions (a lock file).  If there is no room it waits (bounded), then
-   sends the job to Perlmutter if it can be queued;
+   sends the job to a queue worker if it can be queued;
 3. **run it capped**: lowest CPU/I/O priority, thread caps for every math library, a memory ceiling (cgroup via
    `systemd-run --user --scope` when available, otherwise an address-space limit), a wall-clock limit, and
    `oom_score_adj = 1000` so that under memory pressure the kernel kills this job, never another session;
 4. **heal**: a resource failure (memory kill, address-space exhaustion, timeout) is retried once with a larger
-   memory ceiling if the machine has room, otherwise the job is sent to Perlmutter; a program error (an
+   memory ceiling if the machine has room, otherwise the job is sent to a queue worker; a program error (an
    ordinary exception) is not retried — it is a bug and is reported with the log tail.
 
 Every attempt is appended to `.local_runs/ledger.jsonl` (git-ignored) with its probe, limits and outcome.
@@ -180,9 +180,9 @@ def classify(argv: list[str], pol: Policy, mem_gb: float | None = None, threads:
     except ValueError:
         queueable = False
     if needs_gpu:
-        reason = "needs a GPU (the laptop GPU is not used) -> Perlmutter"
+        reason = "needs a GPU (the laptop GPU is not used) -> queue worker"
     elif est is not None and est > pol.heavy_minutes:
-        reason = f"estimated {est:.0f} min > {pol.heavy_minutes:.0f} min on the laptop -> Perlmutter"
+        reason = f"estimated {est:.0f} min > {pol.heavy_minutes:.0f} min on the laptop -> queue worker"
     else:
         reason = f"light (estimate {'unknown' if est is None else f'{est:.1f} min'}) -> laptop if there is room"
     return Request(list(argv), mem, threads, est, needs_gpu, queueable, reason)
@@ -318,7 +318,7 @@ def heal_decision(r: RunResult, req: Request, pol: Policy, attempt: int, pr: Pro
     if not is_resource_failure(r):
         return "fail", f"program error (exit {r.returncode}) - not retried; read the log tail"
     if r.timed_out:
-        return ("queue", "timed out on the laptop: heavier than estimated -> Perlmutter") if req.queueable else \
+        return ("queue", "timed out on the laptop: heavier than estimated -> queue worker") if req.queueable else \
                ("fail", "timed out and cannot be queued (not a single allowlisted script)")
     # memory failure
     new_mem = min(req.mem_gb * 2, pol.max_mem_gb)
@@ -328,7 +328,7 @@ def heal_decision(r: RunResult, req: Request, pol: Policy, attempt: int, pr: Pro
         if ok:
             return "retry", f"memory limit hit -> retry once with {new_mem:g} GB ({why})"
     if req.queueable:
-        return "queue", "memory limit hit and no room for a larger limit on the laptop -> Perlmutter"
+        return "queue", "memory limit hit and no room for a larger limit on the laptop -> queue worker"
     return "fail", "memory limit hit and the command cannot be queued"
 
 

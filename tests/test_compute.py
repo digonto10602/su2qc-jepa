@@ -30,7 +30,7 @@ def test_run_py_routes_heavy_jobs_to_perlmutter():
     root = Path(__file__).resolve().parents[1]
     r = subprocess.run([sys.executable, "scripts/run.py", "--dry", "--", "python", "scripts/train_jepa.py", "--data", "data/main",
                         "--name", "x", "--epochs", "200", "--seeds", "5", "--masked"], cwd=root, capture_output=True, text=True)
-    assert r.returncode == 0 and "Perlmutter" in r.stdout and '"heavy": true' in r.stdout
+    assert r.returncode == 0 and "queue worker" in r.stdout and '"heavy": true' in r.stdout
     r = subprocess.run([sys.executable, "scripts/run.py", "--dry", "--", "python", "scripts/make_dataset.py", "--n-traj", "2000",
                         "--out", "data/x"], cwd=root, capture_output=True, text=True)
     assert r.returncode == 0 and '"heavy": false' in r.stdout
