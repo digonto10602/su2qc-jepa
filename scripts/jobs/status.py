@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Show every queued job and its state on the `results` branch (no connection to Perlmutter needed)."""
+"""Show every queued job and its state on the `results` branch, and each worker's heartbeat (decisions/004, 006)."""
 import json
 import subprocess
 from pathlib import Path
@@ -27,14 +27,23 @@ if not has:
 else:
     import time as _t
 
-    r = subprocess.run(["git", "show", "origin/results:_worker/perlmutter.json"], capture_output=True, text=True)
-    if r.returncode == 0:
+    hints = {"perlmutter": "On Perlmutter: scrontab -l; cat $SCRATCH/su2qc-worker/tick_errors.log",
+             "desktop": "Is the desktop switched on? There: systemctl --user status su2qc-worker.timer; "
+                        "journalctl --user -u su2qc-worker -n 50"}
+    names = subprocess.run(["git", "ls-tree", "--name-only", "origin/results:_worker"], capture_output=True, text=True).stdout.split()
+    workers = sorted({n[:-5] for n in names if n.endswith(".json")} | {r[1] for r in rows if r[3].startswith("QUEUED")})
+    for w in workers or ["perlmutter"]:
+        r = subprocess.run(["git", "show", f"origin/results:_worker/{w}.json"], capture_output=True, text=True)
+        queued = [x[0] for x in rows if x[1] == w and x[3].startswith("QUEUED")]
+        if r.returncode != 0:
+            print(f"{w} worker: no heartbeat yet" + (f"; waiting jobs {queued}. {hints.get(w, '')}" if queued else ""))
+            continue
         hb = json.loads(r.stdout)
         age = (_t.time() - hb["epoch"]) / 3600
-        print(f"perlmutter worker heartbeat: {hb['utc']} ({age:.1f} h ago), node-hours used {hb['node_hours_used']}, "
+        print(f"{w} worker heartbeat: {hb['utc']} ({age:.1f} h ago), node-hours used {hb['node_hours_used']}, "
               f"in flight {hb['in_flight']}")
-        if age > 13 or (age > 2 and any(r[3].startswith("QUEUED") for r in rows)):
-            print("WARNING: the worker looks stopped (no recent heartbeat). On Perlmutter: scrontab -l; "
-                  "cat $SCRATCH/su2qc-worker/tick_errors.log")
-    else:
-        print("(no worker heartbeat yet)")
+        # an idle worker heartbeats every 12 h, a busy one hourly; the desktop may be switched off on purpose
+        stale = (age > 2 and queued) or (age > 13 and w != "desktop")
+        if stale:
+            print(f"WARNING: the {w} worker looks stopped (no recent heartbeat)"
+                  + (f" and jobs {queued} are waiting" if queued else "") + f". {hints.get(w, '')}")

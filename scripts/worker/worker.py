@@ -1,13 +1,16 @@
 #!/usr/bin/env python
-"""Pull-based job worker for Perlmutter (decisions/004).  One invocation = one "tick", started by scrontab.
-`--mode local` exists for tests only.  It never pushes to `main`; it only pushes to the `results` branch.
+"""Pull-based job worker (decisions/004, 006).  One invocation = one "tick", started by scrontab on Perlmutter
+(`--mode slurm`) or by a systemd timer on the desktop GPU machine (`--mode local`, which the tests also use).
+It never pushes to `main`; it only pushes to the `results` branch.
 
 Tick:
   1. take a lock (a second tick exits at once), fetch origin;
   2. read jobs/*.yaml on origin/main; keep those addressed to this worker (`where` == name or 'any'),
      valid, at a commit reachable from origin/main, with no status yet on origin/results;
   3. slurm mode: submit each new job with sbatch (cap per tick, node-hour budget); local mode: run at most
-     one job, at low priority, with a time limit;
+     one job, at low priority, with a time limit, publishing RUNNING while it runs; a local job found still
+     marked running at the start of a tick was interrupted (machine switched off) and is rerun, up to
+     MAX_ATTEMPTS in all, then marked LOST;
   4. for submitted Slurm jobs, poll sacct; when finished copy the declared outputs (size-capped) into
      results/<NNN>/outputs, write status.json and log.txt, commit and push to `results`.
 
@@ -228,6 +231,46 @@ class Worker:
                 state = "TIMEOUT"
         return state, (time.time() - t0) / 3600
 
+    def run_one_local(self, j: dict, attempt: int = 1, history: list | None = None):
+        num = j["_num"]
+        script = self.prepare(j)
+        history = history or []
+        self.state[num] = {"local": True, "started_utc": now(), "attempt": attempt, "history": history}
+        self.save_state()
+        self.write_status(num, {"id": j["id"], "state": "RUNNING", "worker": self.a.name, "host": socket.gethostname(),
+                                "commit": j["commit"], "started_utc": now(), "attempt": attempt, "history": history},
+                          f"results: job {num} RUNNING")
+        state, hours = self.run_local(j, script)
+        self.collect(j, state, hours, {"attempt": attempt, "history": history})
+
+    def recover_local(self, by_num: dict) -> bool:
+        """Local mode: a job still marked running when a tick starts was interrupted (the machine was switched off or
+        the tick killed; the tick lock proves nothing else is running).  Rerun it, up to MAX_ATTEMPTS runs in all,
+        otherwise record it as LOST.  Returns True if a job was run (one local job per tick)."""
+        for num in by_num:  # the local state file was lost, but the results branch says RUNNING on this worker
+            st = self.status_of(num)
+            if st and st.get("state") == "RUNNING" and st.get("worker") == self.a.name and num not in self.state:
+                self.state[num] = {"local": True, "started_utc": st.get("started_utc"), "attempt": st.get("attempt", 1),
+                                   "history": st.get("history", [])}
+        for num, rec in sorted(self.state.items()):
+            if not rec.get("local"):
+                continue
+            j = by_num.get(num)
+            if j is None:
+                self.state.pop(num)
+                self.save_state()
+                continue
+            history = rec.get("history", []) + [{"attempt": rec.get("attempt", 1), "state": "INTERRUPTED",
+                                                 "started_utc": rec.get("started_utc"), "noticed_utc": now()}]
+            attempt = rec.get("attempt", 1) + 1
+            if attempt > MAX_ATTEMPTS:
+                self.collect(j, "LOST", 0.0, {"attempt": attempt - 1, "history": history})
+                continue
+            self.log(f"job {num} was interrupted; running it again (attempt {attempt} of {MAX_ATTEMPTS})")
+            self.run_one_local(j, attempt, history)
+            return True
+        return False
+
     def collect(self, j: dict, state: str, hours: float, extra: dict, gpus_hours: float | None = None):
         num = j["_num"]
         wd = self.runs / num
@@ -323,6 +366,7 @@ class Worker:
     def tick(self):
         self.sync()
         all_jobs = self.jobs()
+        todo = all_jobs
         by_num = {j["_num"]: j for j in all_jobs}
         if self.a.mode == "slurm":
             # recover in-flight jobs from the results branch if local state was lost
@@ -334,8 +378,10 @@ class Worker:
                                        "resources": st.get("resources") or by_num[num]["resources"],
                                        "history": st.get("history", [])}
             self.poll_slurm(by_num)
+        elif not self.a.dry_run and self.recover_local(by_num):
+            todo = []  # one local job per tick: the interrupted one was run again
         new = 0
-        for j in all_jobs:
+        for j in todo:
             ok, why = self.eligible(j)
             if not ok:
                 if why.startswith("invalid") or why.startswith("commit not"):
@@ -365,14 +411,10 @@ class Worker:
                 self.log(f"job {j['_num']} submitted as Slurm {sid}")
                 new += 1
             else:
-                script = self.prepare(j)
                 if self.a.dry_run:
-                    self.log(f"dry run: would run {script}")
+                    self.log(f"dry run: would run {self.prepare(j)}")
                     break
-                self.state[j["_num"]] = {"local": True, "started_utc": now()}
-                self.save_state()
-                state, hours = self.run_local(j, script)
-                self.collect(j, state, hours, {})
+                self.run_one_local(j)
                 break  # at most one local job per tick
         pending = sum(1 for j in all_jobs if j.get("where") in (self.a.name, "any") and self.status_of(j["_num"]) is None)
         self.heartbeat(pending + len(self.state))
@@ -380,7 +422,7 @@ class Worker:
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--name", required=True, help="worker name used in jobs' `where:` (perlmutter)")
+    p.add_argument("--name", required=True, help="worker name used in jobs' `where:` (perlmutter | desktop)")
     p.add_argument("--mode", choices=("slurm", "local"), required=True)
     p.add_argument("--base", required=True, help="worker directory (clones, run worktrees, state)")
     p.add_argument("--repo", required=True, help="git URL with push rights to the results branch (deploy key)")

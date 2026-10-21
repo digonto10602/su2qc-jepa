@@ -44,6 +44,8 @@ p.add_argument("--timeout-min", type=float, help="laptop wall-clock limit in min
 p.add_argument("--output", action="append", default=[], help="outputs to publish if queued (default: guessed)")
 p.add_argument("--pm-time", default=None, help="Perlmutter wall-clock limit HH:MM:SS if queued (default from estimate)")
 p.add_argument("--prompt", help="prompt id, recorded in a queued job")
+p.add_argument("--where", default=None, help="worker for a queued job: perlmutter | desktop "
+               "(default: queue.default_where in configs/compute.yaml, else perlmutter; decisions/006)")
 p.add_argument("--no-queue", action="store_true", help="never queue; fail instead")
 p.add_argument("--push", action="store_true", help="if queued: commit and push the job file")
 p.add_argument("--dry", action="store_true", help="only print the decision")
@@ -104,6 +106,15 @@ def queue(reason: str) -> int:
         return 2
     import shlex
 
+    import yaml
+
+    from su2qc_jepa.jobs import WHERE
+
+    where = a.where or (yaml.safe_load(Path("configs/compute.yaml").read_text()).get("queue") or {}).get("default_where", "perlmutter")
+    if where not in WHERE:
+        print(f"[run] unknown worker {where!r}; choose one of {WHERE}")
+        return 2
+
     step = shlex.join(["python", *req.argv[1:]] if req.argv[0] == sys.executable else req.argv)
     est_h = (req.est_minutes or 60) / 60 / 4  # A100 + more threads: rough 4x faster than the laptop estimate
     secs = int(min(max(2 * est_h, 0.5), 47.5) * 3600)
@@ -114,11 +125,12 @@ def queue(reason: str) -> int:
         enq += ["--step", s]
     for o in (a.output or guess_outputs(req.argv)):
         enq += ["--output", o]
+    enq += ["--where", where]
     if a.prompt:
         enq += ["--prompt", a.prompt]
     if a.push:
         enq.append("--push")
-    print(f"[run] -> Perlmutter queue: {reason}")
+    print(f"[run] -> {where} queue: {reason}")
     r = subprocess.run(enq, capture_output=True, text=True)
     print(r.stdout.strip() or r.stderr.strip())
     ledger_append({"run_id": run_id, "name": name, "argv": req.argv, "decision": "queued", "reason": reason,

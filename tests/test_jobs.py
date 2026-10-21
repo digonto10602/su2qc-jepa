@@ -27,6 +27,12 @@ def test_valid_job_passes():
     assert validate_job(good_job(), expected_id="jobs/000") == []
 
 
+def test_job_destinations():
+    """decisions/006: the desktop GPU worker is a valid destination; the laptop never is (it runs work itself)."""
+    assert validate_job(good_job(where="desktop"), expected_id="jobs/000") == []
+    assert any("where" in p for p in validate_job(good_job(where="laptop"), expected_id="jobs/000"))
+
+
 @pytest.mark.parametrize("step", ["python scripts/hw_submit.py submit --confirm", "bash scripts/train_jepa.py",
                                   "python scripts/train_jepa.py; rm -rf ~", "python scripts/train_jepa.py && curl x",
                                   "python -c 'import os'", "python scripts/train_jepa.py > out"])
@@ -44,8 +50,8 @@ def _git(cwd, *a):
     return subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@t", *a], cwd=cwd, check=True, capture_output=True, text=True).stdout
 
 
-def test_worker_end_to_end_local(tmp_path):
-    """Laptop queues a tiny dataset job; a local-mode worker runs it; results land on the `results` branch only."""
+def _queue_setup(tmp_path):
+    """A bare 'GitHub' remote and a laptop clone of this repository with an empty job queue."""
     origin = tmp_path / "origin.git"
     subprocess.run(["git", "init", "-q", "--bare", str(origin)], check=True)
     laptop = tmp_path / "laptop"
@@ -66,6 +72,52 @@ def test_worker_end_to_end_local(tmp_path):
     _git(laptop, "push", "-q", "origin", "main")
     env = {**os.environ, "PYTHONPATH": str(laptop / "src"), "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t",
            "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
+    return origin, laptop, env
+
+
+def _tiny_job(laptop, env, title, where="perlmutter", out="tiny"):
+    r = subprocess.run([sys.executable, "scripts/jobs/enqueue.py", "dataset", title, "--gpus", "0", "--where", where,
+                        "--time", "00:05:00", "--step", f"python scripts/make_dataset.py --name {out} --n-traj 4 --steps 2 2 --families onfam --out data/{out}",
+                        "--output", f"data/{out}/manifest.json", "--push"], cwd=laptop, env=env, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+
+
+def _tick(tmp_path, laptop, origin, env, name):
+    return subprocess.run([sys.executable, str(laptop / "scripts/worker/worker.py"), "--name", name, "--mode", "local",
+                           "--base", str(tmp_path / f"wk_{name}"), "--repo", str(origin), "--python", sys.executable,
+                           "--threads", "1"], env=env, capture_output=True, text=True)
+
+
+def test_worker_recovers_interrupted_local_jobs(tmp_path):
+    """decisions/006: the desktop is sometimes switched off mid-job.  A job still marked running at the next tick is
+    rerun (attempt 2), one that already used MAX_ATTEMPTS runs is recorded LOST, and jobs for another worker are left."""
+    origin, laptop, env = _queue_setup(tmp_path)
+    _tiny_job(laptop, env, "exhausted", where="desktop", out="a")
+    _tiny_job(laptop, env, "interrupted", where="desktop", out="b")
+    _tiny_job(laptop, env, "for perlmutter", where="perlmutter", out="c")
+    base = tmp_path / "wk_desktop"
+    base.mkdir()
+    (base / "state.json").write_text(json.dumps({"000": {"local": True, "started_utc": "2026-10-21T00:00:00Z", "attempt": 3},
+                                                 "001": {"local": True, "started_utc": "2026-10-21T00:00:00Z", "attempt": 1}}))
+    r = _tick(tmp_path, laptop, origin, env, "desktop")
+    assert r.returncode == 0, r.stderr + r.stdout
+    subprocess.run(["git", "fetch", "-q", "origin"], cwd=laptop, check=True)
+
+    def status(num):
+        r = subprocess.run(["git", "show", f"origin/results:{num}/status.json"], cwd=laptop, capture_output=True, text=True)
+        return json.loads(r.stdout) if r.returncode == 0 else None
+
+    lost, rerun = status("000"), status("001")
+    assert lost["state"] == "LOST" and lost["attempt"] == 3 and lost["history"][-1]["state"] == "INTERRUPTED"
+    assert rerun["state"] == "COMPLETED" and rerun["attempt"] == 2 and rerun["worker"] == "desktop"
+    assert rerun["history"] == [{**rerun["history"][0], "attempt": 1, "state": "INTERRUPTED"}]
+    assert status("002") is None  # addressed to perlmutter: the desktop never touches it
+    assert json.loads((base / "state.json").read_text()) == {}
+
+
+def test_worker_end_to_end_local(tmp_path):
+    """Laptop queues a tiny dataset job; a local-mode worker runs it; results land on the `results` branch only."""
+    origin, laptop, env = _queue_setup(tmp_path)
     r = subprocess.run([sys.executable, "scripts/jobs/enqueue.py", "dataset", "tiny dataset", "--gpus", "0",
                         "--time", "00:05:00", "--step", "python scripts/make_dataset.py --name tiny --n-traj 4 --steps 2 2 --families onfam --out data/tiny",
                         "--output", "data/tiny/manifest.json", "--push"], cwd=laptop, env=env, capture_output=True, text=True)
@@ -160,3 +212,15 @@ echo "$(cat {st}/$2)|00:30:00"
     assert "-t 02:00:00" in (st / "501.args").read_text(), "retry must double the time limit"
     status = json.loads(subprocess.run(["git", "show", "results:000/status.json"], cwd=origin, capture_output=True, text=True).stdout)
     assert status["state"] == "COMPLETED" and status["attempts"] == 2 and [h["state"] for h in status["history"]] == ["TIMEOUT", "COMPLETED"]
+
+
+def test_run_py_queues_heavy_work_for_the_chosen_worker(tmp_path):
+    """run.py --where desktop writes a job file addressed to the desktop worker (decisions/006); an unknown worker is refused."""
+    origin, laptop, env = _queue_setup(tmp_path)
+    heavy = ["--", "python", "scripts/train_jepa.py", "--data", "data/main", "--name", "x", "--epochs", "200", "--seeds", "5"]
+    r = subprocess.run([sys.executable, "scripts/run.py", "--where", "desktop", *heavy], cwd=laptop, env=env, capture_output=True, text=True)
+    assert r.returncode == 10, r.stdout + r.stderr
+    job = yaml.safe_load(next((laptop / "jobs").glob("000_*.yaml")).read_text())
+    assert job["where"] == "desktop" and "train_jepa.py" in job["steps"][-1]
+    r = subprocess.run([sys.executable, "scripts/run.py", "--where", "laptop", *heavy], cwd=laptop, env=env, capture_output=True, text=True)
+    assert r.returncode == 2 and "unknown worker" in r.stdout

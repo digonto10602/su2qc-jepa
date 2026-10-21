@@ -1,4 +1,5 @@
-# Compute policy (decisions/004, supersedes decisions/003).  Two machines only: the laptop and NERSC Perlmutter.
+# Compute policy (decisions/004, supersedes decisions/003; amended by decisions/006).  Three machines: the laptop (this
+# session, light work) and two queue workers for heavy/GPU jobs: NERSC Perlmutter and the desktop RTX 3070.
 #
 # Every computation goes through `python scripts/run.py -- <command>`:
 #   heavy (estimate > heavy_minutes on the laptop) or needs a GPU  -> always queued for Perlmutter (jobs/NNN on main,
@@ -28,3 +29,6 @@ perlmutter:                       # scripts/worker/install_perlmutter.sh; scront
   qos: shared                     # 1 A100 = 1/4 node-hour per hour; up to 2 GPUs; 48 h max
   budget_node_hours: 50           # enforced by the worker; whole-plan estimate 15-40
   max_attempts: 3                 # automatic resubmission after TIMEOUT / OUT_OF_MEMORY / NODE_FAIL / PREEMPTED / LOST
+queue:
+  default_where: desktop          # worker for heavy/GPU jobs when run.py is not given --where (decisions/006);
+                                  # desktop from 21 Oct 2026 (Perlmutter worker stopped since 8 Oct)

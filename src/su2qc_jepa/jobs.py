@@ -24,7 +24,7 @@ __all__ = ["ALLOWED_SCRIPTS", "WHERE", "KINDS", "REQUIRED", "validate_job", "par
            "retry_resources"]
 
 ALLOWED_SCRIPTS = {"make_dataset.py", "train_jepa.py", "run_twin.py", "residual_eval.py", "run_gate.py", "env_check.py"}
-WHERE = ("perlmutter",)  # the laptop runs light work itself through scripts/run.py (decisions/004)
+WHERE = ("perlmutter", "desktop")  # remote workers; the laptop runs light work itself through scripts/run.py (decisions/004, 006)
 KINDS = ("train", "twin", "dataset", "eval", "check")
 REQUIRED = ("id", "title", "author", "created_utc", "kind", "where", "commit", "steps", "outputs", "resources")
 MAX_OUTPUT_MB = 50.0

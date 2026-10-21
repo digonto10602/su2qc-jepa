@@ -11,7 +11,7 @@ import argparse
 import subprocess
 import sys
 
-from su2qc_jepa.jobs import validate_job
+from su2qc_jepa.jobs import WHERE, validate_job
 from su2qc_jepa.repo.artifacts import new_artifact
 
 
@@ -25,7 +25,7 @@ def git(*a, check=True):
 p = argparse.ArgumentParser()
 p.add_argument("kind", choices=("train", "twin", "dataset", "eval", "check"))
 p.add_argument("title")
-p.add_argument("--where", default="perlmutter", choices=("perlmutter",))
+p.add_argument("--where", default="perlmutter", choices=WHERE, help="worker that runs the job (decisions/006)")
 p.add_argument("--step", action="append", required=True, help="'python scripts/<allowed>.py ...' (repeatable, run in order)")
 p.add_argument("--output", action="append", default=[], help="path (file or folder) to publish back (repeatable)")
 p.add_argument("--gpus", type=int, default=1)
