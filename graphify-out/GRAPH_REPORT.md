@@ -1,7 +1,7 @@
 # Graph Report - su2qc-jepa  (2026-10-21)
 
 ## Corpus Check
-- 128 files · ~127,595 words
+- 128 files · ~127,718 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 4 file(s) not represented in the graph (top: (none) 3, .cff 1)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4b71bc0a`
+- Built from commit: `44125efc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

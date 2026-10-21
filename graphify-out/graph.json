@@ -476,7 +476,7 @@
       "file_type": "code",
       "norm_label": "_hms()",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L36"
+      "source_location": "L37"
     },
     {
       "id": "src_su2qc_jepa_jobs_parse_steps",
@@ -488,7 +488,7 @@
       "file_type": "code",
       "norm_label": "parse_steps()",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L71"
+      "source_location": "L72"
     },
     {
       "id": "src_su2qc_jepa_localrun_admit",
@@ -1364,7 +1364,7 @@
       "file_type": "code",
       "norm_label": "retry_resources()",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L41"
+      "source_location": "L42"
     },
     {
       "id": "tests_test_jobs_test_retry_rule",
@@ -3092,7 +3092,7 @@
       "file_type": "code",
       "norm_label": "validate_job()",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L87"
+      "source_location": "L88"
     },
     {
       "id": "tests_test_jobs_good_job",
@@ -4402,7 +4402,7 @@
       "source_location": "L1"
     },
     {
-      "id": "src_su2qc_jepa_jobs_rationale_72",
+      "id": "src_su2qc_jepa_jobs_rationale_73",
       "label": "Split each step into argv and check it against the allowlist (raises\u2026",
       "_origin": "ast",
       "community": 0,
@@ -4410,7 +4410,7 @@
       "file_type": "rationale",
       "norm_label": "split each step into argv and check it against the allowlist (raises...",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L72"
+      "source_location": "L73"
     },
     {
       "id": "src_su2qc_jepa_localrun_rationale_1",
@@ -5864,7 +5864,7 @@
       "source_location": "L2064"
     },
     {
-      "id": "src_su2qc_jepa_jobs_rationale_42",
+      "id": "src_su2qc_jepa_jobs_rationale_43",
       "label": "Self-healing rule for a finished Slurm job: new resources for a resubmission,\u2026",
       "_origin": "ast",
       "community": 14,
@@ -5872,7 +5872,7 @@
       "file_type": "rationale",
       "norm_label": "self-healing rule for a finished slurm job: new resources for a resubmission,...",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L42"
+      "source_location": "L43"
     },
     {
       "id": "reports_014_m2b_preregistration_signed_and_tagged_prereg_2026_10_16_ci_r",
@@ -15836,7 +15836,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0
     },
     {
@@ -15848,7 +15848,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L103",
+      "source_location": "L104",
       "weight": 1.0
     },
     {
@@ -24176,7 +24176,7 @@
       "confidence_score": 1.0,
       "context": "parameter_type",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L87",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -31082,7 +31082,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -31093,7 +31093,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L41",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -31104,7 +31104,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L71",
+      "source_location": "L72",
       "weight": 1.0
     },
     {
@@ -31115,7 +31115,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L87",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -34837,25 +34837,25 @@
       "weight": 1.0
     },
     {
-      "source": "src_su2qc_jepa_jobs_rationale_42",
+      "source": "src_su2qc_jepa_jobs_rationale_43",
       "target": "src_su2qc_jepa_jobs_retry_resources",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L42",
+      "source_location": "L43",
       "weight": 1.0
     },
     {
-      "source": "src_su2qc_jepa_jobs_rationale_72",
+      "source": "src_su2qc_jepa_jobs_rationale_73",
       "target": "src_su2qc_jepa_jobs_parse_steps",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L72",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -36444,7 +36444,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "src/su2qc_jepa/jobs.py",
-      "source_location": "L105",
+      "source_location": "L106",
       "weight": 1.0
     },
     {
@@ -38167,5 +38167,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4b71bc0a27c5148f5881dcd6fdf02f24670240e4"
+  "built_at_commit": "44125efc566405fb96c73af574e2c5b7a837f31c"
 }
