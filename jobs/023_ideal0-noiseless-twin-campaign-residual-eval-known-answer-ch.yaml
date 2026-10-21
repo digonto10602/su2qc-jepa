@@ -1,0 +1,20 @@
+id: jobs/023
+title: 'ideal0: noiseless twin campaign + residual eval + known-answer checks'
+author: claude-code
+created_utc: '2026-10-21T21:41:37Z'
+kind: twin
+where: desktop
+commit: e505dfdda05cd194928c80f73920cb0b4701d56a
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_twin.py --name ideal0 --K 12 --seeds 5 --noise ideal
+- python scripts/residual_eval.py --model evidence/runs/v1_final/seed0/model.pt --records evidence/twin/ideal0/records.json --out evidence/twin/ideal0/residual_eval.json --shots-levels 0 512 256
+- python scripts/twin_null_check.py --records evidence/twin/ideal0/records.json --residual evidence/twin/ideal0/residual_eval.json --out evidence/twin/ideal0/null_check.json
+outputs:
+- evidence/twin/ideal0/residual_eval.json
+- evidence/twin/ideal0/null_check.json
+resources:
+  gpus: 0
+  time: 02:00:00
+  qos: shared
