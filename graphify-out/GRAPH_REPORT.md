@@ -1,17 +1,17 @@
 # Graph Report - su2qc-jepa  (2026-10-21)
 
 ## Corpus Check
-- 127 files · ~126,319 words
+- 127 files · ~126,384 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 4 file(s) not represented in the graph (top: (none) 3, .cff 1)
 
 ## Summary
-- 1148 nodes · 2075 edges · 101 communities (63 shown, 38 thin omitted)
+- 1148 nodes · 2076 edges · 101 communities (63 shown, 38 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 150 edges (avg confidence: 0.93)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f2498e3d`
+- Built from commit: `80da45a9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

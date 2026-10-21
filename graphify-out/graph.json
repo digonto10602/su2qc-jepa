@@ -2672,7 +2672,7 @@
       "file_type": "code",
       "norm_label": "test_gates_yaml_matches_preregistration()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L108"
+      "source_location": "L112"
     },
     {
       "id": "scripts_train_jepa_avg",
@@ -2924,7 +2924,7 @@
       "file_type": "code",
       "norm_label": "test_committed_graph_is_fresh()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L82"
+      "source_location": "L86"
     },
     {
       "id": "tests_test_repo_conventions_test_committed_graph_is_fresh_ignore",
@@ -2936,7 +2936,7 @@
       "file_type": "code",
       "norm_label": "ignore()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L88"
+      "source_location": "L92"
     },
     {
       "id": "src_su2qc_jepa_jobs_hms",
@@ -3284,7 +3284,7 @@
       "file_type": "code",
       "norm_label": "_scaffold()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L27"
+      "source_location": "L31"
     },
     {
       "id": "tests_test_repo_conventions_test_check_detects_violations",
@@ -3296,7 +3296,7 @@
       "file_type": "code",
       "norm_label": "test_check_detects_violations()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L53"
+      "source_location": "L57"
     },
     {
       "id": "tests_test_repo_conventions_test_exactly_one_active_plan_and_milestone_prompts_present",
@@ -3308,7 +3308,7 @@
       "file_type": "code",
       "norm_label": "test_exactly_one_active_plan_and_milestone_prompts_present()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L20"
+      "source_location": "L24"
     },
     {
       "id": "tests_test_repo_conventions_test_graph_helpers",
@@ -3320,7 +3320,7 @@
       "file_type": "code",
       "norm_label": "test_graph_helpers()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L64"
+      "source_location": "L68"
     },
     {
       "id": "tests_test_repo_conventions_test_new_artifact_numbering_supersede_and_index",
@@ -3332,7 +3332,7 @@
       "file_type": "code",
       "norm_label": "test_new_artifact_numbering_supersede_and_index()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L36"
+      "source_location": "L40"
     },
     {
       "id": "tests_test_repo_conventions_test_repository_follows_artifact_conventions",
@@ -3344,7 +3344,7 @@
       "file_type": "code",
       "norm_label": "test_repository_follows_artifact_conventions()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L15"
+      "source_location": "L19"
     },
     {
       "id": "tests_test_repo_conventions_test_slugify_never_ends_with_dash",
@@ -3356,7 +3356,7 @@
       "file_type": "code",
       "norm_label": "test_slugify_never_ends_with_dash()",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L100"
+      "source_location": "L104"
     },
     {
       "id": "scripts_run_dataset_step",
@@ -6750,7 +6750,7 @@
       "source_location": "L17"
     },
     {
-      "id": "tests_test_repo_conventions_rationale_109",
+      "id": "tests_test_repo_conventions_rationale_113",
       "label": "configs/gates.yaml is frozen by the preregistration: its sha256 must equal the\u2026",
       "_origin": "ast",
       "community": 25,
@@ -6758,7 +6758,7 @@
       "file_type": "rationale",
       "norm_label": "configs/gates.yaml is frozen by the preregistration: its sha256 must equal the...",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L109"
+      "source_location": "L113"
     },
     {
       "id": "scripts_train_jepa",
@@ -7557,7 +7557,7 @@
       "source_location": "L359"
     },
     {
-      "id": "tests_test_repo_conventions_rationale_83",
+      "id": "tests_test_repo_conventions_rationale_87",
       "label": "Rebuild the graph in a copy of the repository and compare structure with the\u2026",
       "_origin": "ast",
       "community": 3,
@@ -7565,7 +7565,7 @@
       "file_type": "rationale",
       "norm_label": "rebuild the graph in a copy of the repository and compare structure with the...",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L83"
+      "source_location": "L87"
     },
     {
       "id": "claude",
@@ -18106,7 +18106,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L32",
+      "source_location": "L36",
       "weight": 1.0
     },
     {
@@ -18118,7 +18118,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L54",
+      "source_location": "L58",
       "weight": 1.0
     },
     {
@@ -18130,7 +18130,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L55",
+      "source_location": "L59",
       "weight": 1.0
     },
     {
@@ -18142,7 +18142,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L58",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -18154,7 +18154,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L96",
+      "source_location": "L100",
       "weight": 1.0
     },
     {
@@ -18166,7 +18166,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L21",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -18178,7 +18178,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L69",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -18190,7 +18190,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L75",
+      "source_location": "L79",
       "weight": 1.0
     },
     {
@@ -18202,7 +18202,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L37",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -18214,7 +18214,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L38",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -18226,7 +18226,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L41",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -18238,7 +18238,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L49",
+      "source_location": "L53",
       "weight": 1.0
     },
     {
@@ -18250,7 +18250,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L50",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -18262,7 +18262,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L16",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -18274,7 +18274,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L103",
+      "source_location": "L107",
       "weight": 1.0
     },
     {
@@ -18562,7 +18562,7 @@
       "confidence_score": 1.0,
       "context": "decorator",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L81",
+      "source_location": "L85",
       "weight": 1.0
     },
     {
@@ -21747,6 +21747,18 @@
     },
     {
       "source": "tests_test_repo_conventions",
+      "target": "sys",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/test_repo_conventions.py",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_repo_conventions",
       "target": "pytest",
       "relation": "imports",
       "_origin": "ast",
@@ -21754,7 +21766,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -23643,7 +23655,7 @@
     },
     {
       "source": "tests_test_repo_conventions",
-      "target": "src_su2qc_jepa_repo_graph",
+      "target": "src_su2qc_jepa_repo_artifacts",
       "relation": "imports_from",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23655,6 +23667,18 @@
     },
     {
       "source": "tests_test_repo_conventions",
+      "target": "src_su2qc_jepa_repo_graph",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tests/test_repo_conventions.py",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_test_repo_conventions",
       "target": "pathlib",
       "relation": "imports_from",
       "_origin": "ast",
@@ -23662,19 +23686,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "tests_test_repo_conventions",
-      "target": "src_su2qc_jepa_repo_artifacts",
-      "relation": "imports_from",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L9",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -25366,7 +25378,7 @@
       "confidence_score": 1.0,
       "context": "return_type",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L27",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -32696,7 +32708,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L100",
+      "source_location": "L104",
       "weight": 1.0
     },
     {
@@ -32707,7 +32719,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L108",
+      "source_location": "L112",
       "weight": 1.0
     },
     {
@@ -32718,7 +32730,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L15",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -32729,7 +32741,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L20",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -32740,7 +32752,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L27",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -32751,7 +32763,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L36",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -32762,7 +32774,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L53",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -32773,7 +32785,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L64",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -32784,7 +32796,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L82",
+      "source_location": "L86",
       "weight": 1.0
     },
     {
@@ -35681,25 +35693,25 @@
       "weight": 1.0
     },
     {
-      "source": "tests_test_repo_conventions_rationale_109",
+      "source": "tests_test_repo_conventions_rationale_113",
       "target": "tests_test_repo_conventions_test_gates_yaml_matches_preregistration",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L109",
+      "source_location": "L113",
       "weight": 1.0
     },
     {
-      "source": "tests_test_repo_conventions_rationale_83",
+      "source": "tests_test_repo_conventions_rationale_87",
       "target": "tests_test_repo_conventions_test_committed_graph_is_fresh",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L83",
+      "source_location": "L87",
       "weight": 1.0
     },
     {
@@ -36215,7 +36227,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "tests/test_repo_conventions.py",
-      "source_location": "L94",
+      "source_location": "L98",
       "weight": 1.0
     },
     {
@@ -37856,5 +37868,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f2498e3d9a579396002c8970370a90022f77d99a"
+  "built_at_commit": "80da45a988ad1a44d4043659080c4b498b5562c1"
 }
