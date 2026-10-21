@@ -1,0 +1,8 @@
+job jobs/020 commit c74cac72 on SupremeCommander at Wed Oct 21 08:00:07 PM UTC 2026
+act     checksum equal; max |d row sum| 0.000e+00; rows > 1e-12: 0/20000; max |d sample| 0.000e+00; samples > 1e-12: 0/2000
+ctx     checksum equal; max |d row sum| 0.000e+00; rows > 1e-12: 0/20000; max |d sample| 0.000e+00; samples > 1e-12: 0/2000
+energy  checksum DIFFERENT; max |d row sum| 2.480e-12; rows > 1e-12: 37/20000; max |d sample| 1.941e-13; samples > 1e-12: 0/2000
+tgt     checksum DIFFERENT; max |d row sum| 5.727e-12; rows > 1e-12: 2513/20000; max |d sample| 5.662e-14; samples > 1e-12: 0/2000
+valid   checksum equal; max |d row sum| 0.000e+00; rows > 1e-12: 0/20000; max |d sample| 0.000e+00; samples > 1e-12: 0/2000
+equivalence rule (decisions/007): EQUIVALENT
+wrote evidence/J0_data/fingerprint_compare_main_laptop_vs_desktop_v1_final.json

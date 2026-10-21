@@ -1,10 +1,17 @@
 {
   "id": "jobs/020",
-  "state": "RUNNING",
+  "state": "COMPLETED",
   "worker": "desktop",
   "host": "SupremeCommander",
   "commit": "c74cac729dc825326106a6d55eab7fbd38910bd0",
-  "started_utc": "2026-10-21T20:00:04Z",
+  "finished_utc": "2026-10-21T20:00:07Z",
+  "elapsed_hours": 0.0,
+  "node_hours": 0.0,
+  "outputs": [
+    "evidence/J0_data/fingerprint_compare_main_laptop_vs_desktop_v1_final.json"
+  ],
+  "outputs_mb": 0.0,
+  "skipped": [],
   "attempt": 1,
   "history": []
 }
