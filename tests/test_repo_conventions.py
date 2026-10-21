@@ -2,6 +2,7 @@
 import json
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -10,6 +11,9 @@ from su2qc_jepa.repo.artifacts import SERIES, check_artifacts, new_artifact, rea
 from su2qc_jepa.repo.graph import graph_stats, same_structure
 
 ROOT = Path(__file__).resolve().parents[1]
+# the graphify of the environment running the tests (pinned in pyproject.toml), not whichever one is first on PATH:
+# another activated environment can carry a different version, which builds a different graph (reports/006)
+GRAPHIFY = str(Path(sys.executable).with_name("graphify")) if Path(sys.executable).with_name("graphify").exists() else shutil.which("graphify")
 
 
 def test_repository_follows_artifact_conventions():
@@ -78,7 +82,7 @@ def test_graph_helpers():
     assert not same and diff["edges_only_in_rebuild"] == 1
 
 
-@pytest.mark.skipif(shutil.which("graphify") is None, reason="graphify not installed")
+@pytest.mark.skipif(GRAPHIFY is None, reason="graphify not installed")
 def test_committed_graph_is_fresh(tmp_path):
     """Rebuild the graph in a copy of the repository and compare structure with the committed graph."""
     committed = ROOT / "graphify-out" / "graph.json"
@@ -92,7 +96,7 @@ def test_committed_graph_is_fresh(tmp_path):
         return [n for n in names if n in skip]
 
     shutil.copytree(ROOT, dst, ignore=ignore)
-    subprocess.run(["graphify", "update", ".", "--force"], cwd=dst, check=True, capture_output=True, env={**__import__("os").environ, "PYTHONHASHSEED": "0"})
+    subprocess.run([GRAPHIFY, "update", ".", "--force"], cwd=dst, check=True, capture_output=True, env={**__import__("os").environ, "PYTHONHASHSEED": "0"})
     same, diff = same_structure(json.loads(committed.read_text()), json.loads((dst / "graphify-out" / "graph.json").read_text()))
     assert same, f"committed code graph is stale: {diff} — run bash scripts/graph_update.sh and commit"
 
