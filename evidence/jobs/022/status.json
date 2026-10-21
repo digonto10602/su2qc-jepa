@@ -1,0 +1,33 @@
+{
+  "id": "jobs/022",
+  "state": "FAILED",
+  "worker": "desktop",
+  "host": "SupremeCommander",
+  "commit": "0b73384ea6069409399865f5ad0d9c6dece6ba83",
+  "finished_utc": "2026-10-21T20:30:07Z",
+  "elapsed_hours": 0.0,
+  "node_hours": 0.0,
+  "outputs": [
+    "evidence/J1_training/20261005T231912Z.json",
+    "evidence/J1_training/20261005T234716Z.json",
+    "evidence/J1_training/20261005T234719Z.json",
+    "evidence/J1_training/20261006T000318Z.json",
+    "evidence/J1_training/20261006T024735Z.json",
+    "evidence/J1_training/20261006T030159Z.json",
+    "evidence/J1_training/20261006T080205Z.json",
+    "evidence/J1_training/20261006T151929Z.json",
+    "evidence/J1_training/20261006T151932Z.json",
+    "evidence/J1_training/20261006T184717Z.json",
+    "evidence/J1_training/20261006T184720Z.json",
+    "evidence/J1_training/20261007T032632Z.json",
+    "evidence/J1_training/20261007T032634Z.json",
+    "evidence/J1_training/20261008T202500Z.json",
+    "evidence/J1_training/20261021T203007Z.json",
+    "evidence/J1_training/ceiling_main.json",
+    "evidence/GATE_LEDGER.md"
+  ],
+  "outputs_mb": 0.05,
+  "skipped": [],
+  "attempt": 1,
+  "history": []
+}

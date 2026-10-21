@@ -250,3 +250,39 @@
 | grounding R2 P_baryonic (min over seeds) | PASS | 0.997 | 0.98 |  |  |
 | semigroup residual (max over seeds) | FAIL | 0.00148 | 0.001 |  |  |
 | number of seeds | PASS | 5 | 5 |  |  |
+
+## J2_forecast — FAIL — 20261021T201507Z
+
+| row | status | measured | threshold | evidence | note |
+|---|---|---|---|---|---|
+| [onfam] JEPA MAE <= 0.05 at +4 | PASS | 0.0321 | 0.05 | evidence/runs/v1_final/forecast_eval.json | P_baryonic=0.032; P_meson=0.014; C_string=0.020 |
+| [onfam] not worse than ridge on >= 2/3 targets at +4 | PASS | 3 | 2 |  | P_baryonic: jepa 0.032 vs ridge 0.060; P_meson: jepa 0.014 vs ridge 0.019; C_string: jepa 0.020 vs ridge 0.030 |
+| [onfam] not worse than autoregressive on >= 2/3 targets at +4 | FAIL | 1 | 2 |  | P_baryonic: jepa 0.032 vs autoregressive 0.030; P_meson: jepa 0.014 vs autoregressive 0.011; C_string: jepa 0.020 vs autoregressive 0.014 |
+| [onfam] JEPA MAE <= 0.05 at +8 | PASS | 0.0493 | 0.05 | evidence/runs/v1_final/forecast_eval.json | P_baryonic=0.049; P_meson=0.020; C_string=0.027 |
+| [onfam] not worse than ridge on >= 2/3 targets at +8 | PASS | 3 | 2 |  | P_baryonic: jepa 0.049 vs ridge 0.144; P_meson: jepa 0.020 vs ridge 0.030; C_string: jepa 0.027 vs ridge 0.136 |
+| [onfam] not worse than autoregressive on >= 2/3 targets at +8 | PASS | 3 | 2 |  | P_baryonic: jepa 0.049 vs autoregressive 0.404; P_meson: jepa 0.020 vs autoregressive 0.188; C_string: jepa 0.027 vs autoregressive 1.135 |
+| [onfam] masked-coupling task at +8 (report only) | PASS | jepa_masked=0.091; ridge_masked=0.458 | report |  |  |
+| [strong] JEPA MAE <= 0.05 at +4 | FAIL | 0.105 | 0.05 | evidence/runs/v1_final/forecast_eval.json | P_baryonic=0.105; P_meson=0.016; C_string=0.048 |
+| [strong] not worse than ridge on >= 2/3 targets at +4 | FAIL | 0 | 2 |  | P_baryonic: jepa 0.105 vs ridge 0.085; P_meson: jepa 0.016 vs ridge 0.014; C_string: jepa 0.048 vs ridge 0.038 |
+| [strong] not worse than autoregressive on >= 2/3 targets at +4 | PASS | 2 | 2 |  | P_baryonic: jepa 0.105 vs autoregressive 0.128; P_meson: jepa 0.016 vs autoregressive 0.015; C_string: jepa 0.048 vs autoregressive 0.054 |
+| [strong] JEPA MAE <= 0.05 at +8 | FAIL | 0.123 | 0.05 | evidence/runs/v1_final/forecast_eval.json | P_baryonic=0.123; P_meson=0.021; C_string=0.061 |
+| [strong] not worse than ridge on >= 2/3 targets at +8 | PASS | 3 | 2 |  | P_baryonic: jepa 0.123 vs ridge 0.185; P_meson: jepa 0.021 vs ridge 0.024; C_string: jepa 0.061 vs ridge 0.248 |
+| [strong] not worse than autoregressive on >= 2/3 targets at +8 | PASS | 3 | 2 |  | P_baryonic: jepa 0.123 vs autoregressive 0.367; P_meson: jepa 0.021 vs autoregressive 0.077; C_string: jepa 0.061 vs autoregressive 0.237 |
+| [strong] masked-coupling task at +8 (report only) | PASS | jepa_masked=0.137; ridge_masked=0.275 | report |  |  |
+
+## J1_training — FAIL — 20261021T203007Z
+
+| row | status | measured | threshold | evidence | note |
+|---|---|---|---|---|---|
+| no NaN (seed0) | PASS | False | False |  |  |
+| no NaN (seed1) | PASS | False | False |  |  |
+| no NaN (seed2) | PASS | False | False |  |  |
+| no NaN (seed3) | PASS | False | False |  |  |
+| no NaN (seed4) | PASS | False | False |  |  |
+| effective rank (min over seeds) | FAIL | 7.97 | 8 |  | per seed: [8.67, 8.65, 8.9, 8.55, 7.97] |
+| grounding R2 energy (min over seeds) | PASS | 0.898 | 0.887 |  |  |
+| grounding R2 C_string (min over seeds) | PASS | 0.997 | 0.99 |  |  |
+| grounding R2 P_meson (min over seeds) | PASS | 0.976 | 0.95 |  |  |
+| grounding R2 P_baryonic (min over seeds) | PASS | 0.995 | 0.98 |  |  |
+| semigroup residual (max over seeds) | PASS | 0.000862 | 0.001 |  |  |
+| number of seeds | PASS | 5 | 5 |  |  |

@@ -1,0 +1,18 @@
+{
+  "id": "jobs/021",
+  "state": "FAILED",
+  "worker": "desktop",
+  "host": "SupremeCommander",
+  "commit": "75e834d822f13fc3efdfa1bbcb36d419dda77b82",
+  "finished_utc": "2026-10-21T20:15:07Z",
+  "elapsed_hours": 0.0,
+  "node_hours": 0.0,
+  "outputs": [
+    "evidence/J2_forecast/20261021T201507Z.json",
+    "evidence/GATE_LEDGER.md"
+  ],
+  "outputs_mb": 0.02,
+  "skipped": [],
+  "attempt": 1,
+  "history": []
+}
