@@ -1,9 +1,9 @@
 {
   "worker": "desktop",
   "host": "SupremeCommander",
-  "utc": "2026-10-21T16:38:30Z",
-  "epoch": 1792600710.83464,
+  "utc": "2026-10-21T20:00:08Z",
+  "epoch": 1792612808.5569608,
   "in_flight": [],
-  "pending_seen": 0,
+  "pending_seen": 2,
   "node_hours_used": 0.0
 }
