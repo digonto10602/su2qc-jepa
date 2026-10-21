@@ -79,15 +79,18 @@
       }
     },
     "M3": {
-      "status": "NOT RUN",
+      "status": "IN PROGRESS",
       "prompt": "prompts/003_forecast-twin-dryrun.md",
-      "report": null
+      "report": "reports/015",
+      "v1_final": "runs/v1_final (jobs/019, desktop, 1.156 h; dataset EQUIVALENT under decisions/007)"
     },
     "M4": {
       "status": "NOT RUN",
       "prompt": "prompts/004_j2-and-pilot.md",
       "gate": "J2",
-      "report": null
+      "report": null,
+      "gate_status": "J2 FAIL (run 2026-10-21 on v1_final; on-family passes the MAE bound, strong coupling fails it)",
+      "gate_evidence": "evidence/J2_forecast/20261021T201507Z.json"
     },
     "M5": {
       "status": "NOT RUN",
@@ -149,8 +152,9 @@
       "role": "queue worker for heavy/GPU jobs (where: desktop), systemd user timer, deploy key",
       "policy": "decisions/006",
       "setup": "docs/DESKTOP.md",
-      "worker_installed": false,
-      "default_where": "desktop (configs/compute.yaml queue.default_where)"
+      "worker_installed": true,
+      "default_where": "desktop (configs/compute.yaml queue.default_where)",
+      "first_heartbeat": "2026-10-21T16:38:30Z (cron schedule)"
     }
   },
   "notes": "No hardware job has ever been submitted from this repository. All noisy numbers are EMULATED.",

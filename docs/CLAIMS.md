@@ -11,7 +11,7 @@ Status vocabulary: MEASURED / PROVEN / PROPOSED / UNVERIFIED / VOID / EMULATED.
 | C5 | KC-Trotter costs 34/56/100/188 CZ for $r=1,2,4,8$ at $K=12$; circuits equal the sector unitary | PROVEN (tests) | `tests/test_physics.py::test_chain_circuit_matches_sector_unitary` |
 | C6 | Mass dependence weak on-family, sharp at strong coupling | MEASURED | PLAN App. B.3 (to be re-emitted as `evidence/J0_data/mass_dependence.json` in M1) |
 | C7 | JEPA v1 meets H1 | MEASURED: not met (J1 FAIL, semigroup row on a fresh seed; 14 configurations) | J1, `evidence/GATE_LEDGER.md`, `docs/MODEL_CARD.md` |
-| C8 | JEPA forecasting meets H2 | UNVERIFIED | J2 |
+| C8 | JEPA forecasting meets H2 | MEASURED: not met (J2 FAIL: on-family within MAE 0.05 and better than ridge; strong coupling P_baryonic MAE 0.105/0.123) | J2, `evidence/J2_forecast/20261021T201507Z.json` |
 | C9 | Label-free residual meets H3 | UNVERIFIED | J3 |
 | C10 | Depth extrapolation on hardware (H4) | UNVERIFIED | M5 |
 | C11 | Resonance on hardware (H5) | UNVERIFIED | M6 |
