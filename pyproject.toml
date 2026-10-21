@@ -14,8 +14,8 @@ dependencies = [
   "numpy>=1.26",
   "scipy>=1.11",
   "pyyaml>=6",
-  "qiskit>=2.0",
-  "qiskit-aer>=0.15",
+  "qiskit>=2.5,<2.6",        # tested series (laptop, Perlmutter); 2.6 untested
+  "qiskit-aer>=0.17,<0.18",  # 0.18.0 (Oct 2026) fails to load next to torch: libgomp static-TLS error in CI
 ]
 
 [project.optional-dependencies]
