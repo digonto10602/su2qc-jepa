@@ -1,0 +1,21 @@
+id: jobs/024
+title: 'day0_kingston: calibrated twin campaign + residual eval + J3 twin rehearsal'
+author: claude-code
+created_utc: '2026-10-21T22:25:45Z'
+kind: twin
+where: desktop
+commit: d4e1aea7a93b4d4e0a1aa9468665fae837738f5c
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_twin.py --name day0_kingston --K 12 --seeds 5 --noise-model evidence/twin/day0_kingston/noise_model.json
+- python scripts/residual_eval.py --model evidence/runs/v1_final/seed0/model.pt --records evidence/twin/day0_kingston/records.json --out evidence/twin/day0_kingston/residual_eval.json --shots-levels 0 512 256
+- python scripts/run_gate.py J3 --eval evidence/twin/day0_kingston/residual_eval.json --rehearsal
+outputs:
+- evidence/twin/day0_kingston/residual_eval.json
+- evidence/J3_twin_rehearsal
+- evidence/GATE_LEDGER.md
+resources:
+  gpus: 0
+  time: 06:00:00
+  qos: shared
