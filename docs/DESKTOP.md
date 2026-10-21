@@ -40,4 +40,5 @@ Policy: `decisions/006` (amends `decisions/004`). The desktop is a second worker
 | no heartbeat on the laptop | `systemctl --user list-timers su2qc-worker.timer`; `journalctl --user -u su2qc-worker -n 50`; `cat ~/su2qc-worker/tick_errors.log` |
 | push refused | the deploy key lacks write access, or `ssh -T git@github-su2qc-desktop` fails |
 | job FAILED with a CUDA error | `nvidia-smi`; re-run step 2 (driver vs PyTorch CUDA build) |
+| `Failed to connect to bus` from `systemctl --user` | the user manager is not running or `XDG_RUNTIME_DIR` is unset: `sudo loginctl enable-linger $USER`, `export XDG_RUNTIME_DIR=/run/user/$(id -u)`, then `systemctl --user daemon-reload`; or use the cron line the installer prints |
 | stop the worker | `systemctl --user disable --now su2qc-worker.timer` |

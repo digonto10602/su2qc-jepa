@@ -67,7 +67,9 @@ OnUnitInactiveSec=15min
 [Install]
 WantedBy=timers.target
 UNIT
-systemctl --user daemon-reload
+# the per-user systemd instance needs a session bus; over ssh, su/sudo shells or without a running user manager it is
+# missing ("Failed to connect to bus") - report it and print both ways to schedule, instead of stopping here
+if systemctl --user daemon-reload 2>/dev/null; then SYSTEMD_OK=1; else SYSTEMD_OK=0; fi
 
 echo
 echo "=== 1. Add this public key to GitHub: repo digonto10602/su2qc-jepa > Settings > Deploy keys > Add deploy key,"
@@ -76,7 +78,19 @@ cat "$KEY.pub"
 echo
 echo "=== 2. Test:   ssh -T git@$HOST_ALIAS     (expect: 'Hi digonto10602/su2qc-jepa! You've successfully authenticated')"
 echo "=== 3. One tick by hand:   bash $BASE/tick.sh        (no job queued yet: it only writes a heartbeat)"
-echo "=== 4. Start the timer:    systemctl --user enable --now su2qc-worker.timer"
-echo "       so it also runs when you are not logged in (asks for your password once):   sudo loginctl enable-linger $USER"
-echo "       check: systemctl --user list-timers su2qc-worker.timer ;  logs: journalctl --user -u su2qc-worker -n 50"
-echo "       stop:  systemctl --user disable --now su2qc-worker.timer"
+echo "=== 4. Schedule the worker (one of the two):"
+if [ "$SYSTEMD_OK" = 0 ]; then
+  echo "   NOTE: 'systemctl --user' cannot reach your user session bus from this shell (Failed to connect to bus)."
+  echo "   (a) systemd timer (preferred): start your user manager, then load the units:"
+  echo "         sudo loginctl enable-linger $USER"
+  echo "         export XDG_RUNTIME_DIR=/run/user/\$(id -u)"
+  echo "         systemctl --user daemon-reload && systemctl --user enable --now su2qc-worker.timer"
+else
+  echo "   (a) systemd timer (preferred):   systemctl --user enable --now su2qc-worker.timer"
+  echo "         and, so it also runs when you are not logged in:   sudo loginctl enable-linger $USER"
+fi
+echo "         check: systemctl --user list-timers su2qc-worker.timer ;  logs: journalctl --user -u su2qc-worker -n 50"
+echo "         stop:  systemctl --user disable --now su2qc-worker.timer"
+echo "   (b) cron, if (a) does not work (keeps your other crontab lines; the worker's lock prevents overlapping ticks):"
+echo "         (crontab -l 2>/dev/null | grep -v '# su2qc-worker'; echo '*/15 * * * * bash $BASE/tick.sh # su2qc-worker'; echo '@reboot sleep 180 && bash $BASE/tick.sh # su2qc-worker') | crontab -"
+echo "         check: crontab -l ;  stop: crontab -l | grep -v '# su2qc-worker' | crontab -"
