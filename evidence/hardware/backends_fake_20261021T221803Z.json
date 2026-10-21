@@ -1,0 +1,103 @@
+{
+ "source": "fake",
+ "K": 12,
+ "utc": "20261021T221803Z",
+ "backends": [
+  {
+   "name": "fake_marrakesh",
+   "num_qubits": 156,
+   "processor": "Heron",
+   "two_qubit_gate": "cz",
+   "median_2q_error": 0.003294753646418097,
+   "median_readout_error": 0.009521484375,
+   "pending_jobs": 0,
+   "best_line": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    19
+   ],
+   "best_line_score": 0.090355562148415
+  },
+  {
+   "name": "fake_fez",
+   "num_qubits": 156,
+   "processor": "Heron",
+   "two_qubit_gate": "cz",
+   "median_2q_error": 0.0039033828523107883,
+   "median_readout_error": 0.007568359375,
+   "pending_jobs": 0,
+   "best_line": [
+    141,
+    142,
+    143,
+    136,
+    123,
+    124,
+    125,
+    126,
+    127,
+    137,
+    147,
+    146
+   ],
+   "best_line_score": 0.11721034974979228
+  },
+  {
+   "name": "fake_kingston",
+   "num_qubits": 156,
+   "processor": "Heron",
+   "two_qubit_gate": "cz",
+   "median_2q_error": 0.0018277333407478724,
+   "median_readout_error": 0.009521484375,
+   "pending_jobs": 0,
+   "best_line": [
+    98,
+    91,
+    90,
+    89,
+    88,
+    87,
+    97,
+    107,
+    106,
+    105,
+    104,
+    103
+   ],
+   "best_line_score": 0.1295256384380915
+  },
+  {
+   "name": "fake_torino",
+   "num_qubits": 133,
+   "processor": "Heron",
+   "two_qubit_gate": "cz",
+   "median_2q_error": 0.004190160309680474,
+   "median_readout_error": 0.02294921875,
+   "pending_jobs": 0,
+   "best_line": [
+    8,
+    17,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    37,
+    52,
+    51
+   ],
+   "best_line_score": 0.26589833033699706
+  }
+ ]
+}
