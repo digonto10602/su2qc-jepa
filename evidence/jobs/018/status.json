@@ -1,0 +1,24 @@
+{
+  "id": "jobs/018",
+  "state": "COMPLETED",
+  "worker": "desktop",
+  "host": "SupremeCommander",
+  "commit": "09f931e629fceebd9a386feae5c02e65e06d49ce",
+  "finished_utc": "2026-10-21T16:45:11Z",
+  "elapsed_hours": 0.001,
+  "node_hours": 0.0,
+  "outputs": [
+    "runs/desktop_gpu_check/args.json",
+    "runs/desktop_gpu_check/forecast_eval.json",
+    "runs/desktop_gpu_check/seed0/history.json",
+    "runs/desktop_gpu_check/seed0/model.pt",
+    "runs/desktop_gpu_check/seed0_masked/history.json",
+    "runs/desktop_gpu_check/seed0_masked/model.pt",
+    "data/gpu_smoke/manifest.json",
+    "data/gpu_smoke/fingerprint.json"
+  ],
+  "outputs_mb": 0.96,
+  "skipped": [],
+  "attempt": 1,
+  "history": []
+}
