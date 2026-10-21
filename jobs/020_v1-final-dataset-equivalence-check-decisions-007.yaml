@@ -1,0 +1,17 @@
+id: jobs/020
+title: v1_final dataset equivalence check (decisions/007)
+author: claude-code
+created_utc: '2026-10-21T19:47:28Z'
+kind: eval
+where: desktop
+commit: c74cac729dc825326106a6d55eab7fbd38910bd0
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/compare_fingerprints.py evidence/J0_data/fingerprint_main_laptop_reference.json evidence/jobs/019/outputs/data/main/fingerprint.json --out evidence/J0_data/fingerprint_compare_main_laptop_vs_desktop_v1_final.json
+outputs:
+- evidence/J0_data/fingerprint_compare_main_laptop_vs_desktop_v1_final.json
+resources:
+  gpus: 0
+  time: 00:10:00
+  qos: shared
