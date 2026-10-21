@@ -1,0 +1,91 @@
+{
+ "what": "noiseless twin known-answer checks",
+ "records": "evidence/twin/ideal0/records.json",
+ "residual": "evidence/twin/ideal0/residual_eval.json",
+ "noise": "ideal",
+ "shots": 4000,
+ "K": 12,
+ "n_points": 150,
+ "checks": {
+  "flag_rate_exactly_zero": {
+   "pass": true,
+   "max_flag_rate": 0.0,
+   "n_points": 150
+  },
+  "populations_match_ideal": {
+   "pass": true,
+   "criterion": "KS test of the chi-square p-values against uniform has p > 0.01, and at most max(1, n/200) points have p < 1e-3",
+   "ks_statistic": 0.07543562881257793,
+   "ks_pvalue": 0.3433466474522421,
+   "fraction_p_below_0.01": 0.006666666666666667,
+   "n_p_below_1e-3": 0,
+   "min_p": 0.002255503750020786,
+   "n_points": 150
+  },
+  "arms_not_separated": {
+   "pass": true,
+   "criterion": "|AUROC - 0.5| <= 3 null sigma at full shots (4000) for every score",
+   "deviation_in_sigma": {
+    "jepa_twin": 1.1690116489129254,
+    "raw_twin": 0.9830325229495059,
+    "jepa_self": 0.04870881870470467,
+    "jepa_t0": 0.07527726527090792
+   }
+  },
+  "observables_vs_ideal": {
+   "max_abs_twin_minus_ideal": 0.06526032061628839,
+   "max_abs_ideal_minus_exact": 0.012727968417976854,
+   "note": "twin - ideal is shot noise only; ideal - exact is the Strang (Trotter) error"
+  }
+ },
+ "by_shots_level": {
+  "256": {
+   "n_A": 60,
+   "n_B": 75,
+   "null_sigma": 0.05018484351393873,
+   "auroc_jepa_twin": 0.4308888888888889,
+   "spearman_jepa_twin_vs_exact_error": 0.29243000682860215,
+   "auroc_raw_twin": 0.45444444444444443,
+   "spearman_raw_twin_vs_exact_error": 0.40842844600526784,
+   "auroc_jepa_self": 0.5046666666666667,
+   "spearman_jepa_self_vs_exact_error": -0.1252950931616428,
+   "auroc_jepa_t0": 0.4935555555555556,
+   "spearman_jepa_t0_vs_exact_error": -0.1411374500048776,
+   "auroc_flag_rate": 0.5,
+   "spearman_flag_rate_vs_exact_error": 0.06695444346892987
+  },
+  "512": {
+   "n_A": 60,
+   "n_B": 75,
+   "null_sigma": 0.05018484351393873,
+   "auroc_jepa_twin": 0.4991111111111111,
+   "spearman_jepa_twin_vs_exact_error": 0.2148570871134524,
+   "auroc_raw_twin": 0.4573333333333333,
+   "spearman_raw_twin_vs_exact_error": 0.4096819822456346,
+   "auroc_jepa_self": 0.5035555555555555,
+   "spearman_jepa_self_vs_exact_error": 0.004701980294605405,
+   "auroc_jepa_t0": 0.496,
+   "spearman_jepa_t0_vs_exact_error": -0.000453614281533509,
+   "auroc_flag_rate": 0.5,
+   "spearman_flag_rate_vs_exact_error": -0.03507462686567165
+  },
+  "4000": {
+   "n_A": 60,
+   "n_B": 75,
+   "null_sigma": 0.05018484351393873,
+   "auroc_jepa_twin": 0.44133333333333336,
+   "spearman_jepa_twin_vs_exact_error": 0.14624426885181938,
+   "auroc_raw_twin": 0.45066666666666666,
+   "spearman_raw_twin_vs_exact_error": 0.28545995512632916,
+   "auroc_jepa_self": 0.4975555555555556,
+   "spearman_jepa_self_vs_exact_error": 0.07389522973368454,
+   "auroc_jepa_t0": 0.49622222222222223,
+   "spearman_jepa_t0_vs_exact_error": 0.08777680226319384,
+   "auroc_flag_rate": 0.5,
+   "spearman_flag_rate_vs_exact_error": -0.027524143985952595
+  }
+ },
+ "all_pass": true,
+ "utc": "2026-10-21T21:46:04Z",
+ "commit": "e505dfdda05cd194928c80f73920cb0b4701d56a"
+}
