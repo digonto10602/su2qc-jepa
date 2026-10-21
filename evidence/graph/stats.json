@@ -1,9 +1,9 @@
 {
-  "nodes": 1194,
-  "edges": 2177,
-  "communities": 98,
+  "nodes": 1197,
+  "edges": 2181,
+  "communities": 100,
   "files": 131,
-  "built_at_commit": "041b2621d0604fd42cfba25d0ff3c008d7d72f44",
+  "built_at_commit": "fd35c18386fc7e809c6f839cec78d1fc93f277dd",
   "god_nodes": [
     {
       "id": "src_su2qc_jepa_physics_plaquette_plaquettemodel",
@@ -38,7 +38,7 @@
     {
       "id": "tests_test_pipeline",
       "label": "test_pipeline.py",
-      "degree": 30
+      "degree": 31
     },
     {
       "id": "src_su2qc_jepa_models_train",
