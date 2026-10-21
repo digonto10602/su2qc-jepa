@@ -95,6 +95,34 @@ def test_dataset_fingerprint_is_exact_and_locates_differences(tmp_path):
     assert moved["checksum_sha256"] != written["arrays"]["energy"]["checksum_sha256"]
 
 
+def test_fingerprint_equivalence_verdict(tmp_path):
+    """decisions/007: rounding-level target differences are EQUIVALENT; an input change or a 1e-11 target change is not."""
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    from su2qc_jepa.data.trajectories import dataset_fingerprint
+
+    cfg = DatasetConfig(n_traj=12, n_steps_min=4, n_steps_max=4, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
+    generate_dataset(cfg, tmp_path, verbose=False)
+    z = np.load(tmp_path / "dataset.npz")
+    base = {k: z[k] for k in ("ctx", "tgt", "act", "valid", "energy")}
+
+    def verdict(mod):
+        arrays = {k: v.copy() for k, v in base.items()}
+        mod(arrays)
+        f = tmp_path / "b.json"
+        f.write_text(json.dumps(dataset_fingerprint(arrays)))
+        r = subprocess.run([sys.executable, "scripts/compare_fingerprints.py", str(tmp_path / "fingerprint.json"), str(f)],
+                           capture_output=True, text=True, cwd=Path(__file__).resolve().parents[1])
+        assert r.returncode == 0, r.stderr
+        return "NOT EQUIVALENT" not in r.stdout and "EQUIVALENT" in r.stdout
+
+    assert verdict(lambda a: a["tgt"].__iadd__(1e-14))            # rounding: every target value shifted by 1e-14
+    assert not verdict(lambda a: a["tgt"].__setitem__((0, 0, 0), a["tgt"][0, 0, 0] + 1e-11))
+    assert not verdict(lambda a: a["ctx"].__setitem__((0, 0, 0), a["ctx"][0, 0, 0] + 1e-15))  # inputs must be bit-identical
+
+
 def test_chain_dataset_uses_chain_carrier(tmp_path):
     cfg = DatasetConfig(n_traj=6, n_steps_min=4, n_steps_max=4, families=(FamilyConfig.onfamily(gEs=(2.0,), dts=(0.25,)),),
                         starts=("S3",), quench_fraction=0.0, carrier="chain", name="c")

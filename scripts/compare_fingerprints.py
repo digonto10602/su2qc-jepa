@@ -3,7 +3,8 @@
 
 Each side is a fingerprint.json file or a dataset folder (its fingerprint is computed from dataset.npz).
 Reports, per array: whether the exact checksums agree, the largest difference of the per-trajectory sums and
-of the sampled raw values, and which trajectories differ by more than --tol.
+of the sampled raw values, and which trajectories differ by more than --tol, and the verdict of the preregistered equivalence rule
+(decisions/007: ctx, act, valid bit-identical; tgt, energy within 1e-12 per value and 1e-10 per trajectory sum).
   python scripts/compare_fingerprints.py data/main evidence/J0_data/fingerprint_main_perlmutter.json --out evidence/J0_data/compare.json
 """
 import argparse
@@ -50,7 +51,12 @@ for k in sorted(set(fa["arrays"]) | set(fb["arrays"])):
               "max_abs_diff_sample": float(ds.max()), "samples_differing": int((ds > a.tol).sum()), "n_samples": int(len(ds))}
     print(f"{k:7s} checksum {'equal' if res[k]['checksum_equal'] else 'DIFFERENT'}; max |d row sum| {dr.max():.3e}; "
           f"rows > {a.tol:g}: {len(rows)}/{len(dr)}; max |d sample| {ds.max():.3e}; samples > {a.tol:g}: {(ds > a.tol).sum()}/{len(ds)}")
-out = {"a": a.a, "b": a.b, "tol": a.tol, "arrays": res, "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+INPUTS, TARGETS = ("ctx", "act", "valid"), ("tgt", "energy")
+equivalent = (all(res.get(k, {}).get("checksum_equal") for k in INPUTS)
+              and all(res.get(k, {}).get("comparable") and res[k]["max_abs_diff_sample"] <= 1e-12
+                      and res[k]["max_abs_diff_row_sum"] <= 1e-10 for k in TARGETS))
+print(f"equivalence rule (decisions/007): {'EQUIVALENT' if equivalent else 'NOT EQUIVALENT'}")
+out = {"a": a.a, "b": a.b, "tol": a.tol, "arrays": res, "equivalent_decisions_007": equivalent, "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
        "commit": subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()}
 if a.out:
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
