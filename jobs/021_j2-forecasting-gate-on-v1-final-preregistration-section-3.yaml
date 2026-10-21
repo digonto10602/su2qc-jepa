@@ -1,0 +1,18 @@
+id: jobs/021
+title: J2 forecasting gate on v1_final (preregistration section 3)
+author: claude-code
+created_utc: '2026-10-21T19:51:39Z'
+kind: eval
+where: desktop
+commit: 75e834d822f13fc3efdfa1bbcb36d419dda77b82
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_gate.py J2 --eval evidence/runs/v1_final/forecast_eval.json
+outputs:
+- evidence/J2_forecast
+- evidence/GATE_LEDGER.md
+resources:
+  gpus: 0
+  time: 00:10:00
+  qos: shared
