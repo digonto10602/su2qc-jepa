@@ -233,6 +233,67 @@ def test_twin_runner_seed_independence(setup):
     assert v["pass"]
 
 
+def test_ideal_twin_has_no_flags_and_matches_populations(setup):
+    """Noiseless chain circuits conserve the single excitation (flag rate exactly 0) and the post-selected Z populations
+    follow |c_k|^2 within shot noise - the bit order and the estimator are right."""
+    pytest.importorskip("qiskit_aer")
+    from scipy import stats
+
+    from su2qc_jepa.data.records import estimate_chain
+    from su2qc_jepa.twin.run import TwinRunner, chain_point_records
+
+    m, obs, names, N4, H4, psi0 = setup
+    kr = lanczos(H4, psi0, K=6)
+    runner = TwinRunner(None, method="statevector")
+    for r in (1, 3):
+        spec = ChainSpec.from_krylov(kr, 6, 0.375, r)
+        recs = chain_point_records(runner, spec, 4000, salt=f"ideal-{r}")
+        _, flag, extra = estimate_chain(recs, kr, obs, N4)
+        assert flag == 0.0
+        p = np.abs(chain_amplitudes(spec)) ** 2
+        n = np.rint(extra["pops"] * 4000)
+        keep = p * 4000 >= 5
+        o, e = np.append(n[keep], n[~keep].sum()), np.append(p[keep] * 4000, p[~keep].sum() * 4000)
+        if e[-1] < 5:
+            o, e = o[:-1], e[:-1]
+        assert stats.chi2.sf(((o - e) ** 2 / e).sum(), len(e) - 1) > 1e-4
+
+
+def test_noiseless_twin_pipeline_end_to_end(tmp_path):
+    """run_twin.py --noise ideal -> residual_eval.py -> twin_null_check.py on a tiny case: the files chain together and the
+    flag check passes (the statistical checks need the full campaign's size and are not asserted here)."""
+    pytest.importorskip("qiskit_aer")
+    pytest.importorskip("torch")
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    from su2qc_jepa.models.jepa import JEPAConfig
+    from su2qc_jepa.models.train import TrainConfig, train_jepa
+
+    root = Path(__file__).resolve().parents[1]
+    cfg = DatasetConfig(n_traj=20, n_steps_min=4, n_steps_max=4, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
+    generate_dataset(cfg, tmp_path / "data", verbose=False)
+    d = load_dataset(tmp_path / "data")
+    train_jepa(d, JEPAConfig(obs_dim=d["manifest"]["obs_dim"]), TrainConfig(epochs=1, log_every=100), tmp_path / "model")
+
+    def run(*args):
+        r = subprocess.run([sys.executable, *args], cwd=tmp_path, capture_output=True, text=True)
+        assert r.returncode == 0, r.stdout[-2000:] + r.stderr[-2000:]
+        return r.stdout
+
+    run(str(root / "scripts/run_twin.py"), "--name", "t", "--K", "6", "--depths", "1", "2", "--masses", "0.375",
+        "--shots", "300", "--seeds", "2", "--noise", "ideal")
+    rec = json.loads((tmp_path / "evidence/twin/t/records.json").read_text())
+    assert rec["noise"] == "ideal" and len(rec["points"]) == 1 * 2 * 2 * 2  # masses x arms x seeds x depths
+    run(str(root / "scripts/residual_eval.py"), "--model", str(tmp_path / "model/model.pt"), "--records", "evidence/twin/t/records.json",
+        "--out", "evidence/twin/t/residual_eval.json", "--shots-levels", "0", "100")
+    out = run(str(root / "scripts/twin_null_check.py"), "--records", "evidence/twin/t/records.json",
+              "--residual", "evidence/twin/t/residual_eval.json", "--out", "evidence/twin/t/null_check.json")
+    chk = json.loads((tmp_path / "evidence/twin/t/null_check.json").read_text())
+    assert chk["checks"]["flag_rate_exactly_zero"]["pass"] and "all pass" in out
+
+
 def test_gate_ledger(tmp_path):
     res = GateResult("Jtest")
     res.add("row", True, 1.0, 2.0)

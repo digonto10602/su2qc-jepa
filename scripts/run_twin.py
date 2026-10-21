@@ -4,6 +4,9 @@
 Writes evidence/twin/<name>/records.json (per point: settings, counts, ideal-circuit observables, exact
 observables, twin estimates, flag rate) - the input for the twin residual study and for J3 rehearsal.
 Example (fast):  python scripts/run_twin.py --name smoke --K 8 --depths 1 2 --shots 1000 --seeds 1
+`--noise ideal` runs the same campaign without any noise (statevector, exact sampling): a known-answer control in
+which the excitation flag rate must be exactly 0, the post-selected populations must match the ideal circuit within
+shot noise, and arms A and B are identical (scripts/twin_null_check.py).
 """
 import argparse
 import json
@@ -30,7 +33,8 @@ p.add_argument("--masses", type=float, nargs="+", default=(0.3, 0.375, 0.5))
 p.add_argument("--shots", type=int, default=4000)
 p.add_argument("--seeds", type=int, default=5)
 p.add_argument("--arms", nargs="+", default=("A", "B"), help="A: nominal noise; B: 2x CZ error (stands in for a worse arm/day)")
-p.add_argument("--method", default="density_matrix")
+p.add_argument("--method", default="density_matrix", help="simulator method (ignored for --noise ideal: statevector)")
+p.add_argument("--noise", choices=("heron", "ideal"), default="heron", help="heron: synthetic Heron-like model; ideal: no noise")
 p.add_argument("--device", default="CPU")
 a = p.parse_args()
 
@@ -51,7 +55,10 @@ for mu in a.masses:
     for arm in a.arms:
         params = HeronLike() if arm == "A" else HeronLike(cz_error=6e-3, readout_01=0.02, readout_10=0.04)
         for seed in range(a.seeds):
-            runner = TwinRunner(heron_like_noise_model(a.K, params), method=a.method, master_seed=20261005 + seed, device=a.device)
+            if a.noise == "ideal":
+                runner = TwinRunner(None, method="statevector", master_seed=20261005 + seed, device=a.device)
+            else:
+                runner = TwinRunner(heron_like_noise_model(a.K, params), method=a.method, master_seed=20261005 + seed, device=a.device)
             for r in a.depths:
                 spec = ChainSpec.from_krylov(kr, a.K, a.dt, r)
                 recs = chain_point_records(runner, spec, a.shots, salt=f"{a.name}-{mu}-{arm}-{seed}-{r}")
@@ -65,9 +72,10 @@ for mu in a.masses:
                 exact = obs.expectation(full_exact)
                 points.append({"mu": mu, "arm": arm, "seed": seed, "depth": r, "t": spec.t, "cz": cz_count(a.K, r, 2),
                                "flag_rate": flag, "p1": extra["p1"], "twin_est": est.tolist(), "ideal_circuit": ideal.tolist(),
-                               "exact": exact.tolist(), "pops": extra["pops"].tolist(),
+                               "exact": exact.tolist(), "pops": extra["pops"].tolist(), "ideal_pops": (np.abs(c_ideal) ** 2).tolist(),
                                "records": [{"setting": rc.setting, "counts": rc.counts, "shots": rc.shots} for rc in recs]})
                 print(f"mu={mu} arm={arm} seed={seed} r={r} cz={points[-1]['cz']} flag={flag:.3f} "
                       f"max|twin-ideal|={np.abs(est - ideal).max():.3f} ({time.time() - t0:.0f}s)")
-json.dump({"name": a.name, "K": a.K, "dt": a.dt, "obs_names": obs.names, "points": points}, open(out / "records.json", "w"))
+json.dump({"name": a.name, "K": a.K, "dt": a.dt, "noise": a.noise, "shots": a.shots, "obs_names": obs.names, "points": points},
+          open(out / "records.json", "w"))
 print("wrote", out / "records.json", "points:", len(points))
