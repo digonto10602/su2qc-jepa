@@ -1,0 +1,10 @@
+{
+  "id": "jobs/019",
+  "state": "RUNNING",
+  "worker": "desktop",
+  "host": "SupremeCommander",
+  "commit": "f864bbabf7c651dc9d9814051aac797480ea1c26",
+  "started_utc": "2026-10-21T17:30:05Z",
+  "attempt": 1,
+  "history": []
+}
