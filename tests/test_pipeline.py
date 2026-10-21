@@ -294,6 +294,39 @@ def test_noiseless_twin_pipeline_end_to_end(tmp_path):
     assert chk["checks"]["flag_rate_exactly_zero"]["pass"] and "all pass" in out
 
 
+def test_calibrated_line_noise_model_offline(tmp_path):
+    """build_noise_model.py on Qiskit's offline FakeTorino: the line model keeps the calibrated CZ errors on qubits 0..K-1,
+    and in run_twin.py --noise-model the degraded arm B flags more shots than the calibrated arm A."""
+    pytest.importorskip("qiskit_aer")
+    pytest.importorskip("qiskit_ibm_runtime")
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    from qiskit.quantum_info import average_gate_fidelity
+
+    from su2qc_jepa.twin.noise import load_line_noise_model
+
+    root = Path(__file__).resolve().parents[1]
+
+    def run(*args):
+        r = subprocess.run([sys.executable, *args], cwd=tmp_path, capture_output=True, text=True)
+        assert r.returncode == 0, r.stdout[-2000:] + r.stderr[-2000:]
+
+    run(str(root / "scripts/build_noise_model.py"), "--backend", "FakeTorino", "--fake", "--K", "4", "--name", "t")
+    nmA, nmB, meta = load_line_noise_model(tmp_path / "evidence/twin/t/noise_model.json")
+    assert meta["backend"] == "fake_torino" and len(meta["line"]) == 4 and len(meta["line_cz_errors"]) == 3
+    assert set(nmA.noise_qubits) <= {0, 1, 2, 3}
+    infid = 1 - average_gate_fidelity(nmA._local_quantum_errors["cz"][(0, 1)].to_quantumchannel())
+    assert abs(infid - meta["line_cz_errors"][0]) < 1e-6  # the calibrated CZ error survives the renumbering exactly
+    run(str(root / "scripts/run_twin.py"), "--name", "t", "--K", "4", "--depths", "2", "--masses", "0.375", "--shots", "4000",
+        "--seeds", "1", "--noise-model", "evidence/twin/t/noise_model.json")
+    rec = json.loads((tmp_path / "evidence/twin/t/records.json").read_text())
+    flag = {q["arm"]: q["flag_rate"] for q in rec["points"]}
+    assert rec["noise"] == "calibrated" and rec["calibration"]["line"] == meta["line"]
+    assert 0 < flag["A"] < flag["B"]
+
+
 def test_gate_ledger(tmp_path):
     res = GateResult("Jtest")
     res.add("row", True, 1.0, 2.0)

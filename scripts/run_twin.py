@@ -7,6 +7,9 @@ Example (fast):  python scripts/run_twin.py --name smoke --K 8 --depths 1 2 --sh
 `--noise ideal` runs the same campaign without any noise (statevector, exact sampling): a known-answer control in
 which the excitation flag rate must be exactly 0, the post-selected populations must match the ideal circuit within
 shot noise, and arms A and B are identical (scripts/twin_null_check.py).
+`--noise-model evidence/twin/<name>/noise_model.json` uses the calibrated line model of a real backend, built on the
+laptop by scripts/build_noise_model.py: arm A = calibrated, arm B = the same with CZ and readout errors scaled 2x
+(twin/noise.degraded_noise_model).  Queue workers use this file and never contact IBM.
 """
 import argparse
 import json
@@ -21,7 +24,7 @@ from su2qc_jepa.physics.chain import ChainSpec, chain_amplitudes, cz_count
 from su2qc_jepa.physics.dynamics import evolve, lanczos, sector_restrict
 from su2qc_jepa.physics.observables import ObservableSet, named_states
 from su2qc_jepa.physics.plaquette import PlaquetteModel
-from su2qc_jepa.twin.noise import HeronLike, heron_like_noise_model
+from su2qc_jepa.twin.noise import HeronLike, heron_like_noise_model, load_line_noise_model
 from su2qc_jepa.twin.run import TwinRunner, chain_point_records
 
 p = argparse.ArgumentParser()
@@ -35,9 +38,15 @@ p.add_argument("--seeds", type=int, default=5)
 p.add_argument("--arms", nargs="+", default=("A", "B"), help="A: nominal noise; B: 2x CZ error (stands in for a worse arm/day)")
 p.add_argument("--method", default="density_matrix", help="simulator method (ignored for --noise ideal: statevector)")
 p.add_argument("--noise", choices=("heron", "ideal"), default="heron", help="heron: synthetic Heron-like model; ideal: no noise")
+p.add_argument("--noise-model", default=None, help="calibrated line noise model file (overrides --noise)")
 p.add_argument("--device", default="CPU")
 a = p.parse_args()
 
+calib_meta = None
+if a.noise_model:
+    nm_A, nm_B, calib_meta = load_line_noise_model(a.noise_model)
+    assert calib_meta["K"] == a.K, f"noise model is for K={calib_meta['K']}, not K={a.K}"
+    a.noise = "calibrated"
 model = PlaquetteModel(0.5)
 obs = ObservableSet.primary(model)
 names = named_states(model)
@@ -55,7 +64,9 @@ for mu in a.masses:
     for arm in a.arms:
         params = HeronLike() if arm == "A" else HeronLike(cz_error=6e-3, readout_01=0.02, readout_10=0.04)
         for seed in range(a.seeds):
-            if a.noise == "ideal":
+            if a.noise == "calibrated":
+                runner = TwinRunner(nm_A if arm == "A" else nm_B, method=a.method, master_seed=20261005 + seed, device=a.device)
+            elif a.noise == "ideal":
                 runner = TwinRunner(None, method="statevector", master_seed=20261005 + seed, device=a.device)
             else:
                 runner = TwinRunner(heron_like_noise_model(a.K, params), method=a.method, master_seed=20261005 + seed, device=a.device)
@@ -76,6 +87,7 @@ for mu in a.masses:
                                "records": [{"setting": rc.setting, "counts": rc.counts, "shots": rc.shots} for rc in recs]})
                 print(f"mu={mu} arm={arm} seed={seed} r={r} cz={points[-1]['cz']} flag={flag:.3f} "
                       f"max|twin-ideal|={np.abs(est - ideal).max():.3f} ({time.time() - t0:.0f}s)")
-json.dump({"name": a.name, "K": a.K, "dt": a.dt, "noise": a.noise, "shots": a.shots, "obs_names": obs.names, "points": points},
+json.dump({"name": a.name, "K": a.K, "dt": a.dt, "noise": a.noise, "shots": a.shots, "noise_model": a.noise_model,
+           "calibration": calib_meta, "obs_names": obs.names, "points": points},
           open(out / "records.json", "w"))
 print("wrote", out / "records.json", "points:", len(points))

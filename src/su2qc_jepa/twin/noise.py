@@ -12,7 +12,8 @@ import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-__all__ = ["HeronLike", "heron_like_noise_model", "noise_model_from_backend", "save_noise_summary"]
+__all__ = ["HeronLike", "heron_like_noise_model", "noise_model_from_backend", "save_noise_summary", "line_noise_dict",
+           "noise_model_from_dict", "degraded_noise_model", "save_line_noise_model", "load_line_noise_model"]
 
 
 @dataclass
@@ -62,3 +63,79 @@ def save_noise_summary(path: str | Path, p: HeronLike, backend_name: str = "synt
     if extra:
         d.update(extra)
     Path(path).write_text(json.dumps(d, indent=2))
+
+
+def line_noise_dict(noise_model, line: list[int]) -> dict:
+    """The errors of a full-device noise model that act only on the qubits of `line`, renumbered 0..K-1 in line order
+    (the chain circuits use qubit k for Krylov vector k).  Works on the model's public dictionary form, so the
+    calibrated numbers themselves are untouched; errors that touch any qubit outside the line are dropped."""
+    d = noise_model.to_dict(serializable=True)
+    idx = {int(q): i for i, q in enumerate(line)}
+    errors = []
+    for e in d["errors"]:
+        if "gate_qubits" not in e:  # an all-qubit error applies to the line as well
+            errors.append(e)
+            continue
+        kept = [[idx[int(q)] for q in qs] for qs in e["gate_qubits"] if all(int(q) in idx for q in qs)]
+        if kept and not e.get("noise_qubits"):
+            errors.append({**e, "gate_qubits": kept})
+    return {"errors": errors}
+
+
+def noise_model_from_dict(d: dict):
+    from qiskit_aer.noise import NoiseModel
+
+    return NoiseModel.from_dict(d)
+
+
+def degraded_noise_model(d: dict, cz_errors: list[float], factor: float = 2.0):
+    """Arm B of the twin: the calibrated line model with every readout flip probability and every CZ error scaled by
+    `factor` (an extra depolarising channel of the calibrated CZ error is composed onto each CZ; for two qubits a
+    depolarising parameter lambda gives average gate infidelity 15 lambda / 16).  Stands in for a worse day."""
+    from qiskit_aer.noise import depolarizing_error
+
+    errors = []
+    for e in d["errors"]:
+        if e.get("type") == "roerror":
+            probs = [[(1 - min(factor * (1 - row[i]), 1.0)) if j == i else min(factor * p, 1.0) for j, p in enumerate(row)]
+                     for i, row in enumerate(e["probabilities"])]
+            e = {**e, "probabilities": probs}
+        errors.append(e)
+    nm = noise_model_from_dict({"errors": errors})
+    for k, err in enumerate(cz_errors):
+        extra = depolarizing_error(min((factor - 1.0) * err * 16 / 15, 1.0), 2)
+        for pair in ([k, k + 1], [k + 1, k]):
+            nm.add_quantum_error(extra, ["cz"], pair, warnings=False)
+    return nm
+
+
+def save_line_noise_model(path: str | Path, backend, line: list[int], score: float, extra: dict | None = None) -> dict:
+    """Write the calibrated line noise model of `backend` (built on the laptop, where the IBM token lives) as JSON:
+    the renumbered error dictionary, the physical line, its calibration numbers and versions.  Queue workers load it
+    with load_line_noise_model and never contact IBM."""
+    import time
+
+    import qiskit_aer
+
+    from ..hardware.ibm import calibration_snapshot
+    from .layout import edge_errors_from_backend
+
+    cz, ro, _ = edge_errors_from_backend(backend)
+    line_cz = [cz.get((a, b), cz.get((b, a))) for a, b in zip(line[:-1], line[1:])]
+    snap = calibration_snapshot(backend)
+    out = {"backend": backend.name, "line": [int(q) for q in line], "line_score": float(score), "K": len(line),
+           "line_cz_errors": line_cz, "line_readout_errors": [ro.get(q) for q in line],
+           "line_qubits": {str(q): snap["qubits"].get(q, {}) for q in line},
+           "calibration_taken_utc": snap.get("taken_utc"), "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+           "qiskit_aer": qiskit_aer.__version__, "noise_model": line_noise_dict(noise_model_from_backend(backend), line),
+           **(extra or {})}
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    Path(path).write_text(json.dumps(out, default=float))
+    return out
+
+
+def load_line_noise_model(path: str | Path):
+    """(arm A calibrated model, arm B degraded model, metadata) from a file written by save_line_noise_model."""
+    d = json.loads(Path(path).read_text())
+    nm = noise_model_from_dict(d["noise_model"])
+    return nm, degraded_noise_model(d["noise_model"], d["line_cz_errors"]), {k: v for k, v in d.items() if k != "noise_model"}
