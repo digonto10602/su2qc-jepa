@@ -1,0 +1,18 @@
+id: jobs/022
+title: J1 training gate on v1_final (information only; preregistration section 3)
+author: claude-code
+created_utc: '2026-10-21T19:51:42Z'
+kind: eval
+where: desktop
+commit: 0b73384ea6069409399865f5ad0d9c6dece6ba83
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_gate.py J1 --runs evidence/runs/v1_final/seed0 evidence/runs/v1_final/seed1 evidence/runs/v1_final/seed2 evidence/runs/v1_final/seed3 evidence/runs/v1_final/seed4
+outputs:
+- evidence/J1_training
+- evidence/GATE_LEDGER.md
+resources:
+  gpus: 0
+  time: 00:10:00
+  qos: shared
