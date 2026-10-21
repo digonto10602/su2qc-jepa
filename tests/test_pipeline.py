@@ -342,6 +342,38 @@ def test_spearman_auroc():
     assert abs(auroc([0.9, 0.8, 0.2, 0.1], [True, True, False, False]) - 1) < 1e-12
 
 
+def test_j3_rehearsal_mode(tmp_path):
+    """A twin rehearsal is recorded as J3_twin_rehearsal (never J3_hardware) and drops the self-compared reference points
+    (arm A, seed 0: jepa_twin = raw_twin = 0), which would otherwise inflate the arm-B AUROC; hardware mode keeps every point."""
+    from pathlib import Path
+
+    from su2qc_jepa.gates.j3_hardware import run_j3
+
+    root = Path(__file__).resolve().parents[1]
+    rng = np.random.default_rng(np.random.SeedSequence(20261021))
+    pts = []
+    for arm in ("A", "B"):
+        for seed in range(3):
+            for depth in range(10):
+                ref = arm == "A" and seed == 0
+                s = 0.0 if ref else float(rng.random())
+                pts.append({"arm": arm, "seed": seed, "day": seed, "depth": depth, "shots": 512, "jepa_twin": s, "raw_twin": s,
+                            "jepa_self": s, "jepa_t0": s, "flag_rate": 0.1, "exact_error": float(rng.random())})
+    f = tmp_path / "eval.json"
+    f.write_text(json.dumps({"points": pts}))
+    th = str(root / "configs/gates.yaml")
+    hw = run_j3(f, thresholds_path=th, evidence_dir=tmp_path / "hw")
+    rh = run_j3(f, thresholds_path=th, evidence_dir=tmp_path / "rh", rehearsal=True)
+    assert hw.gate == "J3_hardware" and rh.gate == "J3_twin_rehearsal"
+    assert (tmp_path / "rh/J3_twin_rehearsal").is_dir() and not (tmp_path / "rh/J3_hardware").exists()
+    n = {r.name: r.measured for r in hw.rows}["number of points (per shot level)"]
+    m = {r.name: r.measured for r in rh.rows}["number of points (per shot level)"]
+    assert (n, m) == (60, 50)  # the 10 self-compared reference points are left out of the rehearsal
+    a_hw = {r.name: r.measured for r in hw.rows}["AUROC jepa_twin separates arm B (degraded) from arm A"]
+    a_rh = {r.name: r.measured for r in rh.rows}["AUROC jepa_twin separates arm B (degraded) from arm A"]
+    assert a_hw > a_rh  # zeros in arm A inflate the AUROC when the references are kept
+
+
 def test_chain_cz_budget_PA(setup):
     """The P-A window t <= 3/g_E at K = 12 with dt = 0.375 costs 188 CZ and has Trotter infidelity ~1e-3."""
     from su2qc_jepa.physics.chain import cz_count, trotter_error

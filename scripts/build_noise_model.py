@@ -38,7 +38,7 @@ else:
     line, score = best_line(edges, cz, ro, a.K)
 out = f"evidence/twin/{a.name}/noise_model.json"
 d = save_line_noise_model(out, backend, line, score, extra={"source": "fake" if a.fake else "ibm", "name": a.name})
-print(f"backend {d['backend']}  line {d['line']}  score {d['line_score']:.4f}")
+print(f"backend {d['backend']}  calibration measured {d['calibration_measured']}  line {d['line']}  score {d['line_score']:.4f}")
 print("line CZ errors:", ", ".join(f"{e:.2e}" for e in d["line_cz_errors"]))
 print("line readout errors:", ", ".join(f"{e:.2e}" for e in d["line_readout_errors"]))
 print("wrote", out, "(", len(d["noise_model"]["errors"]) if "noise_model" in d else "", "errors )")

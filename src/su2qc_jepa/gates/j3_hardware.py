@@ -44,10 +44,16 @@ def auroc(score, label) -> float:
     return float(gt + 0.5 * eq)
 
 
-def run_j3(eval_json: str | Path, thresholds_path: str = "configs/gates.yaml", evidence_dir: str = "evidence") -> GateResult:
+def run_j3(eval_json: str | Path, thresholds_path: str = "configs/gates.yaml", evidence_dir: str = "evidence",
+           rehearsal: bool = False) -> GateResult:
+    """Gate J3.  rehearsal=True scores a twin campaign with the same rows but records it as J3_twin_rehearsal (never a
+    J3 result, prompts/003); its reference is arm A / seed 0 of the same records, so those self-compared points (score
+    exactly 0) are left out, and the calibration-days row is report-only (twin seeds are not calibration days)."""
     th = load_thresholds(thresholds_path)["J3_hardware"]
-    res = GateResult("J3_hardware")
+    res = GateResult("J3_twin_rehearsal" if rehearsal else "J3_hardware")
     pts = json.loads(Path(eval_json).read_text())["points"]
+    if rehearsal:
+        pts = [p for p in pts if not (p["arm"] == "A" and p.get("seed", 0) == 0)]
     levels = sorted(set(p["shots"] for p in pts))
     low = min(levels)
     full = max(levels)
@@ -72,6 +78,9 @@ def run_j3(eval_json: str | Path, thresholds_path: str = "configs/gates.yaml", e
     a_raw = auroc([p["raw_twin"] for p in P], [p["arm"] == "B" for p in P])
     res.add_status("AUROC raw_twin (report only)", "PASS", a_raw, "report")
     days = sorted(set(p.get("day", 0) for p in pts))
-    res.add("calibration days", len(days) >= th["calibration_days"], len(days), th["calibration_days"])
+    if rehearsal:
+        res.add_status("calibration days (twin seeds; report only)", "PASS", len(days), "report")
+    else:
+        res.add("calibration days", len(days) >= th["calibration_days"], len(days), th["calibration_days"])
     write_gate(res, evidence_dir)
     return res

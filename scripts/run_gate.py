@@ -15,6 +15,7 @@ p.add_argument("--runs", nargs="*")
 p.add_argument("--eval")
 p.add_argument("--quick", action="store_true")
 p.add_argument("--chain-K", type=int, default=12)
+p.add_argument("--rehearsal", action="store_true", help="J3 on a twin campaign: recorded as J3_twin_rehearsal, never as J3")
 a = p.parse_args()
 
 if a.gate == "J0":
@@ -32,7 +33,7 @@ elif a.gate == "J2":
 else:
     from su2qc_jepa.gates.j3_hardware import run_j3
 
-    res = run_j3(a.eval)
+    res = run_j3(a.eval, rehearsal=a.rehearsal)
 for r in res.rows:
     print(f"{r.status:8s} {r.name}: measured={r.measured} threshold={r.threshold} {r.note}")
 print(f"== {res.gate}: {res.status}")

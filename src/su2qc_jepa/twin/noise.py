@@ -123,10 +123,14 @@ def save_line_noise_model(path: str | Path, backend, line: list[int], score: flo
     cz, ro, _ = edge_errors_from_backend(backend)
     line_cz = [cz.get((a, b), cz.get((b, a))) for a, b in zip(line[:-1], line[1:])]
     snap = calibration_snapshot(backend)
-    out = {"backend": backend.name, "line": [int(q) for q in line], "line_score": float(score), "K": len(line),
+    try:  # when the device itself measured this calibration (for a stored snapshot this is far older than the build)
+        cal_date = str(backend.properties().last_update_date)
+    except Exception:  # noqa: BLE001 - some backends expose no properties; record that rather than guess
+        cal_date = None
+    out = {"backend": backend.name, "calibration_measured": cal_date, "line": [int(q) for q in line], "line_score": float(score), "K": len(line),
            "line_cz_errors": line_cz, "line_readout_errors": [ro.get(q) for q in line],
            "line_qubits": {str(q): snap["qubits"].get(q, {}) for q in line},
-           "calibration_taken_utc": snap.get("taken_utc"), "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+           "calibration_read_utc": snap.get("taken_utc"), "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
            "qiskit_aer": qiskit_aer.__version__, "noise_model": line_noise_dict(noise_model_from_backend(backend), line),
            **(extra or {})}
     Path(path).parent.mkdir(parents=True, exist_ok=True)
