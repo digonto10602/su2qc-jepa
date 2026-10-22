@@ -55,7 +55,11 @@ def run_j3(eval_json: str | Path, thresholds_path: str = "configs/gates.yaml", e
     if rehearsal:
         pts = [p for p in pts if not (p["arm"] == "A" and p.get("seed", 0) == 0)]
     levels = sorted(set(p["shots"] for p in pts))
-    low = min(levels)
+    # the low-shot rows use the preregistered level (configs/gates.yaml low_shot_level, H3 "at 512 shots"), not simply the
+    # lowest level present: the preregistered command also evaluates 256 shots (decisions/008)
+    low = int(th["low_shot_level"])
+    if low not in levels:
+        raise ValueError(f"the evaluation has no points at the preregistered low-shot level {low} (levels: {levels})")
     full = max(levels)
     at = lambda lvl: [p for p in pts if p["shots"] == lvl]
     res.add("number of points (per shot level)", len(at(full)) >= th["min_points"], len(at(full)), th["min_points"], evidence=str(eval_json))

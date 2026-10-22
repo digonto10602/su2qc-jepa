@@ -377,6 +377,29 @@ def test_j3_rehearsal_mode(tmp_path):
     assert a_hw > a_rh  # zeros in arm A inflate the AUROC when the references are kept
 
 
+def test_j3_uses_the_preregistered_low_shot_level(tmp_path):
+    """decisions/008: with shot levels 4000, 512 and 256 the low-shot rows are scored at 512 (configs/gates.yaml), not at
+    the lowest level present; an evaluation without 512-shot points is refused."""
+    from pathlib import Path
+
+    from su2qc_jepa.gates.j3_hardware import run_j3
+
+    root = Path(__file__).resolve().parents[1]
+    rng = np.random.default_rng(np.random.SeedSequence(20261022))
+    pts = [{"arm": arm, "seed": 1, "day": 0, "depth": d, "shots": n, "jepa_twin": float(rng.random()), "raw_twin": float(rng.random()),
+            "jepa_self": 0.1, "jepa_t0": 0.1, "flag_rate": 0.1, "exact_error": float(rng.random())}
+           for arm in ("A", "B") for d in range(15) for n in (4000, 512, 256)]
+    f = tmp_path / "eval.json"
+    f.write_text(json.dumps({"points": pts}))
+    th = str(root / "configs/gates.yaml")
+    res = run_j3(f, thresholds_path=th, evidence_dir=tmp_path)
+    names = [r.name for r in res.rows]
+    assert "Spearman(jepa_twin) at 512 shots" in names and not any("at 256 shots" in n for n in names)
+    f.write_text(json.dumps({"points": [q for q in pts if q["shots"] != 512]}))
+    with pytest.raises(ValueError, match="low-shot level 512"):
+        run_j3(f, thresholds_path=th, evidence_dir=tmp_path)
+
+
 def test_chain_cz_budget_PA(setup):
     """The P-A window t <= 3/g_E at K = 12 with dt = 0.375 costs 188 CZ and has Trotter infidelity ~1e-3."""
     from su2qc_jepa.physics.chain import cz_count, trotter_error
