@@ -1,0 +1,21 @@
+id: jobs/027
+title: 'day1_marrakesh (rerun after the Kraus-decoding fix): calibrated twin + residual eval + J3 twin rehearsal'
+author: claude-code
+created_utc: '2026-10-22T15:59:44Z'
+kind: twin
+where: desktop
+commit: 65f30eb6b1c38bdff10a743dabf0df7db2f7eeb1
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_twin.py --name day1_marrakesh --K 12 --seeds 5 --noise-model evidence/twin/day1_marrakesh/noise_model.json
+- python scripts/residual_eval.py --model evidence/runs/v1_final/seed0/model.pt --records evidence/twin/day1_marrakesh/records.json --out evidence/twin/day1_marrakesh/residual_eval.json --shots-levels 0 512 256
+- python scripts/run_gate.py J3 --eval evidence/twin/day1_marrakesh/residual_eval.json --rehearsal
+outputs:
+- evidence/twin/day1_marrakesh/residual_eval.json
+- evidence/J3_twin_rehearsal
+- evidence/GATE_LEDGER.md
+resources:
+  gpus: 0
+  time: 06:00:00
+  qos: shared
