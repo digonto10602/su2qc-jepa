@@ -1,0 +1,21 @@
+id: jobs/026
+title: 'day0_kingston (rerun after the Kraus-decoding fix): calibrated twin + residual eval + J3 twin rehearsal'
+author: claude-code
+created_utc: '2026-10-22T15:59:40Z'
+kind: twin
+where: desktop
+commit: 44699e27f55d8b38300e5901be22348df9fbc5ea
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_twin.py --name day0_kingston --K 12 --seeds 5 --noise-model evidence/twin/day0_kingston/noise_model.json
+- python scripts/residual_eval.py --model evidence/runs/v1_final/seed0/model.pt --records evidence/twin/day0_kingston/records.json --out evidence/twin/day0_kingston/residual_eval.json --shots-levels 0 512 256
+- python scripts/run_gate.py J3 --eval evidence/twin/day0_kingston/residual_eval.json --rehearsal
+outputs:
+- evidence/twin/day0_kingston/residual_eval.json
+- evidence/J3_twin_rehearsal
+- evidence/GATE_LEDGER.md
+resources:
+  gpus: 0
+  time: 06:00:00
+  qos: shared
