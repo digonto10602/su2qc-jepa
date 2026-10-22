@@ -72,3 +72,4 @@ Changes made after the tag `prereg-2026-10-16`. Each has its own decision record
 | date | item | change | record |
 |---|---|---|---|
 | 2026-10-21 | §2 equivalence rule for rebuilds | the per-trajectory-sum bound of $10^{-12}$ contradicted the measured rebuild quoted in the same row ($5.7\times10^{-12}$, pure rounding); corrected to $\le10^{-12}$ per value and $\le10^{-10}$ per trajectory sum, with inputs still bit-identical. Made before `v1_final` was trained | `decisions/007` |
+| 2026-10-22 | §3 J3 gate code, low-shot level | the code scored the low-shot rows at the lowest level present (256, from the preregistered `--shots-levels 0 512 256`) instead of the preregistered 512 (H3, `gates.yaml low_shot_level`); code aligned to 512. Thresholds and commands unchanged; found in the twin rehearsal, before any hardware data | `decisions/008` |
