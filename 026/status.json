@@ -1,10 +1,19 @@
 {
   "id": "jobs/026",
-  "state": "RUNNING",
+  "state": "FAILED",
   "worker": "desktop",
   "host": "SupremeCommander",
   "commit": "44699e27f55d8b38300e5901be22348df9fbc5ea",
-  "started_utc": "2026-10-22T16:22:52Z",
+  "finished_utc": "2026-10-22T16:32:28Z",
+  "elapsed_hours": 0.16,
+  "node_hours": 0.0,
+  "outputs": [
+    "evidence/twin/day0_kingston/residual_eval.json",
+    "evidence/J3_twin_rehearsal/20261022T163228Z.json",
+    "evidence/GATE_LEDGER.md"
+  ],
+  "outputs_mb": 0.17,
+  "skipped": [],
   "attempt": 1,
   "history": []
 }
