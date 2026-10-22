@@ -82,10 +82,30 @@ def line_noise_dict(noise_model, line: list[int]) -> dict:
     return {"errors": errors}
 
 
+_MATRIX_INSTRUCTIONS = ("kraus", "unitary", "superop")
+
+
+def _decode_complex(params):
+    """to_dict(serializable=True) writes every complex number as a [real, imag] pair; NoiseModel.from_dict does not
+    turn them back, which breaks Kraus/unitary instructions (thermal relaxation on recent IBM calibrations)."""
+    import numpy as np
+
+    arr = np.asarray(params, dtype=float)
+    if arr.ndim >= 3 and arr.shape[-1] == 2:
+        return list(arr[..., 0] + 1j * arr[..., 1])
+    return params
+
+
 def noise_model_from_dict(d: dict):
     from qiskit_aer.noise import NoiseModel
 
-    return NoiseModel.from_dict(d)
+    errors = []
+    for e in d["errors"]:
+        if "instructions" in e:
+            e = {**e, "instructions": [[{**i, "params": _decode_complex(i["params"])} if i.get("name") in _MATRIX_INSTRUCTIONS
+                                         and i.get("params") else i for i in ins] for ins in e["instructions"]]}
+        errors.append(e)
+    return NoiseModel.from_dict({**d, "errors": errors})
 
 
 def degraded_noise_model(d: dict, cz_errors: list[float], factor: float = 2.0):

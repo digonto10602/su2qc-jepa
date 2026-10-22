@@ -295,7 +295,8 @@ def test_noiseless_twin_pipeline_end_to_end(tmp_path):
 
 
 def test_calibrated_line_noise_model_offline(tmp_path):
-    """build_noise_model.py on Qiskit's offline FakeTorino: the line model keeps the calibrated CZ errors on qubits 0..K-1,
+    """build_noise_model.py on Qiskit's offline FakeKingston (its thermal relaxation is stored as Kraus matrices, which
+    broke jobs/024): the line model keeps the calibrated CZ errors on qubits 0..K-1,
     and in run_twin.py --noise-model the degraded arm B flags more shots than the calibrated arm A."""
     pytest.importorskip("qiskit_aer")
     pytest.importorskip("qiskit_ibm_runtime")
@@ -313,10 +314,12 @@ def test_calibrated_line_noise_model_offline(tmp_path):
         r = subprocess.run([sys.executable, *args], cwd=tmp_path, capture_output=True, text=True)
         assert r.returncode == 0, r.stdout[-2000:] + r.stderr[-2000:]
 
-    run(str(root / "scripts/build_noise_model.py"), "--backend", "FakeTorino", "--fake", "--K", "4", "--name", "t")
+    run(str(root / "scripts/build_noise_model.py"), "--backend", "FakeKingston", "--fake", "--K", "4", "--name", "t")
     nmA, nmB, meta = load_line_noise_model(tmp_path / "evidence/twin/t/noise_model.json")
-    assert meta["backend"] == "fake_torino" and len(meta["line"]) == 4 and len(meta["line_cz_errors"]) == 3
+    assert meta["backend"] == "fake_kingston" and len(meta["line"]) == 4 and len(meta["line_cz_errors"]) == 3
     assert set(nmA.noise_qubits) <= {0, 1, 2, 3}
+    stored = json.loads((tmp_path / "evidence/twin/t/noise_model.json").read_text())["noise_model"]["errors"]
+    assert any(i["name"] == "kraus" for e in stored for ins in e.get("instructions", []) for i in ins)  # the hard case
     infid = 1 - average_gate_fidelity(nmA._local_quantum_errors["cz"][(0, 1)].to_quantumchannel())
     assert abs(infid - meta["line_cz_errors"][0]) < 1e-6  # the calibrated CZ error survives the renumbering exactly
     run(str(root / "scripts/run_twin.py"), "--name", "t", "--K", "4", "--depths", "2", "--masses", "0.375", "--shots", "4000",

@@ -17,7 +17,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
           pip install --index-url https://download.pytorch.org/whl/cpu torch
-          pip install scikit-learn
+          pip install scikit-learn "qiskit-ibm-runtime>=0.30"   # offline fake backends for the calibrated-noise test (no account)
       - name: Lint
         run: ruff check src tests scripts
       - name: Numbered-artifact conventions (decisions/001)
