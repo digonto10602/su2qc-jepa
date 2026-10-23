@@ -1,0 +1,18 @@
+id: jobs/028
+title: day0_kingston J3 twin rehearsal re-scored at 512 shots (decisions/008)
+author: claude-code
+created_utc: '2026-10-23T16:48:59Z'
+kind: eval
+where: desktop
+commit: 1b81156f1781f3994887905dfd6692b93324e95f
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_gate.py J3 --eval evidence/twin/day0_kingston/residual_eval.json --rehearsal
+outputs:
+- evidence/J3_twin_rehearsal
+- evidence/GATE_LEDGER.md
+resources:
+  gpus: 0
+  time: 00:10:00
+  qos: shared
