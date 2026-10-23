@@ -1,10 +1,19 @@
 {
   "id": "jobs/028",
-  "state": "RUNNING",
+  "state": "FAILED",
   "worker": "desktop",
   "host": "SupremeCommander",
   "commit": "1b81156f1781f3994887905dfd6692b93324e95f",
-  "started_utc": "2026-10-23T17:00:04Z",
+  "finished_utc": "2026-10-23T17:00:06Z",
+  "elapsed_hours": 0.0,
+  "node_hours": 0.0,
+  "outputs": [
+    "evidence/GATE_LEDGER.md"
+  ],
+  "outputs_mb": 0.02,
+  "skipped": [
+    "evidence/J3_twin_rehearsal (missing)"
+  ],
   "attempt": 1,
   "history": []
 }
