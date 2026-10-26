@@ -1,0 +1,15 @@
+job jobs/028 commit 1b81156f on SupremeCommander at Fri Oct 23 05:00:06 PM UTC 2026
+Traceback (most recent call last):
+  File "/home/digonto/su2qc-worker/runs/028/scripts/run_gate.py", line 36, in <module>
+    res = run_j3(a.eval, rehearsal=a.rehearsal)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/digonto/su2qc-worker/runs/028/src/su2qc_jepa/gates/j3_hardware.py", line 54, in run_j3
+    pts = json.loads(Path(eval_json).read_text())["points"]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/digonto/.su2qc-jepa-env/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/digonto/.su2qc-jepa-env/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'evidence/twin/day0_kingston/residual_eval.json'
