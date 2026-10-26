@@ -55,6 +55,11 @@ def write_gate(res: GateResult, evidence_dir: str | Path = "evidence") -> Path:
     gdir.mkdir(parents=True, exist_ok=True)
     stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
     p = gdir / f"{stamp}.json"
+    k = 1
+    while p.exists():  # two gate runs in the same second must not overwrite each other's record
+        p = gdir / f"{stamp}-{k}.json"
+        k += 1
+    stamp = p.stem
     p.write_text(json.dumps({"gate": res.gate, "status": res.status, "started_utc": res.started_utc,
                              "rows": [asdict(r) for r in res.rows]}, indent=2, default=str))
     ledger = evidence_dir / "GATE_LEDGER.md"

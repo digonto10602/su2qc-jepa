@@ -340,6 +340,17 @@ def test_gate_ledger(tmp_path):
     assert (tmp_path / "GATE_LEDGER.md").exists()
 
 
+def test_gate_records_written_in_the_same_second_do_not_overwrite(tmp_path):
+    """Two gate runs within one second (as happened on 26 Oct) each keep their own record file and ledger heading."""
+    a, b = GateResult("Jtest"), GateResult("Jtest")
+    a.add("row", True, 1.0, 2.0)
+    b.add("row", False, 3.0, 2.0)
+    pa, pb = write_gate(a, tmp_path), write_gate(b, tmp_path)
+    assert pa != pb and json.loads(pa.read_text())["status"] == "PASS" and json.loads(pb.read_text())["status"] == "FAIL"
+    heads = [x for x in (tmp_path / "GATE_LEDGER.md").read_text().splitlines() if x.startswith("## Jtest")]
+    assert len(heads) == 2 and heads[0] != heads[1]
+
+
 def test_spearman_auroc():
     assert abs(spearman([1, 2, 3, 4], [10, 20, 30, 40]) - 1) < 1e-12
     assert abs(auroc([0.9, 0.8, 0.2, 0.1], [True, True, False, False]) - 1) < 1e-12
