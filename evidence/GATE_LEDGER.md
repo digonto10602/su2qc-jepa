@@ -286,3 +286,35 @@
 | grounding R2 P_baryonic (min over seeds) | PASS | 0.995 | 0.98 |  |  |
 | semigroup residual (max over seeds) | PASS | 0.000862 | 0.001 |  |  |
 | number of seeds | PASS | 5 | 5 |  |  |
+
+## J3_twin_rehearsal — FAIL — 20261022T163228Z
+
+| row | status | measured | threshold | evidence | note |
+|---|---|---|---|---|---|
+| number of points (per shot level) | PASS | 135 | 24 | evidence/twin/day0_kingston/residual_eval.json |  |
+| Spearman(jepa_twin, exact error) by shots | PASS | 256=0.305; 512=0.326; 4000=0.42 | report |  |  |
+| Spearman(jepa_self, exact error) by shots | PASS | 256=0.49; 512=0.525; 4000=0.61 | report |  | report-only row |
+| Spearman(jepa_t0, exact error) by shots | PASS | 256=0.463; 512=0.493; 4000=0.605 | report |  | report-only row |
+| Spearman(raw_twin, exact error) by shots | PASS | 256=0.651; 512=0.656; 4000=0.748 | report |  | report-only row |
+| Spearman(flag_rate, exact error) by shots | PASS | 256=0.522; 512=0.594; 4000=0.689 | report |  | report-only row |
+| Spearman(jepa_twin) at 256 shots | FAIL | 0.305 | 0.7 |  |  |
+| non-inferior to raw_twin at 256 shots | FAIL | jepa_twin=0.305; raw_twin=0.651 | jepa >= raw - 0.05 |  |  |
+| AUROC jepa_twin separates arm B (degraded) from arm A | PASS | 1 | 0.8 |  |  |
+| AUROC raw_twin (report only) | PASS | 0.644 | report |  |  |
+| calibration days (twin seeds; report only) | PASS | 5 | report |  |  |
+
+## J3_twin_rehearsal — FAIL — 20261022T165512Z
+
+| row | status | measured | threshold | evidence | note |
+|---|---|---|---|---|---|
+| number of points (per shot level) | PASS | 135 | 24 | evidence/twin/day1_marrakesh/residual_eval.json |  |
+| Spearman(jepa_twin, exact error) by shots | PASS | 256=0.222; 512=0.253; 4000=0.505 | report |  |  |
+| Spearman(jepa_self, exact error) by shots | PASS | 256=0.417; 512=0.45; 4000=0.617 | report |  | report-only row |
+| Spearman(jepa_t0, exact error) by shots | PASS | 256=0.428; 512=0.437; 4000=0.564 | report |  | report-only row |
+| Spearman(raw_twin, exact error) by shots | PASS | 256=0.607; 512=0.498; 4000=0.471 | report |  | report-only row |
+| Spearman(flag_rate, exact error) by shots | PASS | 256=0.439; 512=0.502; 4000=0.659 | report |  | report-only row |
+| Spearman(jepa_twin) at 256 shots | FAIL | 0.222 | 0.7 |  |  |
+| non-inferior to raw_twin at 256 shots | FAIL | jepa_twin=0.222; raw_twin=0.607 | jepa >= raw - 0.05 |  |  |
+| AUROC jepa_twin separates arm B (degraded) from arm A | PASS | 1 | 0.8 |  |  |
+| AUROC raw_twin (report only) | PASS | 0.539 | report |  |  |
+| calibration days (twin seeds; report only) | PASS | 5 | report |  |  |
