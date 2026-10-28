@@ -330,6 +330,31 @@ def test_calibrated_line_noise_model_offline(tmp_path):
     assert 0 < flag["A"] < flag["B"]
 
 
+def test_cross_carrier_check_runs(tmp_path):
+    """scripts/cross_carrier_check.py on a tiny case: every distance is finite and two records of one state differ."""
+    pytest.importorskip("torch")
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    from su2qc_jepa.models.jepa import JEPAConfig
+    from su2qc_jepa.models.train import TrainConfig, train_jepa
+
+    root = Path(__file__).resolve().parents[1]
+    cfg = DatasetConfig(n_traj=20, n_steps_min=4, n_steps_max=4, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
+    generate_dataset(cfg, tmp_path / "data", verbose=False)
+    d = load_dataset(tmp_path / "data")
+    train_jepa(d, JEPAConfig(obs_dim=d["manifest"]["obs_dim"]), TrainConfig(epochs=1, log_every=100), tmp_path / "model")
+    r = subprocess.run([sys.executable, str(root / "scripts/cross_carrier_check.py"), "--model", str(tmp_path / "model/model.pt"),
+                        "--out", str(tmp_path / "cc.json"), "--K", "8", "--depths", "1", "2", "--gE", "2.0", "--masses", "0.375",
+                        "--shots", "256"], capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr[-2000:]
+    out = json.loads((tmp_path / "cc.json").read_text())
+    assert out["n_states"] == 2 and len(out["rows"]) == 2
+    assert all(np.isfinite(v) for row in out["rows"] for k, v in row.items() if isinstance(v, float))
+    assert all(row["noise_diag"] > 0 for row in out["rows"])
+
+
 def test_gate_ledger(tmp_path):
     res = GateResult("Jtest")
     res.add("row", True, 1.0, 2.0)

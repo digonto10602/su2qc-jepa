@@ -25,7 +25,8 @@ __all__ = ["ALLOWED_SCRIPTS", "WHERE", "KINDS", "REQUIRED", "validate_job", "par
 
 ALLOWED_SCRIPTS = {"make_dataset.py", "train_jepa.py", "run_twin.py", "residual_eval.py", "run_gate.py", "env_check.py",
                    "compare_fingerprints.py",  # read-only dataset comparison (decisions/007)
-                   "twin_null_check.py"}  # read-only checks of a noiseless twin campaign
+                   "twin_null_check.py",  # read-only checks of a noiseless twin campaign
+                   "cross_carrier_check.py"}  # read-only encoder check across carriers (prompts/003 step 4)
 WHERE = ("perlmutter", "desktop")  # remote workers; the laptop runs light work itself through scripts/run.py (decisions/004, 006)
 KINDS = ("train", "twin", "dataset", "eval", "check")
 REQUIRED = ("id", "title", "author", "created_utc", "kind", "where", "commit", "steps", "outputs", "resources")
