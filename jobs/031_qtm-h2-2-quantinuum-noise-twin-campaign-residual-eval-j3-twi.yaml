@@ -1,0 +1,21 @@
+id: jobs/031
+title: 'qtm_h2_2: Quantinuum-noise twin campaign + residual eval + J3 twin rehearsal (decisions/009)'
+author: claude-code
+created_utc: '2026-10-28T22:57:13Z'
+kind: twin
+where: desktop
+commit: 89500e450a43a6e48fccf586ef05fcacbd2e29b6
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/run_twin.py --name qtm_h2_2 --K 12 --seeds 5 --noise-model evidence/twin/qtm_h2_2/noise_model.json
+- python scripts/residual_eval.py --model evidence/runs/v1_final/seed0/model.pt --records evidence/twin/qtm_h2_2/records.json --out evidence/twin/qtm_h2_2/residual_eval.json --shots-levels 0 512 256
+- python scripts/run_gate.py J3 --eval evidence/twin/qtm_h2_2/residual_eval.json --rehearsal
+outputs:
+- evidence/twin/qtm_h2_2/residual_eval.json
+- evidence/J3_twin_rehearsal
+- evidence/GATE_LEDGER.md
+resources:
+  gpus: 0
+  time: 06:00:00
+  qos: shared
