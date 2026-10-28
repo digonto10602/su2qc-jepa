@@ -1,0 +1,17 @@
+id: jobs/030
+title: cross-carrier check on v1_final seed0 (prompts/003 step 4)
+author: claude-code
+created_utc: '2026-10-28T21:59:14Z'
+kind: eval
+where: desktop
+commit: ef837c4b3ae05a728fb17bf313604741132f59b9
+prompt: prompts/003
+milestone: null
+steps:
+- python scripts/cross_carrier_check.py --model evidence/runs/v1_final/seed0/model.pt --out evidence/twin/cross_carrier/cross_carrier.json
+outputs:
+- evidence/twin/cross_carrier/cross_carrier.json
+resources:
+  gpus: 0
+  time: 01:00:00
+  qos: shared
