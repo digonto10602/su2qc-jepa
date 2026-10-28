@@ -1,0 +1,4 @@
+job jobs/030 commit ef837c4b on SupremeCommander at Wed Oct 28 10:00:06 PM UTC 2026
+shots 512: noise_diag=0.394 (1x)  noise_chain=0.0287 (0.073x)  cross=8.19 (21x)  label_carrier=7.91 (20x)  label_source=9.23 (23x)  twin_vs_train=10.7 (27x)  err_diag=0.278 (0.71x)  err_chain=8.23 (21x)  obs_noise_diag=0.0789  obs_noise_chain=0.163  obs_err_diag=0.0563  obs_err_chain=0.121
+shots 4000: noise_diag=0.108 (1x)  noise_chain=0.0114 (0.11x)  cross=8.23 (76x)  label_carrier=8.21 (76x)  label_source=9.29 (86x)  twin_vs_train=10.7 (99x)  err_diag=0.121 (1.1x)  err_chain=8.22 (76x)  obs_noise_diag=0.0264  obs_noise_chain=0.0657  obs_err_diag=0.0208  obs_err_chain=0.0441
+wrote evidence/twin/cross_carrier/cross_carrier.json
