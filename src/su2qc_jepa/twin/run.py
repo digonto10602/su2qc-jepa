@@ -28,6 +28,7 @@ class TwinRunner:
     master_seed: int = 20261005
     basis_gates: tuple[str, ...] = ("cz", "rz", "sx", "x")
     device: str = "CPU"  # 'GPU' with qiskit-aer-gpu
+    coupling: str = "line"  # "line": IBM-style nearest-neighbour chain; "all": all-to-all (ion traps)
     _counter: int = field(default=0, init=False)
 
     def _sim(self):
@@ -50,7 +51,10 @@ class TwinRunner:
 
         sim = self._sim()
         K = circuits[0].num_qubits
-        cm = CouplingMap.from_line(K) if line is None else CouplingMap([[a, b] for a, b in zip(line[:-1], line[1:])] + [[b, a] for a, b in zip(line[:-1], line[1:])])
+        if self.coupling == "all":
+            cm = None
+        else:
+            cm = CouplingMap.from_line(K) if line is None else CouplingMap([[a, b] for a, b in zip(line[:-1], line[1:])] + [[b, a] for a, b in zip(line[:-1], line[1:])])
         tq = transpile(circuits, basis_gates=list(self.basis_gates), coupling_map=cm, optimization_level=1,
                        seed_transpiler=self.master_seed, initial_layout=line)
         out = []

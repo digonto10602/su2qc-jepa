@@ -24,7 +24,7 @@ from su2qc_jepa.physics.chain import ChainSpec, chain_amplitudes, cz_count
 from su2qc_jepa.physics.dynamics import evolve, lanczos, sector_restrict
 from su2qc_jepa.physics.observables import ObservableSet, named_states
 from su2qc_jepa.physics.plaquette import PlaquetteModel
-from su2qc_jepa.twin.noise import HeronLike, heron_like_noise_model, load_line_noise_model
+from su2qc_jepa.twin.noise import HeronLike, heron_like_noise_model, load_twin_noise
 from su2qc_jepa.twin.run import TwinRunner, chain_point_records
 
 p = argparse.ArgumentParser()
@@ -44,7 +44,7 @@ a = p.parse_args()
 
 calib_meta = None
 if a.noise_model:
-    nm_A, nm_B, calib_meta = load_line_noise_model(a.noise_model)
+    nm_A, nm_B, calib_meta, runner_kw = load_twin_noise(a.noise_model)  # IBM line file or Quantinuum specs file
     assert calib_meta["K"] == a.K, f"noise model is for K={calib_meta['K']}, not K={a.K}"
     a.noise = "calibrated"
 model = PlaquetteModel(0.5)
@@ -65,7 +65,8 @@ for mu in a.masses:
         params = HeronLike() if arm == "A" else HeronLike(cz_error=6e-3, readout_01=0.02, readout_10=0.04)
         for seed in range(a.seeds):
             if a.noise == "calibrated":
-                runner = TwinRunner(nm_A if arm == "A" else nm_B, method=a.method, master_seed=20261005 + seed, device=a.device)
+                runner = TwinRunner(nm_A if arm == "A" else nm_B, method=a.method, master_seed=20261005 + seed, device=a.device,
+                                    **runner_kw)
             elif a.noise == "ideal":
                 runner = TwinRunner(None, method="statevector", master_seed=20261005 + seed, device=a.device)
             else:

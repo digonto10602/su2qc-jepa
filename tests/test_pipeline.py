@@ -355,6 +355,44 @@ def test_cross_carrier_check_runs(tmp_path):
     assert all(row["noise_diag"] > 0 for row in out["rows"])
 
 
+def test_quantinuum_noise_model(tmp_path):
+    """Quantinuum twin: the rzz error has average infidelity p2 (memory error off), the 1q error p1, readout is the
+    asymmetric SPAM matrix, and in run_twin.py --noise-model the all-to-all runner flags more shots in arm B than in A."""
+    pytest.importorskip("qiskit_aer")
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    from qiskit.quantum_info import average_gate_fidelity
+
+    from su2qc_jepa.twin.noise import load_twin_noise, quantinuum_noise_model
+
+    specs = {"1q_gate_error": {"p1": 2e-5}, "2q_gate_error": {"p2": 1e-3}, "spam_error": {"p_meas_0": 6e-4, "p_meas_1": 1.4e-3},
+             "memory_error": {"memory_error": 2e-4}, "date": "2025-01-01"}
+    nm = quantinuum_noise_model({"p1": 2e-5, "p2": 1e-3, "p_meas_0": 6e-4, "p_meas_1": 1.4e-3, "memory_error": 0.0})
+    r2 = 1 - average_gate_fidelity(nm._default_quantum_errors["rzz"].to_quantumchannel())
+    r1 = 1 - average_gate_fidelity(nm._default_quantum_errors["rx"].to_quantumchannel())
+    assert abs(r2 - 1e-3) < 1e-9 and abs(r1 - 2e-5) < 1e-10
+    assert np.allclose(nm._default_readout_error.probabilities, [[1 - 6e-4, 6e-4], [1.4e-3, 1 - 1.4e-3]])
+    root = Path(__file__).resolve().parents[1]
+    f = tmp_path / "devices.json"
+    f.write_text(json.dumps({"devices": {"X1": {"system_type": "hardware", "connectivity": "all-to-all", "n_qubits": 8,
+                                                "noise_specs": specs}}}))
+
+    def run(*args):
+        r = subprocess.run([sys.executable, *args], cwd=tmp_path, capture_output=True, text=True)
+        assert r.returncode == 0, r.stdout[-2000:] + r.stderr[-2000:]
+
+    run(str(root / "scripts/build_qtm_noise_model.py"), "--specs", str(f), "--device", "X1", "--K", "4", "--name", "q")
+    _, _, meta, kw = load_twin_noise(tmp_path / "evidence/twin/q/noise_model.json")
+    assert meta["platform"] == "quantinuum" and kw["coupling"] == "all" and "rzz" in kw["basis_gates"]
+    run(str(root / "scripts/run_twin.py"), "--name", "q", "--K", "4", "--depths", "2", "--masses", "0.375", "--shots", "4000",
+        "--seeds", "1", "--noise-model", "evidence/twin/q/noise_model.json")
+    rec = json.loads((tmp_path / "evidence/twin/q/records.json").read_text())
+    flag = {q["arm"]: q["flag_rate"] for q in rec["points"]}
+    assert rec["calibration"]["platform"] == "quantinuum" and 0 < flag["A"] < flag["B"]
+
+
 def test_gate_ledger(tmp_path):
     res = GateResult("Jtest")
     res.add("row", True, 1.0, 2.0)

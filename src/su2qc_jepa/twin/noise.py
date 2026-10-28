@@ -13,7 +13,8 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 __all__ = ["HeronLike", "heron_like_noise_model", "noise_model_from_backend", "save_noise_summary", "line_noise_dict",
-           "noise_model_from_dict", "degraded_noise_model", "save_line_noise_model", "load_line_noise_model"]
+           "noise_model_from_dict", "degraded_noise_model", "save_line_noise_model", "load_line_noise_model",
+           "quantinuum_noise_model", "save_quantinuum_noise_file", "load_twin_noise", "QUANTINUUM_BASIS"]
 
 
 @dataclass
@@ -110,8 +111,10 @@ def noise_model_from_dict(d: dict):
 
 def degraded_noise_model(d: dict, cz_errors: list[float], factor: float = 2.0):
     """Arm B of the twin: the calibrated line model with every readout flip probability and every CZ error scaled by
-    `factor` (an extra depolarising channel of the calibrated CZ error is composed onto each CZ; for two qubits a
-    depolarising parameter lambda gives average gate infidelity 15 lambda / 16).  Stands in for a worse day."""
+    `factor` (an extra depolarising channel with lambda = (factor - 1) * err * 16 / 15 is composed onto each CZ).  Note:
+    16/15 converts a *process* infidelity; a two-qubit depolarising lambda adds *average* gate infidelity 3 lambda / 4, so
+    the CZ average infidelity of arm B is about 1.8x (not 2x) the calibrated one - measured 6.73e-3 vs 3.75e-3 on a
+    Torino edge.  Readout flip probabilities are exactly `factor` x.  Stands in for a worse day."""
     from qiskit_aer.noise import depolarizing_error
 
     errors = []
@@ -163,3 +166,56 @@ def load_line_noise_model(path: str | Path):
     d = json.loads(Path(path).read_text())
     nm = noise_model_from_dict(d["noise_model"])
     return nm, degraded_noise_model(d["noise_model"], d["line_cz_errors"]), {k: v for k, v in d.items() if k != "noise_model"}
+
+
+QUANTINUUM_BASIS = ("rzz", "rx", "ry", "rz")  # native ZZ interaction + single-qubit rotations; all-to-all connectivity
+
+
+def quantinuum_noise_model(params: dict, scale: float = 1.0):
+    """Aer noise model of a Quantinuum ion-trap machine from its published noise_specs (Nexus), all qubits alike.
+
+    p2 (two-qubit gate error) and p1 (single-qubit gate error) are average gate infidelities: a d-dimensional depolarising
+    channel with parameter lambda has average infidelity lambda (d - 1) / d, so lambda_2 = 4/3 p2 on rzz and
+    lambda_1 = 2 p1 on rx/ry (rz is virtual and noiseless).  SPAM: asymmetric readout flips p_meas_0 (0 -> 1) and
+    p_meas_1 (1 -> 0).  Memory error (dephasing of qubits while ions are transported and others are gated) is attached as
+    a phase flip of probability `memory_error` on each qubit of every two-qubit gate - one gate layer per qubit, an
+    approximation.  Measurement crosstalk (~1e-5) and leakage are left out.  `scale` multiplies every error (arm B: 2)."""
+    from qiskit_aer.noise import NoiseModel, ReadoutError, depolarizing_error, pauli_error
+
+    p1, p2 = scale * params["p1"], scale * params["p2"]
+    p0m, p1m, mem = scale * params["p_meas_0"], scale * params["p_meas_1"], scale * params["memory_error"]
+    nm = NoiseModel(basis_gates=list(QUANTINUUM_BASIS))
+    nm.add_all_qubit_quantum_error(depolarizing_error(min(2 * p1, 1.0), 1), ["rx", "ry"])
+    deph = pauli_error([("Z", mem), ("I", 1 - mem)])
+    nm.add_all_qubit_quantum_error(depolarizing_error(min(4 * p2 / 3, 1.0), 2).compose(deph.tensor(deph)), ["rzz"])
+    nm.add_all_qubit_readout_error(ReadoutError([[1 - p0m, p0m], [p1m, 1 - p1m]]))
+    return nm
+
+
+def save_quantinuum_noise_file(path: str | Path, device: str, noise_specs: dict, K: int, source_file: str = "") -> dict:
+    """Write the twin noise file of a Quantinuum machine: its dated Nexus noise_specs and the parameters used.  The Aer
+    model is rebuilt from these numbers on the worker (quantinuum_noise_model), so no noise dictionary is serialised."""
+    import time
+
+    params = {"p1": noise_specs["1q_gate_error"]["p1"], "p2": noise_specs["2q_gate_error"]["p2"],
+              "p_meas_0": noise_specs["spam_error"]["p_meas_0"], "p_meas_1": noise_specs["spam_error"]["p_meas_1"],
+              "memory_error": noise_specs["memory_error"]["memory_error"]}
+    out = {"platform": "quantinuum", "backend": device, "calibration_measured": noise_specs.get("date"), "K": K,
+           "params": params, "noise_specs": noise_specs, "basis_gates": list(QUANTINUUM_BASIS), "coupling": "all-to-all",
+           "arm_B_scale": 2.0, "source": source_file, "built_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+           "approximations": "depolarising gate errors matched to average infidelity; memory error as one phase flip per "
+                             "qubit per two-qubit gate; measurement crosstalk and leakage omitted"}
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    Path(path).write_text(json.dumps(out, indent=1))
+    return out
+
+
+def load_twin_noise(path: str | Path):
+    """(arm A model, arm B model, metadata, TwinRunner keyword arguments) from an IBM line file or a Quantinuum file."""
+    d = json.loads(Path(path).read_text())
+    if d.get("platform") == "quantinuum":
+        meta = {k: v for k, v in d.items()}
+        return (quantinuum_noise_model(d["params"]), quantinuum_noise_model(d["params"], d.get("arm_B_scale", 2.0)), meta,
+                {"basis_gates": tuple(d["basis_gates"]), "coupling": "all"})
+    nm_A, nm_B, meta = load_line_noise_model(path)
+    return nm_A, nm_B, {**meta, "platform": "ibm"}, {}
