@@ -45,6 +45,9 @@ class JEPAConfig:
     sigreg_projections: int = 64
     dropout: float = 0.0
     ema_target: float | None = None  # tau of the EMA target encoder; None = shared encoder, no stop-gradient
+    encoder_inputs: int | None = None  # read only the first n observation columns (the physical observables); None = all.
+    #   decisions/010: the flag and the source/carrier one-hots were constant in training (variance ~0), so obs_norm mapped
+    #   any other value to ~316 and twin/hardware records landed off-distribution
 
 
 class MLP(nn.Module):
@@ -108,10 +111,11 @@ class GaugeJEPA(nn.Module):
     def __init__(self, cfg: JEPAConfig):
         super().__init__()
         self.cfg = cfg
-        self.encoder = MLP(cfg.obs_dim, cfg.hidden, cfg.latent_dim, cfg.dropout)
+        self.n_in = cfg.encoder_inputs or cfg.obs_dim
+        self.encoder = MLP(self.n_in, cfg.hidden, cfg.latent_dim, cfg.dropout)
         self.predictor = ActionPredictor(cfg.latent_dim, cfg.action_dim, cfg.action_embed, cfg.hidden)
         self.ground = nn.Linear(cfg.latent_dim, cfg.n_ground)
-        self.obs_norm = nn.BatchNorm1d(cfg.obs_dim, affine=False)
+        self.obs_norm = nn.BatchNorm1d(self.n_in, affine=False)
         self.target_encoder = None
         if cfg.ema_target is not None:
             self.target_encoder = copy.deepcopy(self.encoder)
@@ -119,14 +123,14 @@ class GaugeJEPA(nn.Module):
 
     def encode(self, o: torch.Tensor) -> torch.Tensor:
         shape = o.shape
-        z = self.encoder(self.obs_norm(o.reshape(-1, shape[-1])))
+        z = self.encoder(self.obs_norm(o.reshape(-1, shape[-1])[:, : self.n_in]))
         return z.reshape(*shape[:-1], self.cfg.latent_dim)
 
     @torch.no_grad()
     def encode_target(self, o: torch.Tensor) -> torch.Tensor:
         """Target latent from the EMA encoder (stop-gradient); obs_norm statistics are shared."""
         shape = o.shape
-        z = self.target_encoder(self.obs_norm(o.reshape(-1, shape[-1])))
+        z = self.target_encoder(self.obs_norm(o.reshape(-1, shape[-1])[:, : self.n_in]))
         return z.reshape(*shape[:-1], self.cfg.latent_dim)
 
     @torch.no_grad()

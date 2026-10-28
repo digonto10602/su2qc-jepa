@@ -185,6 +185,30 @@ def test_training_and_baselines_run_on_device(tmp_path, device):
         assert np.isfinite(pred).all() and np.isfinite(truth).all(), name
 
 
+def test_physics_only_encoder_ignores_flag_and_labels(tmp_path):
+    """decisions/010: with encoder_inputs = n_obs the latent depends only on the physical observables - changing the flag
+    or the source/carrier labels of a record leaves it bit-identical; it still trains and forecasts."""
+    torch = pytest.importorskip("torch")
+    from su2qc_jepa.models.jepa import JEPAConfig
+    from su2qc_jepa.models.train import TrainConfig, train_jepa
+
+    cfg = DatasetConfig(n_traj=30, n_steps_min=4, n_steps_max=4, families=(FamilyConfig.onfamily(dts=(0.25,)),), name="t")
+    generate_dataset(cfg, tmp_path, verbose=False)
+    d = load_dataset(tmp_path)
+    n_obs = d["manifest"]["n_obs"]
+    model, info = train_jepa(d, JEPAConfig(obs_dim=d["manifest"]["obs_dim"], encoder_inputs=n_obs), TrainConfig(epochs=1, log_every=100))
+    assert np.isfinite(info["final"]["total"]) and model.encoder.net[0].in_features == n_obs
+    spec = ObservationSpec(json.loads((tmp_path / "manifest.json").read_text())["obs_names"])
+    est = d["tgt"][0, 1]
+    a = spec.assemble(est, 0.0, "exact", "diagonal")
+    b = spec.assemble(est, 0.4, "hardware", "chain")
+    model.eval()
+    with torch.no_grad():
+        za = model.encode(torch.tensor(a, dtype=torch.float32)[None])
+        zb = model.encode(torch.tensor(b, dtype=torch.float32)[None])
+    assert torch.equal(za, zb)
+
+
 def test_jepa_ema_target_and_curriculum(tmp_path):
     torch = pytest.importorskip("torch")
     from su2qc_jepa.models.jepa import GaugeJEPA, JEPAConfig
