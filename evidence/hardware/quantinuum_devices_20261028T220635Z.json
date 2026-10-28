@@ -1,0 +1,642 @@
+{
+ "utc": "2026-10-28T22:06:35Z",
+ "source": "Quantinuum Nexus (qnexus.devices.get_all)",
+ "devices": {
+  "H2-2E": {
+   "system_type": "emulator",
+   "n_qubits": 56,
+   "connectivity": "all-to-all",
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": {
+    "1q_fault_probability": {
+     "p1": 7.3e-05
+    },
+    "2q_fault_probability": {
+     "p2": 0.00129
+    },
+    "bit_flip_measurement_probability": {
+     "p_meas_0": 0.0009,
+     "p_meas_1": 0.0018
+    },
+    "coherent_to_incoherent_factor": 2.0,
+    "crosstalk_probability": {
+     "p_crosstalk_init": 9.6e-06,
+     "p_crosstalk_meas": 8.8e-06
+    },
+    "dephasing_rates": {
+     "linear_dephasing_rate": 0.0028,
+     "quadratic_dephasing_rate": 0.043
+    },
+    "fit_parameters": {
+     "przz_a": 1.518,
+     "przz_b": 0.241,
+     "przz_c": 1.518,
+     "przz_d": 0.241,
+     "przz_power": 1.0
+    },
+    "init_fault_probability": {
+     "p_init": 4e-05
+    },
+    "ratio_spontaneous_emission": {
+     "p1_emission_ratio": 0.32,
+     "p2_emission_ratio": 0.59
+    }
+   },
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": 10000
+  },
+  "H2-1E": {
+   "system_type": "emulator",
+   "n_qubits": 56,
+   "connectivity": "all-to-all",
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": {
+    "1q_fault_probability": {
+     "p1": 1.89e-05
+    },
+    "2q_fault_probability": {
+     "p2": 0.00105
+    },
+    "bit_flip_measurement_probability": {
+     "p_meas_0": 0.0006,
+     "p_meas_1": 0.00139
+    },
+    "coherent_to_incoherent_factor": 2.0,
+    "crosstalk_probability": {
+     "p_crosstalk_init": 3.3e-06,
+     "p_crosstalk_meas": 3.3e-06
+    },
+    "dephasing_rates": {
+     "linear_dephasing_rate": 0.0028,
+     "quadratic_dephasing_rate": 0.043
+    },
+    "fit_parameters": {
+     "przz_a": 1.518,
+     "przz_b": 0.241,
+     "przz_c": 1.518,
+     "przz_d": 0.241,
+     "przz_power": 1.0
+    },
+    "init_fault_probability": {
+     "p_init": 4e-05
+    },
+    "ratio_spontaneous_emission": {
+     "p1_emission_ratio": 0.54,
+     "p2_emission_ratio": 0.255
+    }
+   },
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": 10000
+  },
+  "Helios-1SC": {
+   "system_type": "emulator",
+   "n_qubits": 98,
+   "connectivity": "all-to-all",
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": null,
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": 10000
+  },
+  "H2-1SC": {
+   "system_type": "syntax checker",
+   "n_qubits": 56,
+   "connectivity": null,
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": null,
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": 10000
+  },
+  "Helios-1E": {
+   "system_type": "emulator",
+   "n_qubits": 98,
+   "connectivity": "all-to-all",
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": null,
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": 10000
+  },
+  "H2-1": {
+   "system_type": "hardware",
+   "n_qubits": 56,
+   "connectivity": "all-to-all",
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": {
+    "1q_gate_error": {
+     "p1": 1.89e-05,
+     "p1_unc": 4.23e-06
+    },
+    "2q_gate_error": {
+     "p2": 0.00105,
+     "p2_unc": 8.08e-05
+    },
+    "crosstalk_error": {
+     "p_crosstalk_meas": 6.65e-06,
+     "p_crosstalk_meas_unc": 8.98e-07
+    },
+    "date": "2025-04-30",
+    "memory_error": {
+     "memory_error": 0.000203,
+     "memory_error_unc": 2.34e-05
+    },
+    "spam_error": {
+     "p_meas_0": 0.0006,
+     "p_meas_0_unc": 8.16e-05,
+     "p_meas_1": 0.00139,
+     "p_meas_1_unc": 0.000124
+    }
+   },
+   "emulator": "H2-1E",
+   "benchmarks": {
+    "qv": {
+     "date": "2024-08-11",
+     "value": 2097152.0
+    }
+   },
+   "max_n_shots": 10000
+  },
+  "H2-2SC": {
+   "system_type": "syntax checker",
+   "n_qubits": 56,
+   "connectivity": null,
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": null,
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": 10000
+  },
+  "H2-2": {
+   "system_type": "hardware",
+   "n_qubits": 56,
+   "connectivity": "all-to-all",
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": {
+    "1q_gate_error": {
+     "p1": 2.8e-05,
+     "p1_unc": 3.6e-06
+    },
+    "2q_gate_error": {
+     "p2": 0.00083,
+     "p2_unc": 4.8e-05
+    },
+    "crosstalk_error": {
+     "p_crosstalk_meas": 2.2e-05,
+     "p_crosstalk_meas_unc": 5.3e-07
+    },
+    "date": "2025-08-28",
+    "memory_error": {
+     "memory_error": 0.00012,
+     "memory_error_unc": 2e-05
+    },
+    "spam_error": {
+     "p_meas_0": 0.00067,
+     "p_meas_0_unc": 8.7e-05,
+     "p_meas_1": 0.0012,
+     "p_meas_1_unc": 0.00011
+    }
+   },
+   "emulator": "H2-2E",
+   "benchmarks": {
+    "qv": {
+     "date": "2025-09-08",
+     "value": 33554432.0
+    }
+   },
+   "max_n_shots": 10000
+  },
+  "Helios-1": {
+   "system_type": "hardware",
+   "n_qubits": 98,
+   "connectivity": "all-to-all",
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": {
+    "date": "2025-11-05",
+    "spam_error": {
+     "p_meas_1_unc": 5e-05,
+     "p_meas_0": 0.0008,
+     "p_meas_1": 0.00016,
+     "p_meas_0_unc": 0.0001
+    },
+    "crosstalk_error": {
+     "p_crosstalk_meas_unc": 1e-06,
+     "p_crosstalk_meas": 4.8e-05
+    },
+    "memory_error": {
+     "memory_error_unc": 3e-05,
+     "memory_error": 0.0006
+    },
+    "1q_gate_error": {
+     "p1": 2.5e-05,
+     "p1_unc": 1e-06
+    },
+    "2q_gate_error": {
+     "p2_unc": 2e-05,
+     "p2": 0.00079
+    }
+   },
+   "emulator": "Helios-1E",
+   "benchmarks": null,
+   "max_n_shots": 10000
+  },
+  "H1-1LE": {
+   "system_type": "local_emulator",
+   "n_qubits": 20,
+   "connectivity": null,
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": null,
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": null
+  },
+  "H2-1LE": {
+   "system_type": "local_emulator",
+   "n_qubits": 26,
+   "connectivity": null,
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": null,
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": null
+  },
+  "H1-Emulator": {
+   "system_type": "local_emulator",
+   "n_qubits": 20,
+   "connectivity": null,
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": {
+    "date": "2024-06-04",
+    "1q_fault_probability": {
+     "p1": 2.1e-05
+    },
+    "2q_fault_probability": {
+     "p2": 0.00088
+    },
+    "bit_flip_measurement_probability": {
+     "p_meas_0": 0.001,
+     "p_meas_1": 0.004
+    },
+    "init_fault_probability": {
+     "p_init": 3.62e-05
+    },
+    "crosstalk_probability": {
+     "p_crosstalk_meas": 1.45e-05,
+     "p_crosstalk_init": 5.02e-06
+    },
+    "ratio_spontaneous_emission": {
+     "p1_emission_ratio": 0.54,
+     "p2_emission_ratio": 0.43
+    },
+    "dephasing_rates": {
+     "linear_dephasing_rate": 0.0,
+     "quadratic_dephasing_rate": 0.122
+    },
+    "fit_parameters": {
+     "przz_a": 1.651,
+     "przz_b": 0.175,
+     "przz_c": 1.651,
+     "przz_d": 0.175,
+     "przz_power": 1.0
+    },
+    "coherent_to_incoherent_factor": 2.5
+   },
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": null
+  },
+  "H2-Emulator": {
+   "system_type": "local_emulator",
+   "n_qubits": 26,
+   "connectivity": null,
+   "gate_set": [
+    "Barrier",
+    "ClExpr",
+    "CopyBits",
+    "ExplicitModifier",
+    "ExplicitPredicate",
+    "JobShotNum",
+    "Measure",
+    "MultiBit",
+    "PhasedX",
+    "RNGBound",
+    "RNGIndex",
+    "RNGNum",
+    "RNGSeed",
+    "RangePredicate",
+    "Reset",
+    "Rz",
+    "SetBits",
+    "TK2",
+    "WASM",
+    "ZZMax",
+    "ZZPhase"
+   ],
+   "noise_specs": {
+    "date": "2024-06-04",
+    "1q_fault_probability": {
+     "p1": 2.9e-05
+    },
+    "2q_fault_probability": {
+     "p2": 0.00128
+    },
+    "bit_flip_measurement_probability": {
+     "p_meas_0": 0.0005,
+     "p_meas_1": 0.0025
+    },
+    "init_fault_probability": {
+     "p_init": 4e-05
+    },
+    "crosstalk_probability": {
+     "p_crosstalk_meas": 7.4e-06,
+     "p_crosstalk_init": 9.6e-06
+    },
+    "ratio_spontaneous_emission": {
+     "p1_emission_ratio": 0.32,
+     "p2_emission_ratio": 0.48
+    },
+    "dephasing_rates": {
+     "linear_dephasing_rate": 0.0028,
+     "quadratic_dephasing_rate": 0.043
+    },
+    "fit_parameters": {
+     "przz_a": 1.518,
+     "przz_b": 0.241,
+     "przz_c": 1.518,
+     "przz_d": 0.241,
+     "przz_power": 1.0
+    },
+    "coherent_to_incoherent_factor": 2.0
+   },
+   "emulator": null,
+   "benchmarks": null,
+   "max_n_shots": null
+  }
+ }
+}

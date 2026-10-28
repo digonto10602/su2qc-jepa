@@ -1,0 +1,49 @@
+{
+ "platform": "quantinuum",
+ "backend": "Helios-1",
+ "calibration_measured": "2025-11-05",
+ "K": 12,
+ "params": {
+  "p1": 2.5e-05,
+  "p2": 0.00079,
+  "p_meas_0": 0.0008,
+  "p_meas_1": 0.00016,
+  "memory_error": 0.0006
+ },
+ "noise_specs": {
+  "date": "2025-11-05",
+  "spam_error": {
+   "p_meas_1_unc": 5e-05,
+   "p_meas_0": 0.0008,
+   "p_meas_1": 0.00016,
+   "p_meas_0_unc": 0.0001
+  },
+  "crosstalk_error": {
+   "p_crosstalk_meas_unc": 1e-06,
+   "p_crosstalk_meas": 4.8e-05
+  },
+  "memory_error": {
+   "memory_error_unc": 3e-05,
+   "memory_error": 0.0006
+  },
+  "1q_gate_error": {
+   "p1": 2.5e-05,
+   "p1_unc": 1e-06
+  },
+  "2q_gate_error": {
+   "p2_unc": 2e-05,
+   "p2": 0.00079
+  }
+ },
+ "basis_gates": [
+  "rzz",
+  "rx",
+  "ry",
+  "rz"
+ ],
+ "coupling": "all-to-all",
+ "arm_B_scale": 2.0,
+ "source": "evidence/hardware/quantinuum_devices_20261028T220635Z.json",
+ "built_utc": "2026-10-28T22:21:32Z",
+ "approximations": "depolarising gate errors matched to average infidelity; memory error as one phase flip per qubit per two-qubit gate; measurement crosstalk and leakage omitted"
+}

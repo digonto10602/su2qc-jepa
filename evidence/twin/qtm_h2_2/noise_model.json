@@ -1,0 +1,49 @@
+{
+ "platform": "quantinuum",
+ "backend": "H2-2",
+ "calibration_measured": "2025-08-28",
+ "K": 12,
+ "params": {
+  "p1": 2.8e-05,
+  "p2": 0.00083,
+  "p_meas_0": 0.00067,
+  "p_meas_1": 0.0012,
+  "memory_error": 0.00012
+ },
+ "noise_specs": {
+  "1q_gate_error": {
+   "p1": 2.8e-05,
+   "p1_unc": 3.6e-06
+  },
+  "2q_gate_error": {
+   "p2": 0.00083,
+   "p2_unc": 4.8e-05
+  },
+  "crosstalk_error": {
+   "p_crosstalk_meas": 2.2e-05,
+   "p_crosstalk_meas_unc": 5.3e-07
+  },
+  "date": "2025-08-28",
+  "memory_error": {
+   "memory_error": 0.00012,
+   "memory_error_unc": 2e-05
+  },
+  "spam_error": {
+   "p_meas_0": 0.00067,
+   "p_meas_0_unc": 8.7e-05,
+   "p_meas_1": 0.0012,
+   "p_meas_1_unc": 0.00011
+  }
+ },
+ "basis_gates": [
+  "rzz",
+  "rx",
+  "ry",
+  "rz"
+ ],
+ "coupling": "all-to-all",
+ "arm_B_scale": 2.0,
+ "source": "evidence/hardware/quantinuum_devices_20261028T220635Z.json",
+ "built_utc": "2026-10-28T22:21:32Z",
+ "approximations": "depolarising gate errors matched to average infidelity; memory error as one phase flip per qubit per two-qubit gate; measurement crosstalk and leakage omitted"
+}
