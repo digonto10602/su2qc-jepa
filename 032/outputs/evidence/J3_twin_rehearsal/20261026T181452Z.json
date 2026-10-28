@@ -1,0 +1,118 @@
+{
+  "gate": "J3_twin_rehearsal",
+  "status": "FAIL",
+  "started_utc": "2026-10-26T18:14:52Z",
+  "rows": [
+    {
+      "name": "number of points (per shot level)",
+      "status": "PASS",
+      "measured": 135,
+      "threshold": 24,
+      "evidence": "evidence/twin/day1_marrakesh/residual_eval.json",
+      "note": ""
+    },
+    {
+      "name": "Spearman(jepa_twin, exact error) by shots",
+      "status": "PASS",
+      "measured": {
+        "256": 0.222,
+        "512": 0.253,
+        "4000": 0.505
+      },
+      "threshold": "report",
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "Spearman(jepa_self, exact error) by shots",
+      "status": "PASS",
+      "measured": {
+        "256": 0.417,
+        "512": 0.45,
+        "4000": 0.617
+      },
+      "threshold": "report",
+      "evidence": "",
+      "note": "report-only row"
+    },
+    {
+      "name": "Spearman(jepa_t0, exact error) by shots",
+      "status": "PASS",
+      "measured": {
+        "256": 0.428,
+        "512": 0.437,
+        "4000": 0.564
+      },
+      "threshold": "report",
+      "evidence": "",
+      "note": "report-only row"
+    },
+    {
+      "name": "Spearman(raw_twin, exact error) by shots",
+      "status": "PASS",
+      "measured": {
+        "256": 0.607,
+        "512": 0.498,
+        "4000": 0.471
+      },
+      "threshold": "report",
+      "evidence": "",
+      "note": "report-only row"
+    },
+    {
+      "name": "Spearman(flag_rate, exact error) by shots",
+      "status": "PASS",
+      "measured": {
+        "256": 0.439,
+        "512": 0.502,
+        "4000": 0.659
+      },
+      "threshold": "report",
+      "evidence": "",
+      "note": "report-only row"
+    },
+    {
+      "name": "Spearman(jepa_twin) at 512 shots",
+      "status": "FAIL",
+      "measured": 0.2526875426787631,
+      "threshold": 0.7,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "non-inferior to raw_twin at 512 shots",
+      "status": "FAIL",
+      "measured": {
+        "jepa_twin": 0.253,
+        "raw_twin": 0.498
+      },
+      "threshold": "jepa >= raw - 0.05",
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "AUROC jepa_twin separates arm B (degraded) from arm A",
+      "status": "PASS",
+      "measured": 1.0,
+      "threshold": 0.8,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "AUROC raw_twin (report only)",
+      "status": "PASS",
+      "measured": 0.5386666666666666,
+      "threshold": "report",
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "calibration days (twin seeds; report only)",
+      "status": "PASS",
+      "measured": 5,
+      "threshold": "report",
+      "evidence": "",
+      "note": ""
+    }
+  ]
+}

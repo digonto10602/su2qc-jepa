@@ -1,10 +1,23 @@
 {
   "id": "jobs/032",
-  "state": "RUNNING",
+  "state": "FAILED",
   "worker": "desktop",
   "host": "SupremeCommander",
   "commit": "2e56cea2800a175fd22e597f5646f0a4490464a2",
-  "started_utc": "2026-10-28T23:15:05Z",
+  "finished_utc": "2026-10-28T23:22:32Z",
+  "elapsed_hours": 0.124,
+  "node_hours": 0.0,
+  "outputs": [
+    "evidence/twin/qtm_helios_1/residual_eval.json",
+    "evidence/J3_twin_rehearsal/20261022T163228Z.json",
+    "evidence/J3_twin_rehearsal/20261022T165512Z.json",
+    "evidence/J3_twin_rehearsal/20261026T181452Z.json",
+    "evidence/J3_twin_rehearsal/20261026T181636Z.json",
+    "evidence/J3_twin_rehearsal/20261028T232232Z.json",
+    "evidence/GATE_LEDGER.md"
+  ],
+  "outputs_mb": 0.19,
+  "skipped": [],
   "attempt": 1,
   "history": []
 }
