@@ -1,0 +1,34 @@
+{
+ "data": "data/main",
+ "name": "x_s0_base",
+ "epochs": 100,
+ "seeds": 3,
+ "latent": 16,
+ "w_sigreg": 3.0,
+ "w_ground": 1.0,
+ "w_semigroup": 10.0,
+ "physics_only": true,
+ "predictor": "gru",
+ "semigroup_mix": 0,
+ "w_var": 0.0,
+ "w_cov": 0.0,
+ "sigreg_projections": 64,
+ "skip_baselines": true,
+ "ema_target": null,
+ "curriculum_epochs": 0,
+ "master_seed": 14142135,
+ "context_steps": 4,
+ "eval_steps": [
+  4,
+  8
+ ],
+ "device": "cuda",
+ "threads": 18,
+ "baseline_epochs": 100,
+ "masked": false,
+ "train_seeds": [
+  1944723882,
+  2459123456,
+  3843106739
+ ]
+}
