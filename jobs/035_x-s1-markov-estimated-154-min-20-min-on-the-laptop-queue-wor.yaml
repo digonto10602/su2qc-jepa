@@ -1,0 +1,20 @@
+id: jobs/035
+title: 'x_s1_markov: estimated 154 min > 20 min on the laptop -> queue worker'
+author: claude-code
+created_utc: '2026-10-29T17:04:51Z'
+kind: train
+where: desktop
+commit: 5f555693698fc8631b9740aee03fcd1b302a7186
+prompt: prompts/011
+milestone: null
+steps:
+- python scripts/make_dataset.py --name main --n-traj 20000 --steps 8 12 --families onfam strong --carrier diagonal --starts S3 S3 S3 S1 random --quench-fraction 0.2 --seed 20261005 --out data/main
+- python scripts/train_jepa.py --data data/main --epochs 100 --seeds 3 --w-sigreg 3 --w-semigroup 10 --physics-only --skip-baselines --master-seed 14142135 --name x_s1_markov --predictor markov
+outputs:
+- runs/x_s1_markov
+- data/main/manifest.json
+- data/main/fingerprint.json
+resources:
+  gpus: 1
+  time: 01:17:00
+  qos: shared
