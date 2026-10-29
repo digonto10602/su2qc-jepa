@@ -1,0 +1,20 @@
+id: jobs/038
+title: 'x_s4_proj1024: estimated 154 min > 20 min on the laptop -> queue worker'
+author: claude-code
+created_utc: '2026-10-29T17:05:00Z'
+kind: train
+where: desktop
+commit: a199c72381682c167236edd84c52f507b5d3a487
+prompt: prompts/011
+milestone: null
+steps:
+- python scripts/make_dataset.py --name main --n-traj 20000 --steps 8 12 --families onfam strong --carrier diagonal --starts S3 S3 S3 S1 random --quench-fraction 0.2 --seed 20261005 --out data/main
+- python scripts/train_jepa.py --data data/main --epochs 100 --seeds 3 --w-sigreg 3 --w-semigroup 10 --physics-only --skip-baselines --master-seed 14142135 --name x_s4_proj1024 --sigreg-projections 1024
+outputs:
+- runs/x_s4_proj1024
+- data/main/manifest.json
+- data/main/fingerprint.json
+resources:
+  gpus: 1
+  time: 01:17:00
+  qos: shared
