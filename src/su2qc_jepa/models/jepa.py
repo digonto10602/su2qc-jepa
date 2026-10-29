@@ -16,6 +16,8 @@ Definitions (plain words):
                      Casimir, channel weights, flag rate), used in training only, so the latent is
                      identifiable and encoder/predictor cannot co-adapt into a trivial code.
 * semigroup loss   : P(s, [a, a]) ~ P(P(s, [a]), [a]) - the predictor must compose like time evolution.
+Exploratory options (prompts/011, all off by default): MarkovPredictor (composition exact by construction),
+semigroup_mix (semigroup term also on convex mixtures of training actions), VICReg variance/covariance terms.
 """
 from __future__ import annotations
 
@@ -26,7 +28,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-__all__ = ["JEPAConfig", "GaugeJEPA", "sigreg_loss", "effective_rank"]
+__all__ = ["JEPAConfig", "GaugeJEPA", "ActionPredictor", "MarkovPredictor", "sigreg_loss", "vicreg_terms", "mix_actions", "effective_rank"]
 
 
 @dataclass
@@ -48,6 +50,16 @@ class JEPAConfig:
     encoder_inputs: int | None = None  # read only the first n observation columns (the physical observables); None = all.
     #   decisions/010: the flag and the source/carrier one-hots were constant in training (variance ~0), so obs_norm mapped
     #   any other value to ~316 and twin/hardware records landed off-distribution
+    predictor: str = "gru"  # "gru" (ActionPredictor) | "markov" (MarkovPredictor: iterated one-step map, exact composition); exploratory
+    semigroup_mix: int = 0  # extra semigroup terms per step on convex mixtures of the batch's actions (columns 1-3); 0 = off; exploratory
+    w_var: float = 0.0  # VICReg variance hinge weight (arXiv:2105.04906 eq. 1); 0 = off; exploratory
+    w_cov: float = 0.0  # VICReg covariance weight (eq. 4); 0 = off; exploratory
+    var_gamma: float = 1.0
+    var_eps: float = 1e-4
+
+    def __post_init__(self):
+        if self.predictor not in ("gru", "markov"):
+            raise ValueError(f"predictor must be 'gru' or 'markov', got {self.predictor!r}")
 
 
 class MLP(nn.Module):
@@ -76,6 +88,52 @@ class ActionPredictor(nn.Module):
         h0 = torch.tanh(self.init(s)).unsqueeze(0)
         y, _ = self.gru(self.embed(actions), h0)
         return self.out(y) + self.skip(s).unsqueeze(1)
+
+
+class MarkovPredictor(nn.Module):
+    """Iterated one-step map: for each action token h = cell(embed(a), tanh(init(s))), s <- out(h) + skip(s).
+
+    The latent is the only state carried between actions, so P(s, [a1, a2]) = P(P(s, a1), a2) exactly."""
+
+    def __init__(self, latent_dim: int, action_dim: int, action_embed: int, hidden: int):
+        super().__init__()
+        self.embed = nn.Sequential(nn.Linear(action_dim, action_embed), nn.GELU(), nn.Linear(action_embed, action_embed))
+        self.init = nn.Linear(latent_dim, hidden)
+        self.cell = nn.GRUCell(action_embed, hidden)
+        self.out = nn.Linear(hidden, latent_dim)
+        self.skip = nn.Linear(latent_dim, latent_dim)
+
+    def forward(self, s: torch.Tensor, actions: torch.Tensor) -> torch.Tensor:
+        """s: (B, d); actions: (B, k, action_dim) -> (B, k, d) latents after 1..k actions."""
+        e = self.embed(actions)
+        outs = []
+        for t in range(actions.shape[1]):
+            h = self.cell(e[:, t], torch.tanh(self.init(s)))
+            s = self.out(h) + self.skip(s)
+            outs.append(s)
+        return torch.stack(outs, 1)
+
+
+def mix_actions(a: torch.Tensor, perm: torch.Tensor, alpha: torch.Tensor) -> torch.Tensor:
+    """Convex mixture of each row's action columns 1.. (c_M, c_H, c_B) with those of row perm[i]; column 0 (dt) is kept.
+
+    a: (n, k, action_dim); perm: (n,) long; alpha: (n,) in [0, 1]."""
+    out = a.clone()
+    al = alpha.reshape(-1, 1, 1)
+    out[..., 1:] = al * a[..., 1:] + (1.0 - al) * a[perm][..., 1:]
+    return out
+
+
+def vicreg_terms(z: torch.Tensor, gamma: float = 1.0, eps: float = 1e-4) -> tuple[torch.Tensor, torch.Tensor]:
+    """VICReg variance hinge and covariance penalty (arXiv:2105.04906 eq. 1, 4) on a latent batch z (N, d).
+
+    v = mean_j max(0, gamma - sqrt(Var(z_j) + eps)); c = (1/d) sum_{i != j} C_ij^2, C the batch covariance (1/(N-1))."""
+    n, d = z.shape
+    zc = z - z.mean(0, keepdim=True)
+    v = F.relu(gamma - torch.sqrt(zc.pow(2).sum(0) / (n - 1) + eps)).mean()
+    C = zc.T @ zc / (n - 1)
+    c = (C.pow(2).sum() - C.diagonal().pow(2).sum()) / d
+    return v, c
 
 
 def sigreg_loss(z: torch.Tensor, n_proj: int = 64, t_grid: int = 17, generator: torch.Generator | None = None) -> torch.Tensor:
@@ -113,7 +171,7 @@ class GaugeJEPA(nn.Module):
         self.cfg = cfg
         self.n_in = cfg.encoder_inputs or cfg.obs_dim
         self.encoder = MLP(self.n_in, cfg.hidden, cfg.latent_dim, cfg.dropout)
-        self.predictor = ActionPredictor(cfg.latent_dim, cfg.action_dim, cfg.action_embed, cfg.hidden)
+        self.predictor = (MarkovPredictor if cfg.predictor == "markov" else ActionPredictor)(cfg.latent_dim, cfg.action_dim, cfg.action_embed, cfg.hidden)
         self.ground = nn.Linear(cfg.latent_dim, cfg.n_ground)
         self.obs_norm = nn.BatchNorm1d(self.n_in, affine=False)
         self.target_encoder = None
@@ -176,6 +234,8 @@ class GaugeJEPA(nn.Module):
         zall = torch.cat([s_ctx[valid], s_clean[valid]], 0) if self.target_encoder is None else s_ctx[valid]
         losses["sigreg"] = sigreg_loss(zall, self.cfg.sigreg_projections, generator=generator)
         losses["ground"] = F.mse_loss(self.ground(s_clean[valid]), ground[valid]) + F.mse_loss(self.ground(s_ctx[valid]), ground[valid])
+        if self.cfg.w_var > 0 or self.cfg.w_cov > 0:
+            losses["var"], losses["cov"] = vicreg_terms(zall, self.cfg.var_gamma, self.cfg.var_eps)
         # semigroup consistency on random pairs of consecutive actions
         if T1 > 2:
             s0 = s_ctx[:, : T1 - 2].reshape(-1, self.cfg.latent_dim)
@@ -185,7 +245,21 @@ class GaugeJEPA(nn.Module):
                 two = self.predict(s0[m], a2[m])[:, -1]
                 one = self.predict(s0[m], a2[m][:, :1])[:, -1]
                 comp = self.predict(one, a2[m][:, 1:])[:, -1]
-                losses["semigroup"] = F.mse_loss(two, comp)
+                sg = F.mse_loss(two, comp)
+                if self.cfg.semigroup_mix > 0:  # same identity on virtual actions between training couplings
+                    am, n_m = a2[m], int(m.sum())
+                    terms = [sg]
+                    for _ in range(self.cfg.semigroup_mix):
+                        perm = torch.randperm(n_m, generator=generator, device=s0.device)
+                        alpha = torch.rand(n_m, generator=generator, device=s0.device)
+                        a_mix = mix_actions(am, perm, alpha)
+                        two_x = self.predict(s0[m], a_mix)[:, -1]
+                        comp_x = self.predict(self.predict(s0[m], a_mix[:, :1])[:, -1], a_mix[:, 1:])[:, -1]
+                        terms.append(F.mse_loss(two_x, comp_x))
+                    sg = torch.stack(terms).mean()
+                losses["semigroup"] = sg
         losses["total"] = (self.cfg.w_pred * losses["pred"] + self.cfg.w_sigreg * losses["sigreg"]
                            + self.cfg.w_ground * losses["ground"] + self.cfg.w_semigroup * losses.get("semigroup", torch.zeros(())))
+        if "var" in losses:
+            losses["total"] = losses["total"] + self.cfg.w_var * losses["var"] + self.cfg.w_cov * losses["cov"]
         return losses

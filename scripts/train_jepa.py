@@ -39,6 +39,12 @@ p.add_argument("--w-sigreg", type=float, default=0.5)
 p.add_argument("--w-ground", type=float, default=1.0)
 p.add_argument("--w-semigroup", type=float, default=0.1)
 p.add_argument("--physics-only", action="store_true", help="encoder reads only the physical observables, not the flag or the source/carrier labels (decisions/010)")
+p.add_argument("--predictor", choices=("gru", "markov"), default="gru", help="EXPLORATORY: markov = iterated one-step latent map (exact composition)")
+p.add_argument("--semigroup-mix", type=int, default=0, help="EXPLORATORY: extra semigroup terms per step on convex mixtures of batch actions")
+p.add_argument("--w-var", type=float, default=0.0, help="EXPLORATORY: VICReg variance-hinge weight")
+p.add_argument("--w-cov", type=float, default=0.0, help="EXPLORATORY: VICReg covariance weight")
+p.add_argument("--sigreg-projections", type=int, default=64, help="random 1-D projections in SIGReg")
+p.add_argument("--skip-baselines", action="store_true", help="EXPLORATORY: skip ridge / autoregressive / supervised-MLP (forecast_eval.json then has jepa only)")
 p.add_argument("--ema-target", type=float, default=None, help="EMA target encoder with stop-gradient, decay tau (e.g. 0.996)")
 p.add_argument("--curriculum-epochs", type=int, default=0, help="train this many epochs on horizons (1, 2) first, then all")
 p.add_argument("--master-seed", type=int, default=20261005, help="per-seed training seeds are spawned from this (SeedSequence)")
@@ -90,7 +96,8 @@ jepa_tabs = {fam: [] for fam in tests}
 masked_tabs = {fam: [] for fam in tests}
 for s in range(a.seeds):
     jcfg = JEPAConfig(obs_dim=d["manifest"]["obs_dim"], latent_dim=a.latent, w_sigreg=a.w_sigreg, w_ground=a.w_ground,
-                      w_semigroup=a.w_semigroup, ema_target=a.ema_target,
+                      w_semigroup=a.w_semigroup, ema_target=a.ema_target, predictor=a.predictor, semigroup_mix=a.semigroup_mix,
+                      w_var=a.w_var, w_cov=a.w_cov, sigreg_projections=a.sigreg_projections,
                       encoder_inputs=d["manifest"]["n_obs"] if a.physics_only else None)
     tcfg = TrainConfig(epochs=a.epochs, seed=train_seeds[s], device=a.device, curriculum_epochs=a.curriculum_epochs)
     model, info = train_jepa(d, jcfg, tcfg, out / f"seed{s}")
@@ -112,15 +119,20 @@ def avg(tabs):
 
 
 for fam, te in tests.items():
-    mae[fam] = {"jepa": avg(jepa_tabs[fam]), "ridge": mae_table(*baseline_ridge(tr, te, c)),
-                "autoregressive": mae_table(*baseline_autoregressive(tr, te, c, epochs=a.baseline_epochs)),
-                "supervised_mlp": mae_table(*baseline_supervised_mlp(tr, te, c, epochs=2 * a.baseline_epochs))}
+    mae[fam] = {"jepa": avg(jepa_tabs[fam])}
+    if not a.skip_baselines:
+        mae[fam].update({"ridge": mae_table(*baseline_ridge(tr, te, c)),
+                         "autoregressive": mae_table(*baseline_autoregressive(tr, te, c, epochs=a.baseline_epochs)),
+                         "supervised_mlp": mae_table(*baseline_supervised_mlp(tr, te, c, epochs=2 * a.baseline_epochs))})
     if a.masked:
         mae[fam]["jepa_masked"] = avg(masked_tabs[fam])
-        mae[fam]["ridge_masked"] = mae_table(*baseline_ridge(mask_couplings(tr), mask_couplings(te), c))
+        if not a.skip_baselines:
+            mae[fam]["ridge_masked"] = mae_table(*baseline_ridge(mask_couplings(tr), mask_couplings(te), c))
 ev = {"mae": mae, "n_test": {fam: int(len(d[f"split_test_heldout_{fam}"])) for fam in tests}, "context_step": c, "eval_steps": list(a.eval_steps),
       "dataset": d["manifest"]["name"], "checksum": d["manifest"]["checksum_sha256"], "seeds": a.seeds, "targets": list(targets),
       "master_seed": a.master_seed, "train_seeds": train_seeds}
+if a.skip_baselines:
+    ev["baselines"] = "skipped"
 (out / "forecast_eval.json").write_text(json.dumps(ev, indent=2))
 print(json.dumps(mae, indent=1))
 print("wrote", out / "forecast_eval.json")
