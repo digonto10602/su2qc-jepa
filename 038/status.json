@@ -1,10 +1,26 @@
 {
   "id": "jobs/038",
-  "state": "RUNNING",
+  "state": "COMPLETED",
   "worker": "desktop",
   "host": "SupremeCommander",
   "commit": "a199c72381682c167236edd84c52f507b5d3a487",
-  "started_utc": "2026-10-29T19:30:04Z",
+  "finished_utc": "2026-10-29T19:46:35Z",
+  "elapsed_hours": 0.275,
+  "node_hours": 0.0,
+  "outputs": [
+    "runs/x_s4_proj1024/args.json",
+    "runs/x_s4_proj1024/forecast_eval.json",
+    "runs/x_s4_proj1024/seed0/history.json",
+    "runs/x_s4_proj1024/seed0/model.pt",
+    "runs/x_s4_proj1024/seed1/history.json",
+    "runs/x_s4_proj1024/seed1/model.pt",
+    "runs/x_s4_proj1024/seed2/history.json",
+    "runs/x_s4_proj1024/seed2/model.pt",
+    "data/main/manifest.json",
+    "data/main/fingerprint.json"
+  ],
+  "outputs_mb": 2.86,
+  "skipped": [],
   "attempt": 1,
   "history": []
 }
