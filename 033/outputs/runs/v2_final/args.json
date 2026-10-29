@@ -1,0 +1,30 @@
+{
+ "data": "data/main",
+ "name": "v2_final",
+ "epochs": 200,
+ "seeds": 5,
+ "latent": 16,
+ "w_sigreg": 3.0,
+ "w_ground": 1.0,
+ "w_semigroup": 10.0,
+ "physics_only": true,
+ "ema_target": null,
+ "curriculum_epochs": 0,
+ "master_seed": 16180339,
+ "context_steps": 4,
+ "eval_steps": [
+  4,
+  8
+ ],
+ "device": "cuda",
+ "threads": 18,
+ "baseline_epochs": 100,
+ "masked": true,
+ "train_seeds": [
+  1343472455,
+  3870251604,
+  2224766689,
+  2909724375,
+  3179711798
+ ]
+}
