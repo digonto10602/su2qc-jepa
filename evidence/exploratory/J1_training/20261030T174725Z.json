@@ -1,0 +1,87 @@
+{
+  "gate": "J1_training",
+  "status": "FAIL",
+  "started_utc": "2026-10-30T17:47:25Z",
+  "rows": [
+    {
+      "name": "no NaN (seed0)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed1)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "no NaN (seed2)",
+      "status": "PASS",
+      "measured": false,
+      "threshold": false,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "effective rank (min over seeds)",
+      "status": "FAIL",
+      "measured": 7.567711418162456,
+      "threshold": 8.0,
+      "evidence": "",
+      "note": "per seed: [7.87, 7.57, 8.13]"
+    },
+    {
+      "name": "grounding R2 energy (min over seeds)",
+      "status": "PASS",
+      "measured": 0.8977934880420049,
+      "threshold": 0.887,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 C_string (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9970365940708475,
+      "threshold": 0.99,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 P_meson (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9757809617713827,
+      "threshold": 0.95,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "grounding R2 P_baryonic (min over seeds)",
+      "status": "PASS",
+      "measured": 0.9959162880149934,
+      "threshold": 0.98,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "semigroup residual (max over seeds)",
+      "status": "PASS",
+      "measured": 8.73379540280439e-05,
+      "threshold": 0.001,
+      "evidence": "",
+      "note": ""
+    },
+    {
+      "name": "number of seeds",
+      "status": "FAIL",
+      "measured": 3,
+      "threshold": 5,
+      "evidence": "",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "id": "jobs/037",
+  "state": "COMPLETED",
+  "worker": "desktop",
+  "host": "SupremeCommander",
+  "commit": "a652782f91af9c0350a35687e3eca7cf39ecbf95",
+  "finished_utc": "2026-10-29T19:26:11Z",
+  "elapsed_hours": 0.185,
+  "node_hours": 0.0,
+  "outputs": [
+    "runs/x_s3_varcov/args.json",
+    "runs/x_s3_varcov/forecast_eval.json",
+    "runs/x_s3_varcov/seed0/history.json",
+    "runs/x_s3_varcov/seed0/model.pt",
+    "runs/x_s3_varcov/seed1/history.json",
+    "runs/x_s3_varcov/seed1/model.pt",
+    "runs/x_s3_varcov/seed2/history.json",
+    "runs/x_s3_varcov/seed2/model.pt",
+    "data/main/manifest.json",
+    "data/main/fingerprint.json"
+  ],
+  "outputs_mb": 2.88,
+  "skipped": [],
+  "attempt": 1,
+  "history": []
+}

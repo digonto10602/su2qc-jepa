@@ -1,0 +1,104 @@
+job jobs/035 commit 5f555693 on SupremeCommander at Thu Oct 29 06:45:05 PM UTC 2026
+  2000/20000 trajectories  (3.7 s)
+  4000/20000 trajectories  (6.1 s)
+  6000/20000 trajectories  (8.6 s)
+  8000/20000 trajectories  (11.1 s)
+  10000/20000 trajectories  (13.5 s)
+  12000/20000 trajectories  (16.0 s)
+  14000/20000 trajectories  (18.5 s)
+  16000/20000 trajectories  (21.0 s)
+  18000/20000 trajectories  (23.4 s)
+  20000/20000 trajectories  (25.9 s)
+wrote data/main/dataset.npz  checksum 76f4c9055591  splits {'train': 11539, 'val': 2392, 'test_heldout_mass': 6069, 'test_heldout_onfam': 2935, 'test_heldout_strong': 3134}
+device: cuda, torch threads: 18
+epoch   5 total 0.2109 pred 0.0378 sigreg 0.0400 ground 0.0531 eff_rank 5.64 R2(energy) 0.887 semigroup 0.00e+00  (11s)
+epoch  10 total 0.1774 pred 0.0292 sigreg 0.0329 ground 0.0496 eff_rank 6.21 R2(energy) 0.881 semigroup 0.00e+00  (21s)
+epoch  15 total 0.1639 pred 0.0251 sigreg 0.0303 ground 0.0479 eff_rank 6.72 R2(energy) 0.894 semigroup 0.00e+00  (31s)
+epoch  20 total 0.1538 pred 0.0245 sigreg 0.0276 ground 0.0466 eff_rank 7.14 R2(energy) 0.893 semigroup 0.00e+00  (41s)
+epoch  25 total 0.1477 pred 0.0234 sigreg 0.0260 ground 0.0463 eff_rank 7.38 R2(energy) 0.896 semigroup 0.00e+00  (51s)
+epoch  30 total 0.1450 pred 0.0237 sigreg 0.0252 ground 0.0455 eff_rank 7.73 R2(energy) 0.878 semigroup 0.00e+00  (61s)
+epoch  35 total 0.1409 pred 0.0235 sigreg 0.0240 ground 0.0454 eff_rank 7.91 R2(energy) 0.889 semigroup 0.00e+00  (71s)
+epoch  40 total 0.1379 pred 0.0232 sigreg 0.0233 ground 0.0446 eff_rank 8.06 R2(energy) 0.890 semigroup 0.00e+00  (81s)
+epoch  45 total 0.1361 pred 0.0217 sigreg 0.0233 ground 0.0445 eff_rank 8.22 R2(energy) 0.901 semigroup 0.00e+00  (91s)
+epoch  50 total 0.1336 pred 0.0222 sigreg 0.0225 ground 0.0438 eff_rank 8.31 R2(energy) 0.894 semigroup 0.00e+00  (101s)
+epoch  55 total 0.1315 pred 0.0209 sigreg 0.0222 ground 0.0439 eff_rank 8.46 R2(energy) 0.892 semigroup 0.00e+00  (111s)
+epoch  60 total 0.1284 pred 0.0200 sigreg 0.0217 ground 0.0432 eff_rank 8.58 R2(energy) 0.899 semigroup 0.00e+00  (121s)
+epoch  65 total 0.1278 pred 0.0197 sigreg 0.0216 ground 0.0432 eff_rank 8.72 R2(energy) 0.895 semigroup 0.00e+00  (131s)
+epoch  70 total 0.1253 pred 0.0192 sigreg 0.0212 ground 0.0426 eff_rank 8.80 R2(energy) 0.900 semigroup 0.00e+00  (141s)
+epoch  75 total 0.1242 pred 0.0187 sigreg 0.0209 ground 0.0428 eff_rank 8.85 R2(energy) 0.898 semigroup 0.00e+00  (151s)
+epoch  80 total 0.1238 pred 0.0186 sigreg 0.0210 ground 0.0423 eff_rank 8.92 R2(energy) 0.894 semigroup 0.00e+00  (161s)
+epoch  85 total 0.1224 pred 0.0179 sigreg 0.0208 ground 0.0420 eff_rank 8.94 R2(energy) 0.900 semigroup 0.00e+00  (171s)
+epoch  90 total 0.1208 pred 0.0173 sigreg 0.0205 ground 0.0419 eff_rank 8.95 R2(energy) 0.898 semigroup 0.00e+00  (182s)
+epoch  95 total 0.1220 pred 0.0177 sigreg 0.0208 ground 0.0420 eff_rank 8.97 R2(energy) 0.897 semigroup 0.00e+00  (192s)
+epoch 100 total 0.1209 pred 0.0170 sigreg 0.0207 ground 0.0418 eff_rank 8.98 R2(energy) 0.897 semigroup 0.00e+00  (202s)
+epoch   5 total 0.2116 pred 0.0379 sigreg 0.0403 ground 0.0527 eff_rank 5.56 R2(energy) 0.863 semigroup 0.00e+00  (10s)
+epoch  10 total 0.1813 pred 0.0325 sigreg 0.0330 ground 0.0497 eff_rank 6.07 R2(energy) 0.881 semigroup 0.00e+00  (20s)
+epoch  15 total 0.1641 pred 0.0258 sigreg 0.0302 ground 0.0476 eff_rank 6.69 R2(energy) 0.880 semigroup 0.00e+00  (30s)
+epoch  20 total 0.1558 pred 0.0254 sigreg 0.0276 ground 0.0476 eff_rank 7.13 R2(energy) 0.888 semigroup 0.00e+00  (40s)
+epoch  25 total 0.1488 pred 0.0253 sigreg 0.0257 ground 0.0464 eff_rank 7.42 R2(energy) 0.889 semigroup 0.00e+00  (50s)
+epoch  30 total 0.1471 pred 0.0265 sigreg 0.0249 ground 0.0459 eff_rank 7.77 R2(energy) 0.888 semigroup 0.00e+00  (60s)
+epoch  35 total 0.1408 pred 0.0242 sigreg 0.0239 ground 0.0448 eff_rank 7.82 R2(energy) 0.890 semigroup 0.00e+00  (70s)
+epoch  40 total 0.1379 pred 0.0234 sigreg 0.0233 ground 0.0446 eff_rank 7.97 R2(energy) 0.885 semigroup 0.00e+00  (80s)
+epoch  45 total 0.1376 pred 0.0240 sigreg 0.0231 ground 0.0443 eff_rank 8.11 R2(energy) 0.892 semigroup 0.00e+00  (90s)
+epoch  50 total 0.1329 pred 0.0217 sigreg 0.0223 ground 0.0443 eff_rank 8.20 R2(energy) 0.892 semigroup 0.00e+00  (101s)
+epoch  55 total 0.1307 pred 0.0215 sigreg 0.0219 ground 0.0434 eff_rank 8.36 R2(energy) 0.888 semigroup 0.00e+00  (110s)
+epoch  60 total 0.1287 pred 0.0208 sigreg 0.0217 ground 0.0427 eff_rank 8.50 R2(energy) 0.901 semigroup 0.00e+00  (121s)
+epoch  65 total 0.1271 pred 0.0202 sigreg 0.0213 ground 0.0431 eff_rank 8.52 R2(energy) 0.899 semigroup 0.00e+00  (131s)
+epoch  70 total 0.1250 pred 0.0197 sigreg 0.0210 ground 0.0424 eff_rank 8.62 R2(energy) 0.890 semigroup 0.00e+00  (141s)
+epoch  75 total 0.1239 pred 0.0194 sigreg 0.0207 ground 0.0425 eff_rank 8.63 R2(energy) 0.899 semigroup 0.00e+00  (151s)
+epoch  80 total 0.1229 pred 0.0190 sigreg 0.0206 ground 0.0421 eff_rank 8.63 R2(energy) 0.899 semigroup 0.00e+00  (161s)
+epoch  85 total 0.1218 pred 0.0186 sigreg 0.0205 ground 0.0417 eff_rank 8.70 R2(energy) 0.900 semigroup 0.00e+00  (171s)
+epoch  90 total 0.1199 pred 0.0180 sigreg 0.0202 ground 0.0414 eff_rank 8.70 R2(energy) 0.900 semigroup 0.00e+00  (181s)
+epoch  95 total 0.1219 pred 0.0180 sigreg 0.0209 ground 0.0414 eff_rank 8.68 R2(energy) 0.900 semigroup 0.00e+00  (191s)
+epoch 100 total 0.1206 pred 0.0176 sigreg 0.0205 ground 0.0415 eff_rank 8.68 R2(energy) 0.901 semigroup 0.00e+00  (202s)
+epoch   5 total 0.2131 pred 0.0378 sigreg 0.0413 ground 0.0513 eff_rank 5.33 R2(energy) 0.889 semigroup 0.00e+00  (10s)
+epoch  10 total 0.1795 pred 0.0304 sigreg 0.0331 ground 0.0498 eff_rank 6.05 R2(energy) 0.889 semigroup 0.00e+00  (20s)
+epoch  15 total 0.1639 pred 0.0265 sigreg 0.0301 ground 0.0472 eff_rank 6.57 R2(energy) 0.890 semigroup 0.00e+00  (30s)
+epoch  20 total 0.1558 pred 0.0253 sigreg 0.0280 ground 0.0466 eff_rank 6.98 R2(energy) 0.883 semigroup 0.00e+00  (40s)
+epoch  25 total 0.1503 pred 0.0248 sigreg 0.0264 ground 0.0462 eff_rank 7.27 R2(energy) 0.886 semigroup 0.00e+00  (50s)
+epoch  30 total 0.1459 pred 0.0250 sigreg 0.0252 ground 0.0452 eff_rank 7.62 R2(energy) 0.894 semigroup 0.00e+00  (60s)
+epoch  35 total 0.1431 pred 0.0244 sigreg 0.0245 ground 0.0452 eff_rank 7.88 R2(energy) 0.887 semigroup 0.00e+00  (70s)
+epoch  40 total 0.1379 pred 0.0233 sigreg 0.0232 ground 0.0449 eff_rank 8.02 R2(energy) 0.888 semigroup 0.00e+00  (80s)
+epoch  45 total 0.1349 pred 0.0217 sigreg 0.0229 ground 0.0446 eff_rank 8.23 R2(energy) 0.887 semigroup 0.00e+00  (90s)
+epoch  50 total 0.1344 pred 0.0221 sigreg 0.0228 ground 0.0440 eff_rank 8.33 R2(energy) 0.901 semigroup 0.00e+00  (101s)
+epoch  55 total 0.1321 pred 0.0216 sigreg 0.0223 ground 0.0435 eff_rank 8.48 R2(energy) 0.899 semigroup 0.00e+00  (111s)
+epoch  60 total 0.1287 pred 0.0204 sigreg 0.0217 ground 0.0433 eff_rank 8.61 R2(energy) 0.894 semigroup 0.00e+00  (121s)
+epoch  65 total 0.1279 pred 0.0205 sigreg 0.0214 ground 0.0431 eff_rank 8.70 R2(energy) 0.894 semigroup 0.00e+00  (130s)
+epoch  70 total 0.1262 pred 0.0193 sigreg 0.0214 ground 0.0428 eff_rank 8.77 R2(energy) 0.899 semigroup 0.00e+00  (141s)
+epoch  75 total 0.1250 pred 0.0189 sigreg 0.0212 ground 0.0427 eff_rank 8.78 R2(energy) 0.896 semigroup 0.00e+00  (151s)
+epoch  80 total 0.1228 pred 0.0186 sigreg 0.0207 ground 0.0422 eff_rank 8.81 R2(energy) 0.901 semigroup 0.00e+00  (161s)
+epoch  85 total 0.1229 pred 0.0181 sigreg 0.0208 ground 0.0424 eff_rank 8.86 R2(energy) 0.896 semigroup 0.00e+00  (171s)
+epoch  90 total 0.1213 pred 0.0180 sigreg 0.0205 ground 0.0419 eff_rank 8.84 R2(energy) 0.899 semigroup 0.00e+00  (181s)
+epoch  95 total 0.1221 pred 0.0179 sigreg 0.0207 ground 0.0422 eff_rank 8.90 R2(energy) 0.895 semigroup 0.00e+00  (191s)
+epoch 100 total 0.1218 pred 0.0176 sigreg 0.0208 ground 0.0417 eff_rank 8.88 R2(energy) 0.900 semigroup 0.00e+00  (201s)
+{
+ "onfam": {
+  "jepa": {
+   "+4": {
+    "P_baryonic": 0.04141310149061776,
+    "P_meson": 0.015099385312733521,
+    "C_string": 0.02312656430051262
+   },
+   "+8": {
+    "P_baryonic": 0.06620755644622389,
+    "P_meson": 0.022777772019981213,
+    "C_string": 0.034294177421036055
+   }
+  }
+ },
+ "strong": {
+  "jepa": {
+   "+4": {
+    "P_baryonic": 0.12352778252211956,
+    "P_meson": 0.01976962988527423,
+    "C_string": 0.06316886819639857
+   },
+   "+8": {
+    "P_baryonic": 0.16588821275291052,
+    "P_meson": 0.024164301326816583,
+    "C_string": 0.09397009605452522
+   }
+  }
+ }
+}
+wrote runs/x_s1_markov/forecast_eval.json

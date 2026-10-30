@@ -1,0 +1,56 @@
+{
+  "mae": {
+    "onfam": {
+      "jepa": {
+        "+4": {
+          "P_baryonic": 0.033191630602804605,
+          "P_meson": 0.014875854865986271,
+          "C_string": 0.02029364880432713
+        },
+        "+8": {
+          "P_baryonic": 0.05047768529663077,
+          "P_meson": 0.023474404051268907,
+          "C_string": 0.027334120722228624
+        }
+      }
+    },
+    "strong": {
+      "jepa": {
+        "+4": {
+          "P_baryonic": 0.10874615503100075,
+          "P_meson": 0.018772435641411223,
+          "C_string": 0.05104167185998159
+        },
+        "+8": {
+          "P_baryonic": 0.12414645478924265,
+          "P_meson": 0.02417859847376902,
+          "C_string": 0.06639150141813477
+        }
+      }
+    }
+  },
+  "n_test": {
+    "onfam": 2935,
+    "strong": 3134
+  },
+  "context_step": 4,
+  "eval_steps": [
+    4,
+    8
+  ],
+  "dataset": "main",
+  "checksum": "76f4c90555918e7e75f89562de7b6383fda49998818fe6da3a626e48aa828b8a",
+  "seeds": 3,
+  "targets": [
+    "P_baryonic",
+    "P_meson",
+    "C_string"
+  ],
+  "master_seed": 14142135,
+  "train_seeds": [
+    1944723882,
+    2459123456,
+    3843106739
+  ],
+  "baselines": "skipped"
+}

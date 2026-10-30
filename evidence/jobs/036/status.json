@@ -1,0 +1,26 @@
+{
+  "id": "jobs/036",
+  "state": "COMPLETED",
+  "worker": "desktop",
+  "host": "SupremeCommander",
+  "commit": "d137808951572baea0888280e11f6864d0520bc4",
+  "finished_utc": "2026-10-29T19:13:36Z",
+  "elapsed_hours": 0.225,
+  "node_hours": 0.0,
+  "outputs": [
+    "runs/x_s2_mix/args.json",
+    "runs/x_s2_mix/forecast_eval.json",
+    "runs/x_s2_mix/seed0/history.json",
+    "runs/x_s2_mix/seed0/model.pt",
+    "runs/x_s2_mix/seed1/history.json",
+    "runs/x_s2_mix/seed1/model.pt",
+    "runs/x_s2_mix/seed2/history.json",
+    "runs/x_s2_mix/seed2/model.pt",
+    "data/main/manifest.json",
+    "data/main/fingerprint.json"
+  ],
+  "outputs_mb": 2.86,
+  "skipped": [],
+  "attempt": 1,
+  "history": []
+}
