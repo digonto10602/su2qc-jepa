@@ -1,0 +1,20 @@
+id: jobs/040
+title: 'x_s3b_varcov01: estimated 154 min > 20 min on the laptop -> queue worker'
+author: claude-code
+created_utc: '2026-10-30T19:39:02Z'
+kind: train
+where: desktop
+commit: ba97a5c9907b39d08cb3cc2f785e078fc7780e4f
+prompt: prompts/011
+milestone: null
+steps:
+- python scripts/make_dataset.py --name main --n-traj 20000 --steps 8 12 --families onfam strong --carrier diagonal --starts S3 S3 S3 S1 random --quench-fraction 0.2 --seed 20261005 --out data/main
+- python scripts/train_jepa.py --data data/main --epochs 100 --seeds 3 --w-sigreg 3 --w-semigroup 10 --physics-only --skip-baselines --master-seed 14142135 --name x_s3b_varcov01 --w-var 0.1 --w-cov 0.01
+outputs:
+- runs/x_s3b_varcov01
+- data/main/manifest.json
+- data/main/fingerprint.json
+resources:
+  gpus: 1
+  time: 01:17:00
+  qos: shared
