@@ -1,0 +1,20 @@
+id: jobs/039
+title: 'x_c1_mix: estimated 1017 min > 20 min on the laptop -> queue worker'
+author: claude-code
+created_utc: '2026-10-30T18:37:50Z'
+kind: train
+where: desktop
+commit: 77bb9a008a5f94d7d0907341738f80cbccbd2ca5
+prompt: prompts/011
+milestone: null
+steps:
+- python scripts/make_dataset.py --name main --n-traj 20000 --steps 8 12 --families onfam strong --carrier diagonal --starts S3 S3 S3 S1 random --quench-fraction 0.2 --seed 20261005 --out data/main
+- python scripts/train_jepa.py --data data/main --name x_c1_mix --epochs 200 --seeds 5 --masked --w-sigreg 3 --w-semigroup 10 --physics-only --semigroup-mix 1 --master-seed 17320508
+outputs:
+- runs/x_c1_mix
+- data/main/manifest.json
+- data/main/fingerprint.json
+resources:
+  gpus: 1
+  time: 08:28:00
+  qos: shared
