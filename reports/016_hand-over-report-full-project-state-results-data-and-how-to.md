@@ -5,9 +5,9 @@ series: reports
 created_utc: '2026-10-28T23:22:20Z'
 author: claude-code
 milestone: M3
-status: done
+status: superseded
 supersedes: null
-superseded_by: null
+superseded_by: reports/018
 ---
 
 # Hand-over report: full project state, results, data and how to continue (28 Oct 2026)

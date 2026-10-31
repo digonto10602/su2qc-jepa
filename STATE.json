@@ -81,8 +81,51 @@
     "M3": {
       "status": "IN PROGRESS",
       "prompt": "prompts/003_forecast-twin-dryrun.md",
-      "report": "reports/015",
-      "v1_final": "runs/v1_final (jobs/019, desktop, 1.156 h; dataset EQUIVALENT under decisions/007)"
+      "report": "reports/018 (final hand-over, supersedes reports/016)",
+      "v1_final": "runs/v1_final (jobs/019, desktop, 1.156 h; dataset EQUIVALENT under decisions/007)",
+      "j3_model": "v2_final (decisions/010: physics-only encoder, master seed 16180339; jobs/033 desktop 1.256 h; evidence/runs/v2_final; dataset EQUIVALENT)",
+      "decisions": [
+        "decisions/006 desktop worker",
+        "decisions/007 equivalence tolerance (D1)",
+        "decisions/008 J3 at 512 shots (D2)",
+        "decisions/009 Quantinuum twin",
+        "decisions/010 v2_final physics-only (D3)"
+      ],
+      "twins": {
+        "ideal0": "jobs/023: all known-answer checks PASS (evidence/twin/ideal0)",
+        "day0_kingston": "IBM snapshot; v1_final rehearsal FAIL (jepa 0.326 vs raw 0.656 at 512)",
+        "day1_marrakesh": "IBM snapshot; v1_final rehearsal FAIL (0.253 vs 0.498)",
+        "qtm_h2_2": "jobs/031; v1_final rehearsal FAIL (0.193 vs 0.479)",
+        "qtm_helios_1": "jobs/032; v1_final rehearsal FAIL (0.416 vs 0.642)",
+        "note": "all v1_final rehearsals dominated by the obs_norm artifact (cross-carrier jobs/030); rerun with v2_final pending"
+      },
+      "cross_carrier": {
+        "v1_final": "evidence/twin/cross_carrier (label distances 20-23x noise)",
+        "v2_final": "evidence/twin/cross_carrier_v2 (label distances exactly 0)"
+      },
+      "exploratory_j1": {
+        "prompt": "prompts/011",
+        "research": "reports/017",
+        "evidence": "evidence/exploratory/",
+        "jobs": {
+          "034": "S0 base",
+          "035": "S1 markov (fails MAE guardrail)",
+          "036": "S2 semigroup-mix (advances)",
+          "037": "S3 var/cov 1/0.1 (fails R2 and semigroup guardrails)",
+          "038": "S4 sigreg 1024 (no change)",
+          "039": "S2 confirmation 5 seeds: semigroup max 9.0e-5, rank min 7.58 -> success rule not met",
+          "040": "S3b var/cov 0.1/0.01: rank 9.33-9.93, semigroup 6.8e-4 > guardrail 5.6e-4"
+        },
+        "outcome": "semigroup fixed by S2, rank fixed by S3b; S2+S3b combination proposed, needs Digonto's OK",
+        "desktop_hours_used": 2.72
+      },
+      "pending": [
+        "S2+S3b combination (Digonto decides)",
+        "J1 info run of v2_final",
+        "four twin campaigns + rehearsal with v2_final",
+        "mu* resonance estimator, figures F1/F2",
+        "hardware decision (IBM access lost)"
+      ]
     },
     "M4": {
       "status": "NOT RUN",
@@ -118,7 +161,8 @@
     "backend": null,
     "qpu_seconds_spent": 0,
     "jobs": [],
-    "shots_per_second_prior": 2000
+    "shots_per_second_prior": 2000,
+    "note": "IBM account lost 2026-10-21; twins use stored IBM calibration snapshots and Quantinuum Nexus specs. Quantinuum hardware needs explicit paid-provider approval."
   },
   "compute": {
     "laptop": {
@@ -144,17 +188,18 @@
         "gpu": "NVIDIA A100-SXM4-40GB",
         "report": "reports/008"
       },
-      "worker_status": "stopped: last heartbeat 2026-10-08T18:45:15Z (checked 2026-10-15)"
+      "worker_status": "stopped: last heartbeat 2026-10-08T18:45:15Z (checked 2026-10-31)"
     },
     "policy": "decisions/004 amended by decisions/006",
     "desktop": {
       "spec": "Digonto's dedicated Linux desktop, NVIDIA RTX 3070 (8 GB, sm_86); sometimes switched off",
-      "role": "queue worker for heavy/GPU jobs (where: desktop), systemd user timer, deploy key",
+      "role": "queue worker for heavy/GPU jobs (where: desktop), cron every 15 min, deploy key; planned development machine after 2026-10-31",
       "policy": "decisions/006",
       "setup": "docs/DESKTOP.md",
       "worker_installed": true,
       "default_where": "desktop (configs/compute.yaml queue.default_where)",
-      "first_heartbeat": "2026-10-21T16:38:30Z (cron schedule)"
+      "first_heartbeat": "2026-10-21T16:38:30Z (cron schedule)",
+      "heartbeat_issue": "status.py shows the desktop heartbeat stale even while jobs run (investigate)"
     }
   },
   "notes": "No hardware job has ever been submitted from this repository. All noisy numbers are EMULATED.",
@@ -180,5 +225,6 @@
     ],
     "last_stats": "evidence/graph/stats.json"
   },
-  "last_planner_report": "reports/004"
+  "last_planner_report": "reports/017",
+  "backup": "full project copy on USB drive digontos_drive_128gb:/su2qc-jepa (2026-10-31), incl. data/ and runs/ (git-ignored)"
 }
